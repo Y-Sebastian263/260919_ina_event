@@ -1429,7 +1429,6 @@ function weightedPick(){
   const goldPart = parts.find(p => p.id === "panto");
   const nonGoldParts = parts.filter(p => p.id !== "panto");
   const nonGoldUnowned = nonGoldParts.filter(p => !owned.has(p.id));
-  const nonGoldOwned = nonGoldParts.filter(p => owned.has(p.id));
 
   // 金（パンタグラフ）は必ず最後。
   // 金だけが残った瞬間、次の1回で即獲得。
@@ -1437,20 +1436,20 @@ function weightedPick(){
     return goldPart;
   }
 
-  // 初回はダブりが存在しないので未獲得を獲得。
-  if(nonGoldOwned.length === 0){
+  // 救済：10回連続で新しい部品が出なかったら、次の1回は未獲得確定。
+  if(noNewStreak >= 10 && nonGoldUnowned.length){
     return nonGoldUnowned[Math.floor(Math.random()*nonGoldUnowned.length)];
   }
 
-  // 隠し救済：10回連続で新しい部品を獲得できなかったら、次の1回は未獲得確定。
-  const pityNew = noNewStreak >= 10;
-
-  // 通常時：27%で未獲得、73%で獲得済み（ダブり）。
-  if(pityNew || Math.random() < 0.27){
-    return nonGoldUnowned[Math.floor(Math.random()*nonGoldUnowned.length)];
-  }
-
-  return nonGoldOwned[Math.floor(Math.random()*nonGoldOwned.length)];
+  // 通常確率：銅80%・銀19%・金1%。
+  // 金は最後の1個になるまで出せないため、それ以前に金を引いた場合は再抽選する。
+  let rarityRoll;
+  do{
+    rarityRoll=Math.random();
+  }while(rarityRoll>=0.99);
+  const selectedRarity=rarityRoll<0.80?"銅":"銀";
+  const candidates=nonGoldParts.filter(p=>p.rarity===selectedRarity);
+  return candidates[Math.floor(Math.random()*candidates.length)];
 }
 function rarityColor(r){return r==="金"?"#d9a411":r==="銀"?"#8b949f":"#bd6b2b"}
 function roll(){
