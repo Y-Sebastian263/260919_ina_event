@@ -1,1 +1,4212 @@
-<!doctype html><meta charset="utf-8"><title>INAO</title><p>Preparing INAO event...</p>
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>オリジナル電車作成プロジェクト｜稲尾電鉄</title>
+<style>
+:root{--navy:#0a376e;--navy2:#072a55;--pink:#e50067;--pink2:#ff2e86;--line:#d6e1ee;--bg:#f5f8fc;--text:#11233d;--gold:#d9a411;--silver:#a8b0bc;--bronze:#bd6b2b}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--text);font-family:"Yu Gothic","Hiragino Kaku Gothic ProN",Meiryo,sans-serif}button{font:inherit}
+.app{min-height:100vh;display:grid;grid-template-columns:110px 1fr}.sidebar{background:linear-gradient(180deg,var(--navy),var(--navy2));color:#fff;padding:18px 0;display:flex;flex-direction:column;align-items:center;gap:10px;box-shadow:4px 0 18px rgba(7,42,85,.12);position:sticky;top:0;height:100vh}.side-brand{font-weight:900;font-size:24px;letter-spacing:2px;margin:4px 0 18px}.navbtn{width:100%;border:0;background:transparent;color:#fff;padding:15px 8px;cursor:pointer;display:flex;flex-direction:column;gap:6px;align-items:center;font-weight:700}.navbtn.active{background:var(--pink)}.navbtn span:first-child{font-size:24px}.main{min-width:0}
+.header{background:#fff;padding:16px 28px 12px;border-bottom:1px solid var(--line);display:grid;grid-template-columns:260px 1fr 250px;align-items:center;gap:18px}.logoBox{display:flex;flex-direction:column;line-height:1}.logoTop{font-size:13px;letter-spacing:.16em;margin-bottom:4px}.logo{font-size:58px;font-weight:1000;font-style:italic;color:var(--navy);letter-spacing:-4px}.logo .slash{color:var(--pink)}.logoSub{font-size:18px;font-weight:800;margin-top:2px}.titleWrap{text-align:center}.titleWrap h1{margin:0;color:var(--navy);font-size:clamp(30px,3vw,54px);letter-spacing:.02em}.titleWrap .underline{height:4px;background:linear-gradient(90deg,transparent,var(--pink),transparent);margin:10px auto 6px;max-width:760px}.titleWrap p{margin:0;font-size:24px;font-weight:800}.stamp{justify-self:end;border:4px solid #d73719;color:#d73719;padding:8px 14px;font-size:24px;font-weight:900;line-height:1.05;text-align:center;border-radius:6px;transform:rotate(-2deg)}
+.hero{position:relative;min-height:455px;overflow:hidden;background:linear-gradient(180deg,#d8efff,#f9fcff)}.heroOverlay{position:relative;z-index:1;display:grid;grid-template-columns:260px 1fr 300px;gap:18px;padding:18px 24px 82px}.panel{background:rgba(255,255,255,.96);border:2px solid var(--navy);border-radius:12px;box-shadow:0 8px 24px rgba(8,55,110,.12)}.progressPanel{padding:18px}.panelTitle{font-weight:900;color:var(--navy);font-size:22px;border-bottom:1px solid var(--line);padding-bottom:10px}.progressNum{font-size:54px;font-weight:1000;margin:12px 0 8px;color:var(--navy)}.progressNum b{color:var(--pink)}.bar{height:18px;background:#cfd7e1;border-radius:99px;overflow:hidden}.bar>div{height:100%;width:0;background:linear-gradient(90deg,var(--pink),var(--pink2));transition:.45s}.smallCopy{font-weight:700;line-height:1.7;margin-top:14px}
+.trainStage{display:flex;align-items:center;justify-content:center;min-height:350px}.trainImage{width:100%;height:350px;object-fit:cover;border-radius:12px;box-shadow:0 12px 30px rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.7)}
+.gachaBtn{position:absolute;z-index:3;left:50%;bottom:18px;transform:translateX(-50%);min-width:480px;max-width:80%;border:0;border-radius:999px;padding:22px 42px;background:linear-gradient(180deg,var(--pink2),var(--pink));color:#fff;font-size:34px;font-weight:1000;box-shadow:0 10px 0 #9d0046,0 14px 22px rgba(0,0,0,.22);cursor:pointer}.gachaBtn:active{transform:translate(-50%,6px);box-shadow:0 4px 0 #9d0046}.gachaBtn:disabled{opacity:.8;cursor:wait}
+.rarityPanel{overflow:hidden}.rarityPanel .panelTitle{background:var(--navy);color:#fff;padding:14px 16px;border:0}.rarityRows{padding:12px 14px}.rarityRow{display:grid;grid-template-columns:46px 50px 1fr;gap:10px;align-items:start;padding:9px 0;border-bottom:1px solid var(--line)}.medal{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:900;box-shadow:inset 0 0 0 3px rgba(255,255,255,.45)}.gold{background:var(--gold)}.silver{background:var(--silver)}.bronze{background:var(--bronze)}.rate{font-weight:900;padding-top:8px}.items{font-size:14px;line-height:1.45;font-weight:700}
+.collection{padding:14px 24px 24px;background:#fff;border-top:1px solid var(--line)}.collectionHeader{display:flex;align-items:end;gap:14px;margin-bottom:12px}.collectionHeader h2{margin:0;font-size:28px;color:var(--navy)}.collectionHeader span{letter-spacing:.18em;color:#6981a0}.cards{display:grid;grid-template-columns:repeat(10,minmax(110px,1fr));gap:10px}
+.card{border:1px solid #cfd9e5;border-radius:8px;overflow:hidden;background:#f7f8fa;position:relative;min-height:220px;transition:.25s}.card.acquired{background:#fff;box-shadow:0 7px 20px rgba(7,55,110,.10);transform:translateY(-2px)}
+.partPic{height:132px;background:#eef1f4;overflow:hidden;display:grid;place-items:center}.partPic img{width:100%;height:100%;object-fit:cover;transition:.3s}.card:not(.acquired) .partPic img{filter:grayscale(1);opacity:.42}.card.acquired .partPic img{filter:none;opacity:1}
+.partName{padding:8px 8px 2px;text-align:center;font-weight:900;min-height:52px;font-size:14px}.badge{margin:4px 12px 12px;padding:5px 8px;text-align:center;border-radius:99px;background:#8a949f;color:#fff;font-size:13px;font-weight:900}.card.acquired .badge{background:var(--pink)}
+.footer{display:flex;justify-content:space-between;align-items:center;padding:12px 24px;color:#58708f;background:#fff;border-top:1px solid var(--line);font-weight:700}
+.modal{position:fixed;inset:0;background:rgba(3,20,39,.72);display:none;place-items:center;z-index:20;padding:20px}.modal.show{display:grid}.result{width:min(620px,95vw);background:#fff;border-radius:22px;padding:28px;text-align:center;box-shadow:0 24px 70px rgba(0,0,0,.35);position:relative;overflow:hidden}.result::before{content:"";position:absolute;inset:0 0 auto 0;height:10px;background:var(--pink)}.rarityBig{font-size:72px;font-weight:1000;margin:12px 0 4px}.partBig{width:280px;height:190px;margin:0 auto 10px;border-radius:14px;overflow:hidden;background:#eef1f4;border:1px solid #d6e1ee}.partBig img{width:100%;height:100%;object-fit:cover;filter:none!important;opacity:1!important}.result h3{font-size:34px;margin:8px 0}.result p{font-weight:700;color:#5d6b7c;font-size:18px}.closeBtn{border:0;background:var(--navy);color:#fff;border-radius:12px;padding:13px 28px;font-weight:900;cursor:pointer}.resetBtn{border:1px solid #aac0d8;background:#fff;color:var(--navy);border-radius:10px;padding:9px 14px;font-weight:900;cursor:pointer}.complete{font-size:42px;color:var(--pink);font-weight:1000;animation:pop .5s ease;margin:12px 0}@keyframes pop{0%{transform:scale(.65);opacity:0}70%{transform:scale(1.08);opacity:1}100%{transform:scale(1)}}
+@media(max-width:1250px){.header{grid-template-columns:210px 1fr 150px}.logo{font-size:48px}.stamp{font-size:18px}.heroOverlay{grid-template-columns:220px 1fr 250px}.cards{grid-template-columns:repeat(5,1fr)}}
+@media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{display:none}.header{grid-template-columns:1fr;text-align:center}.stamp{justify-self:center}.logoBox{align-items:center}.heroOverlay{grid-template-columns:1fr;padding-bottom:105px}.trainStage{order:-1}.rarityPanel{display:none}.gachaBtn{min-width:auto;width:88%;font-size:24px}.cards{grid-template-columns:repeat(2,1fr)}.titleWrap p{font-size:18px}.trainImage{height:auto}}
+
+/* ===== v1.14 16:9 desktop fit ===== */
+@media (min-width: 1200px) {
+  html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .app {
+    width: 100vw;
+    height: 100vh;
+    min-height: 0;
+    grid-template-columns: 92px 1fr;
+  }
+
+  .sidebar {
+    height: 100vh;
+    padding: 10px 0;
+    gap: 4px;
+  }
+
+  .side-brand {
+    font-size: 20px;
+    margin: 2px 0 8px;
+  }
+
+  .navbtn {
+    padding: 9px 6px;
+    gap: 2px;
+    font-size: 13px;
+  }
+
+  .navbtn span:first-child {
+    font-size: 20px;
+  }
+
+  .main {
+    height: 100vh;
+    display: grid;
+    grid-template-rows: 112px 392px 1fr 38px;
+    overflow: hidden;
+  }
+
+  .header {
+    height: 112px;
+    padding: 8px 20px;
+    grid-template-columns: 220px 1fr 120px;
+    gap: 12px;
+  }
+
+  .logoTop {
+    font-size: 11px;
+    margin-bottom: 2px;
+  }
+
+  .logo {
+    font-size: 45px;
+  }
+
+  .logoSub {
+    font-size: 15px;
+  }
+
+  .titleWrap h1 {
+    font-size: clamp(28px, 2.35vw, 46px);
+  }
+
+  .titleWrap .underline {
+    margin: 5px auto 4px;
+    height: 3px;
+  }
+
+  .titleWrap p {
+    font-size: 18px;
+  }
+
+  .stamp {
+    font-size: 17px;
+    padding: 5px 8px;
+    border-width: 3px;
+  }
+
+  .hero {
+    min-height: 0;
+    height: 392px;
+  }
+
+  .heroOverlay {
+    height: 100%;
+    grid-template-columns: 220px 1fr 260px;
+    gap: 12px;
+    padding: 10px 14px 64px;
+  }
+
+  .panelTitle {
+    font-size: 17px;
+    padding-bottom: 6px;
+  }
+
+  .progressPanel {
+    padding: 12px;
+  }
+
+  .progressNum {
+    font-size: 42px;
+    margin: 7px 0 6px;
+  }
+
+  .bar {
+    height: 13px;
+  }
+
+  .smallCopy {
+    font-size: 13px;
+    line-height: 1.45;
+    margin-top: 8px;
+  }
+
+  .progressPanel > div:last-child {
+    margin-top: 10px !important;
+    font-size: 13px;
+  }
+
+  .trainStage {
+    min-height: 0;
+    height: 300px;
+  }
+
+  .trainImage {
+    height: 300px;
+    border-radius: 9px;
+  }
+
+  .rarityPanel .panelTitle {
+    padding: 9px 12px;
+  }
+
+  .rarityRows {
+    padding: 7px 10px;
+  }
+
+  .rarityRow {
+    grid-template-columns: 38px 40px 1fr;
+    gap: 7px;
+    padding: 5px 0;
+  }
+
+  .medal {
+    width: 32px;
+    height: 32px;
+    font-size: 13px;
+  }
+
+  .rate {
+    font-size: 13px;
+    padding-top: 6px;
+  }
+
+  .items {
+    font-size: 11px;
+    line-height: 1.3;
+  }
+
+  .gachaBtn {
+    min-width: 390px;
+    padding: 14px 30px;
+    font-size: 25px;
+    bottom: 10px;
+    box-shadow: 0 7px 0 #9d0046, 0 10px 18px rgba(0,0,0,.18);
+  }
+
+  .collection {
+    min-height: 0;
+    overflow: hidden;
+    padding: 8px 14px 10px;
+  }
+
+  .collectionHeader {
+    margin-bottom: 7px;
+    gap: 10px;
+  }
+
+  .collectionHeader h2 {
+    font-size: 22px;
+  }
+
+  .collectionHeader span {
+    font-size: 11px;
+  }
+
+  .resetBtn {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .cards {
+    height: calc(100% - 36px);
+    grid-template-columns: repeat(10, minmax(90px, 1fr));
+    gap: 7px;
+    align-items: stretch;
+  }
+
+  .card {
+    min-height: 0;
+    height: 100%;
+  }
+
+  .partPic {
+    height: 96px;
+  }
+
+  .partName {
+    min-height: 40px;
+    padding: 5px 4px 0;
+    font-size: 11px;
+    line-height: 1.2;
+  }
+
+  .badge {
+    margin: 3px 7px 6px;
+    padding: 4px 5px;
+    font-size: 10px;
+  }
+
+  .footer {
+    min-height: 0;
+    height: 38px;
+    padding: 5px 14px;
+    font-size: 11px;
+  }
+}
+
+
+/* ===== v1.15 part images: never crop ===== */
+.partPic {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 4px !important;
+  overflow: hidden;
+  background: #eef1f4;
+}
+
+.partPic img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+}
+
+.partBig {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 8px !important;
+}
+
+.partBig img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+}
+
+
+/* ===== v1.16 draw popup animation ===== */
+.drawOverlay{
+  position:fixed;
+  inset:0;
+  background:rgba(3,20,39,.78);
+  display:none;
+  place-items:center;
+  z-index:30;
+  padding:20px;
+  backdrop-filter:blur(4px);
+}
+.drawOverlay.show{display:grid}
+.drawPopup{
+  width:min(560px,92vw);
+  min-height:360px;
+  background:#fff;
+  border-radius:24px;
+  box-shadow:0 28px 80px rgba(0,0,0,.42);
+  padding:34px 28px 28px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+  border:4px solid #d7dde6;
+}
+.drawPopup::before{
+  content:"";
+  position:absolute;
+  inset:0 0 auto 0;
+  height:12px;
+  background:linear-gradient(90deg,#b56a2c,#d3d7dc,#d8aa16);
+}
+.drawTitle{
+  color:var(--navy);
+  font-size:22px;
+  font-weight:900;
+  margin-bottom:18px;
+  letter-spacing:.08em;
+}
+.rarityOrb{
+  width:180px;
+  height:180px;
+  border-radius:50%;
+  margin:0 auto 18px;
+  display:grid;
+  place-items:center;
+  color:#fff;
+  font-size:54px;
+  font-weight:1000;
+  border:8px solid rgba(255,255,255,.75);
+  box-shadow:
+    0 0 0 8px rgba(0,0,0,.08),
+    0 18px 34px rgba(0,0,0,.22),
+    inset 0 0 28px rgba(255,255,255,.35);
+  transition:background .18s, box-shadow .18s, transform .18s;
+  animation:pulseRarity .55s ease-in-out infinite alternate;
+}
+.rarityOrb.gold{
+  background:radial-gradient(circle at 35% 30%,#fff3a5 0,#f0c52d 26%,#b98300 72%,#6b4700 100%);
+  box-shadow:0 0 32px rgba(236,190,34,.9),0 18px 34px rgba(0,0,0,.22),inset 0 0 28px rgba(255,255,255,.45);
+}
+.rarityOrb.silver{
+  background:radial-gradient(circle at 35% 30%,#ffffff 0,#d9dde3 28%,#8d98a6 72%,#4a5562 100%);
+  box-shadow:0 0 28px rgba(210,220,230,.9),0 18px 34px rgba(0,0,0,.22),inset 0 0 28px rgba(255,255,255,.5);
+}
+.rarityOrb.bronze{
+  background:radial-gradient(circle at 35% 30%,#ffd09c 0,#c77b39 30%,#8d4b1d 72%,#4c260d 100%);
+  box-shadow:0 0 26px rgba(190,100,35,.75),0 18px 34px rgba(0,0,0,.22),inset 0 0 28px rgba(255,255,255,.35);
+}
+.drawStatus{
+  font-size:24px;
+  font-weight:1000;
+  color:var(--navy);
+  margin:6px 0 6px;
+}
+.drawSub{
+  font-size:14px;
+  color:#6b7a8c;
+  font-weight:700;
+}
+.drawDots{
+  display:flex;
+  justify-content:center;
+  gap:9px;
+  margin-top:20px;
+}
+.drawDots span{
+  width:10px;height:10px;border-radius:50%;background:#c5cfda;
+  animation:dotBlink .9s infinite ease-in-out;
+}
+.drawDots span:nth-child(2){animation-delay:.15s}
+.drawDots span:nth-child(3){animation-delay:.3s}
+
+@keyframes pulseRarity{
+  from{transform:scale(.96) rotate(-1deg)}
+  to{transform:scale(1.04) rotate(1deg)}
+}
+@keyframes dotBlink{
+  0%,80%,100%{opacity:.3;transform:translateY(0)}
+  40%{opacity:1;transform:translateY(-6px)}
+}
+
+
+/* ===== v1.17 collection detail popup ===== */
+.card.acquired{
+  cursor:pointer;
+}
+.card.acquired:hover{
+  transform:translateY(-5px) scale(1.015);
+  box-shadow:0 12px 28px rgba(7,55,110,.18);
+}.partDetailOverlay{
+  position:fixed;
+  inset:0;
+  background:rgba(3,20,39,.82);
+  display:none;
+  place-items:center;
+  z-index:40;
+  padding:20px;
+  backdrop-filter:blur(5px);
+}
+.partDetailOverlay.show{display:grid}
+.partDetailModal{
+  width:min(900px,92vw);
+  height:min(650px,86vh);
+  background:#fff;
+  border-radius:24px;
+  overflow:hidden;
+  position:relative;
+  box-shadow:0 30px 90px rgba(0,0,0,.45);
+  border:2px solid #dce5ef;
+}
+.detailTopbar{
+  height:56px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 18px 0 22px;
+  background:linear-gradient(90deg,var(--navy2),var(--navy));
+  color:#fff;
+}
+.detailTopbar strong{font-size:18px;letter-spacing:.04em}
+.detailClose{
+  border:0;
+  background:rgba(255,255,255,.15);
+  color:#fff;
+  width:36px;height:36px;
+  border-radius:50%;
+  font-size:22px;
+  cursor:pointer;
+}
+.detailView{
+  height:calc(100% - 56px);
+}
+.detailImageView{
+  display:grid;
+  grid-template-columns:1.15fr .85fr;
+  gap:0;
+}
+.detailImageArea{
+  background:linear-gradient(145deg,#edf3f8,#fff);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:34px;
+}
+.detailImageArea img{
+  width:100%;
+  height:100%;
+  max-height:470px;
+  object-fit:contain;
+  object-position:center;
+}
+.detailIntro{
+  padding:44px 34px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  background:#fff;
+}
+.detailRarity{
+  display:inline-block;
+  width:max-content;
+  padding:6px 12px;
+  border-radius:999px;
+  color:#fff;
+  font-weight:900;
+  margin-bottom:14px;
+}
+.detailIntro h2{
+  color:var(--navy);
+  font-size:32px;
+  margin:0 0 10px;
+}
+.detailIntro p{
+  color:#64758a;
+  font-size:17px;
+  line-height:1.7;
+  font-weight:700;
+}
+.detailNext{
+  margin-top:22px;
+  border:0;
+  border-radius:999px;
+  background:linear-gradient(180deg,var(--pink2),var(--pink));
+  color:#fff;
+  padding:15px 22px;
+  font-size:18px;
+  font-weight:1000;
+  cursor:pointer;
+  box-shadow:0 6px 0 #a00048;
+}
+.detailNext:active{transform:translateY(4px);box-shadow:0 2px 0 #a00048}
+
+.detailTextView{
+  display:none;
+  grid-template-columns:320px 1fr;
+  height:100%;
+}
+.detailSide{
+  background:linear-gradient(160deg,#eaf1f7,#f9fbfd);
+  padding:24px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  border-right:1px solid #dce5ef;
+}
+.detailSide img{
+  width:100%;
+  max-height:260px;
+  object-fit:contain;
+}
+.detailSide h3{
+  color:var(--navy);
+  margin:14px 0 0;
+  text-align:center;
+  font-size:22px;
+}
+.detailCopy{
+  padding:34px 38px;
+  overflow:auto;
+}
+.detailCatch{
+  color:var(--pink);
+  font-size:27px;
+  line-height:1.4;
+  font-weight:1000;
+  margin-bottom:18px;
+}
+.detailBody{
+  color:#26384e;
+  font-size:18px;
+  line-height:1.9;
+  font-weight:700;
+}
+.detailTalk{
+  margin-top:24px;
+  padding:16px 18px;
+  border-radius:14px;
+  background:#f2f6fb;
+  border-left:6px solid var(--pink);
+  color:var(--navy);
+  font-size:16px;
+  line-height:1.7;
+  font-weight:900;
+}
+.detailBack{
+  margin-top:22px;
+  border:1px solid #9fb4ca;
+  background:#fff;
+  color:var(--navy);
+  border-radius:10px;
+  padding:10px 16px;
+  font-weight:900;
+  cursor:pointer;
+}
+@media(max-width:850px){
+  .partDetailModal{height:min(760px,90vh)}
+  .detailImageView,.detailTextView{grid-template-columns:1fr}
+  .detailImageView{grid-template-rows:45% 55%}
+  .detailTextView{grid-template-rows:42% 58%}
+  .detailIntro{padding:22px}
+  .detailSide{padding:14px;border-right:0;border-bottom:1px solid #dce5ef}
+  .detailCopy{padding:20px 22px}
+}
+
+
+.viewDetailBtn{
+  display:none;
+  width:calc(100% - 14px);
+  margin:0 7px 7px;
+  border:0;
+  border-radius:8px;
+  background:var(--navy);
+  color:#fff;
+  padding:6px 8px;
+  font-size:10px;
+  font-weight:900;
+  cursor:pointer;
+}
+.card.acquired .viewDetailBtn{
+  display:block;
+}
+.viewDetailBtn:hover{
+  background:var(--pink);
+}
+
+
+.acquiredStamp{
+  display:none;
+  width:38px;
+  height:38px;
+  margin:0 auto 6px;
+  border:3px solid #d81414;
+  border-radius:50%;
+  color:#d81414;
+  align-items:center;
+  justify-content:center;
+  font-size:19px;
+  line-height:1;
+  font-weight:1000;
+  transform:rotate(-8deg);
+  box-shadow:inset 0 0 0 1px rgba(216,20,20,.15);
+  background:rgba(255,255,255,.92);
+}
+.card.acquired .acquiredStamp{
+  display:flex;
+}
+
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+<div class="side-brand">INAO</div>
+<button class="navbtn active"><span>🚆</span><span>ガチャ</span></button>
+<button class="navbtn" id="howToBtn"><span>❔</span><span>遊び方</span></button>
+<button class="navbtn" id="questionBoxBtn"><span>🎲</span><span>質問箱</span></button>
+<button class="navbtn" id="yQuestionBtn"><span>⚠️</span><span>Yの質問</span></button>
+<button class="navbtn" id="stationShiritoriBtn"><span>🚉</span><span>駅名しりとり</span></button>
+<div style="flex:1"></div>
+<button class="navbtn" id="saveBtn"><span>💾</span><span>セーブ</span></button>
+<button class="navbtn" id="loadBtn"><span>📂</span><span>ロード</span></button>
+<button class="navbtn" id="resetSide"><span>⚙️</span><span>リセット</span></button>
+</aside>
+
+<main class="main">
+<header class="header">
+<div class="logoBox realLogoBox">
+        <img class="realLogoImage" src="assets/logo.png" alt="INAO 稲尾電鉄グループ">
+      </div>
+      <div class="titleWrap"><h1>オリジナル電車作成プロジェクト</h1><div class="underline"></div><p>集めて作ろう 私たちの稲尾電鉄に</p></div>
+<div class="stamp">稲尾<br>電気<br>鉄道</div>
+</header>
+
+<section class="hero">
+<div class="heroOverlay">
+<div class="panel progressPanel">
+<div class="panelTitle">現在の製造状況</div>
+<div class="progressNum"><b id="haveCount">0</b> / 10</div>
+<div class="bar"><div id="progressBar"></div></div>
+<div class="totalDrawBox">
+  <span class="totalDrawLabel">総抽選回数</span>
+  <strong id="totalDrawCount">0</strong><span class="totalDrawUnit">回</span>
+</div>
+<div class="smallCopy">すべての部品を集めて<br>オリジナルの電車を<br>完成させましょう！</div>
+<div style="margin-top:18px;font-style:italic;color:var(--navy);font-weight:800">好きな電車を、<br>もっと好きになる。</div>
+</div>
+
+<div class="trainStage"><img class="trainImage" src="assets/train-main.png" alt="稲尾行きの1700系電車"></div>
+
+<div class="panel rarityPanel">
+<div class="panelTitle">レアリティと部品一覧</div>
+<div class="rarityRows">
+<div class="rarityRow"><div class="medal gold">金</div><div class="rate"></div><div class="items">パンタグラフ（集電装置）<div class="noSpecialNote">部品指定不可</div></div></div>
+<div class="rarityRow"><div class="medal silver">銀</div><div class="rate"></div><div class="items">VVVFインバーター<br>無線アンテナ<br>台車</div></div>
+<div class="rarityRow"><div class="medal bronze">銅</div><div class="rate"></div><div class="items">冷房装置<br>連結器<br>スカート<br>ライト<br>ドア<br>電光板</div></div>
+</div>
+</div>
+</div>
+<div class="gachaActionWrap">
+<button id="gachaBtn" class="gachaBtn">◉　部品ガチャを回す　›</button>
+<button class="specialSelectBtn" id="specialSelectBtn">部品指定</button>
+</div>
+</section>
+
+<section class="collection">
+<div class="collectionHeader"><h2>部品コレクション</h2><span>PARTS COLLECTION</span><div class="historyControlWrap" style="margin-left:auto">
+<button class="historyBtn" id="undoBtn" type="button">↶ 1つ戻す</button>
+<button class="historyBtn" id="redoBtn" type="button">↷ 1つ進む</button>
+</div>
+<button class="resetBtn" id="resetBtn">データをリセット</button></div>
+<div class="cards" id="cards"></div>
+</section>
+
+<footer class="footer"><div><b>INAO 稲尾電鉄グループ</b></div><div>鉄道でつながる、笑顔の未来。</div><div>ORIGINAL TRAIN PROJECT ver.1.66.0</div></footer>
+</main>
+</div>
+
+
+
+
+
+
+
+
+<div class="stationShiritoriOverlay" id="stationShiritoriOverlay">
+ <div class="stationShiritoriModal">
+  <div class="stationShiritoriHead"><div><h2>🚉 駅名しりとり</h2><div id="stationDbStatus" style="font-size:12px;font-weight:900;opacity:.82;margin-top:3px">全国駅データを準備中…</div></div><button class="stationShiritoriClose" id="stationShiritoriClose">×</button></div>
+  <div class="stationShiritoriBody">
+   <div class="stationStart" id="stationStart">
+    <div class="stationPrompt">最初の駅名を入力してください</div><div style="text-align:center;font-size:13px;font-weight:800;color:#6b8296">一度使った駅は、このゲーム中は再使用できません。</div>
+    <div class="stationInputRow"><input class="stationInput" id="stationFirstInput" placeholder="例：渋谷 / しぶや"><button class="stationSubmit" id="stationFirstSubmit">スタート</button></div>
+    <div class="stationError" id="stationStartError"></div>
+   </div>
+   <div class="stationResult" id="stationResult">
+    <div class="stationResultLabel">COM の回答</div><div class="stationKanji" id="stationKanji"></div><div class="stationYomi" id="stationYomi"></div>
+    <div class="stationNextLetter" id="stationNextLetter"></div>
+    <div class="stationInputRow"><input class="stationInput" id="stationNextInput" placeholder=""><button class="stationSubmit" id="stationNextSubmit">つなぐ</button></div>
+    <div class="stationError" id="stationTurnError"></div><div class="stationHistory" id="stationHistory"></div>
+   </div>
+  </div>
+ </div>
+</div>
+<div class="stationDrawOverlay" id="stationDrawOverlay"><div class="stationDrawBox"><div class="stationDrawSmall">STATION SHIRITORI</div><div class="stationDrawWord" id="stationDrawWord">駅名を探しています…</div><div class="stationDrawSub">つながる駅を抽選中</div></div></div>
+
+<div class="saveLoadOverlay" id="saveOverlay">
+  <div class="saveLoadModal">
+    <div class="saveLoadTop">
+      <h2>💾 セーブ</h2>
+      <button class="saveLoadClose" id="saveClose">×</button>
+    </div>
+    <div class="saveLoadBody">
+      <button class="saveLoadAction" id="browserSaveBtn">ブラウザ保存</button>
+      <button class="saveLoadAction fileAction" id="exportSaveBtn">データ書き出し</button>
+      <div class="saveLoadStatus" id="saveStatus"></div>
+      <p class="saveLoadHint">ブラウザ保存はこのブラウザ内に保存します。データ書き出しは、別ブラウザや別PCでも読み込めるセーブファイルを作成します。</p>
+    </div>
+  </div>
+</div>
+
+<div class="saveLoadOverlay" id="loadOverlay">
+  <div class="saveLoadModal">
+    <div class="saveLoadTop">
+      <h2>📂 ロード</h2>
+      <button class="saveLoadClose" id="loadClose">×</button>
+    </div>
+    <div class="saveLoadBody">
+      <button class="saveLoadAction" id="browserLoadBtn">ブラウザ読み込み</button>
+      <button class="saveLoadAction fileAction" id="importLoadBtn">データ読み込み</button>
+      <input type="file" id="saveFileInput" accept=".json,application/json" hidden>
+      <div class="saveLoadStatus" id="loadStatus"></div>
+      <p class="saveLoadHint">「データ読み込み」は、このアプリから書き出したJSONセーブデータを選択してください。</p>
+    </div>
+  </div>
+</div>
+
+<div class="infoOverlay" id="howToOverlay">
+  <div class="infoModal">
+    <div class="infoTop">
+      <h2>遊び方</h2>
+      <button class="infoClose" id="howToClose">×</button>
+    </div>
+    <div class="infoBody">
+      <div class="howGrid">
+        <div class="howCard">
+          <div class="howStep">1</div>
+          <h3>部品ガチャを回そう</h3>
+          <p>ガチャを回して、稲尾電鉄1700系を作るための部品を集めます。同じ部品が出ることもあります。</p>
+        </div>
+        <div class="howCard">
+          <div class="howStep">2</div>
+          <h3>10種類を集めよう</h3>
+          <p>無線アンテナ、クーラー、連結器、台車など全10種類。現在の製造状況で集まり具合を確認できます。</p>
+        </div>
+        <div class="howCard">
+          <div class="howStep">3</div>
+          <h3>コレクションを見よう</h3>
+          <p>獲得済み部品はカラー表示になります。「クリックで見る」から大きな画像と鉄道豆知識を確認できます。</p>
+        </div>
+        <div class="howCard">
+          <div class="howStep">4</div>
+          <h3>部品指定も使える</h3>
+          <p>特別指定では未取得部品を選んで獲得できます。パンタグラフは指定不可で、通常の完成ルールに従います。</p>
+        </div>
+        <div class="howCard">
+          <div class="howStep">5</div>
+          <h3>全部そろったら完成！</h3>
+          <p>10種類コンプリートで特別な完成演出が発生。3Dプリント・塗装・X投稿予定の案内まで表示されます。</p>
+        </div>
+        <div class="howCard">
+          <div class="howStep">6</div>
+          <h3>質問箱で鉄道トーク</h3>
+          <p>50個の鉄道質問からランダム抽選。配信中の話題づくりや、ちょっとした鉄道知識クイズとして使えます。</p>
+        </div>
+      </div>
+      <div class="howNotice">
+        ※ 抽選の内部ルールは非公開です。結果を楽しみながら、少しずつオリジナル電車を完成させてください。
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="infoOverlay" id="questionBoxOverlay">
+  <div class="infoModal">
+    <div class="infoTop">
+      <h2>鉄道 質問箱</h2>
+      <button class="infoClose" id="questionBoxClose">×</button>
+    </div>
+    <div class="infoBody">
+      <div class="questionLauncher">
+        <div class="dice">🎲</div>
+        <h3>鉄道トークを1問抽選！</h3>
+        <p>鉄道の仕組み・設備・運転・車両など、配信で話を広げやすい50個の質問からランダムで1問選びます。</p>
+        <button class="questionDrawBtn" id="questionDrawBtn">質問を抽選する</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="questionDrawOverlay" id="questionDrawOverlay">
+  <div class="questionMachine">
+    <div class="questionMachineLabel">RAILWAY QUESTION DRAW</div>
+    <div class="questionSlot spinning" id="questionSlot">質問を抽選しています…</div>
+    <div class="questionSpinSub">50個の質問からランダム選択中</div>
+    <div class="qDots"><span></span><span></span><span></span></div>
+  </div>
+</div>
+
+<div class="questionDrawOverlay" id="questionResultOverlay">
+  <div class="questionResult">
+    <div class="questionResultHead">鉄道 質問箱 - 抽選結果</div>
+    <div class="questionResultBody">
+      <div class="questionNo" id="questionNo">QUESTION 01 / 50</div>
+      <div class="questionText" id="questionText"></div>
+      <div class="answerBox" id="questionAnswer"></div>
+      <div class="questionResultBtns">
+        <button class="qResultBtn qReveal" id="questionRevealBtn">豆知識を見る</button>
+        <button class="qResultBtn qAgain" id="questionAgainBtn">もう一度抽選</button>
+        <button class="qResultBtn qClose" id="questionResultClose">閉じる</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="infoOverlay" id="yQuestionOverlay">
+  <div class="infoModal">
+    <div class="infoTop">
+      <h2>⚠ Yの質問</h2>
+      <button class="infoClose" id="yQuestionClose">×</button>
+    </div>
+    <div class="infoBody">
+      <div class="yQuestionOnlyButton">
+        <div class="yQuestionPreText">変なこと聞いてたらすまん！</div>
+        <button class="questionDrawBtn" id="yQuestionDrawBtn">Yの質問を抽選</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="questionDrawOverlay" id="yQuestionDrawOverlay">
+  <div class="questionMachine">
+    <div class="questionMachineLabel">Y QUESTION</div>
+    <div class="questionSlot spinning" id="yQuestionSlot">質問を抽選しています…</div>
+    <div class="questionSpinSub">専門職向け20問からランダム選択中</div>
+    <div class="qDots"><span></span><span></span><span></span></div>
+  </div>
+</div>
+
+<div class="questionDrawOverlay" id="yQuestionResultOverlay">
+  <div class="questionResult yExpertResult">
+    <div class="questionResultHead">Yの質問</div>
+    <div class="questionResultBody">
+      <div class="questionNo" id="yQuestionNo">QUESTION 01 / 20</div>
+      <div class="questionText yExpertQuestionText" id="yQuestionText"></div>
+      <div class="questionResultBtns">
+        <button class="qResultBtn qAgain" id="yQuestionAgainBtn">もう一度抽選</button>
+        <button class="qResultBtn qClose" id="yQuestionResultClose">閉じる</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="specialOverlay" id="specialEmergencyOverlay">
+  <div class="specialEmergency">
+    <div class="inner">
+      <div class="emergencyLamp"></div>
+      <div class="emergencyTitle">SPECIAL OVERRIDE</div>
+      <div class="emergencyText">特別指定ボタンが押されました。<br>本当に実行しますか？</div>
+      <div class="emergencySub">通常抽選を行わず、未取得部品を1つ指定して獲得します。</div>
+      <div class="emergencyBtns">
+        <button class="emergencyCancel" id="specialEmergencyCancel">キャンセル</button>
+        <button class="emergencyExecute" id="specialEmergencyExecute">特別指定を実行</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="specialOverlay" id="specialPickerOverlay">
+  <div class="specialPicker">
+    <div class="specialPickerHeader">
+      <h2>特別指定：未取得部品を選択</h2>
+      <p>通常のガチャではなく、選んだ部品を直接獲得します。</p>
+    </div>
+    <div class="specialPickerBody">
+      <div class="specialPartsGrid" id="specialPartsGrid"></div>
+    </div>
+    <div class="specialPickerFooter">
+      <button class="specialPickerClose" id="specialPickerClose">戻る</button>
+    </div>
+  </div>
+</div>
+
+<div class="specialOverlay" id="specialConfirmOverlay">
+  <div class="specialConfirm">
+    <div class="specialConfirmTop">⚠ SPECIAL PART OVERRIDE ⚠</div>
+    <div class="specialConfirmBody">
+      <img id="specialConfirmImg" alt="">
+      <div class="specialConfirmName" id="specialConfirmName"></div>
+      <div class="specialConfirmText">この部品を特別指定で獲得します。<br>本当に確定しますか？</div>
+      <div class="specialConfirmBtns">
+        <button class="emergencyCancel" id="specialConfirmCancel">選び直す</button>
+        <button class="emergencyExecute" id="specialConfirmExecute">この部品を獲得</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="specialAcquireOverlay" id="specialAcquireOverlay">
+  <div class="specialAcquireCard">
+    <div class="specialAcquireBadge">SPECIAL ACQUISITION</div>
+    <div class="specialAcquireImageWrap">
+      <img class="specialAcquireImage" id="specialAcquireImg" alt="">
+    </div>
+    <div class="specialAcquireTitle">特別指定・獲得完了！</div>
+    <div class="specialAcquireName" id="specialAcquireName"></div>
+    <div class="specialAcquireSub">コレクションに追加されました</div>
+  </div>
+</div>
+
+<div class="completeOverlay" id="completeOverlay">
+  <div class="completePopup">
+    <div class="completeSpark s1"></div>
+    <div class="completeSpark s2"></div>
+    <div class="completeSpark s3"></div>
+    <div class="completeSpark s4"></div>
+
+    <div class="completeHeader">
+      <div class="big">🎉 おめでとう！稲尾電鉄1700系 完成！</div>
+      <div class="sub">10個の部品がすべてそろいました</div>
+    </div>
+
+    <div class="completeVisual">
+      <img class="completeBW" id="completeBwImg" src="assets/complete-bw.png" alt="3Dモデル白黒">
+      <img class="completeColor" id="completeColorImg" src="assets/complete-color.png" alt="3Dモデルカラー">
+    </div>
+
+    <div class="completeMessage">
+      <div class="stage stage1">まずは3Dモデルで完成形をチェック！</div>
+      <div class="stage stage2">この3Dデータをもとに、これから実際に3Dプリントして塗装します！</div>
+      <div class="stage stage3">完成した稲尾電鉄1700系は、Xに投稿予定！お楽しみに！</div>
+    </div>
+
+    <div class="completeCountdown"><span id="completeCountdown">20</span>秒</div>
+    <div class="completeProgress"><div class="completeProgressBar"></div></div>
+  </div>
+</div>
+
+<div class="partDetailOverlay" id="partDetailOverlay">
+  <div class="partDetailModal">
+    <div class="detailTopbar">
+      <strong>PARTS COLLECTION / 部品図鑑</strong>
+      <button class="detailClose" id="detailClose">×</button>
+    </div>
+
+    <div class="detailView detailImageView" id="detailImageView">
+      <div class="detailImageArea">
+        <img id="detailLargeImg" alt="">
+      </div>
+      <div class="detailIntro">
+        <div class="detailRarity" id="detailRarity">銀</div>
+        <h2 id="detailName">無線アンテナ</h2>
+        <p>獲得済みの部品です。画像を大きく確認できます。<br>次の画面では、この部品が電車でどんな仕事をしているのか紹介します。</p>
+        <button class="detailNext" id="detailNext">部品のひみつを見る →</button>
+      </div>
+    </div>
+
+    <div class="detailView detailTextView" id="detailTextView">
+      <div class="detailSide">
+        <img id="detailSideImg" alt="">
+        <h3 id="detailSideName"></h3>
+        <button class="detailBack" id="detailBack">← 画像に戻る</button>
+      </div>
+      <div class="detailCopy">
+        <div class="detailCatch" id="detailCatch"></div>
+        <div class="detailBody" id="detailBody"></div>
+        <div class="detailTalk" id="detailTalk"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="drawOverlay" id="drawOverlay">
+  <div class="drawPopup">
+    <div class="drawTitle">PARTS GACHA / 抽選中</div>
+    <div class="rarityOrb bronze" id="rarityOrb">銅</div>
+    <div class="drawStatus" id="drawStatus">レアリティ抽選中…</div>
+    <div class="drawSub" id="drawSub">金・銀・銅の中から抽選しています</div>
+    <div class="drawDots"><span></span><span></span><span></span></div>
+  </div>
+</div>
+
+<div class="modal" id="modal">
+<div class="result">
+<div id="rarityBig" class="rarityBig">銀</div>
+<div class="partBig"><img id="resultImg" alt=""></div>
+<h3 id="resultTitle">部品を獲得！</h3>
+<p id="resultText"></p>
+<div id="completeText"></div>
+<button class="closeBtn" id="closeBtn">コレクションへ</button>
+</div>
+</div>
+
+<script>
+const parts=[{"id":"antenna","name":"無線アンテナ","rarity":"銀","imgColor":"assets/antenna-color.png","imgLocked":"assets/antenna-locked.png"},{"id":"cooler","name":"冷房装置（クーラー）","rarity":"銅","imgColor":"assets/cooler-color.png","imgLocked":"assets/cooler-locked.png"},{"id":"panto","name":"パンタグラフ（集電装置）","rarity":"金","imgColor":"assets/panto-color.png","imgLocked":"assets/panto-locked.png"},{"id":"coupler","name":"連結器","rarity":"銅","imgColor":"assets/coupler-color.png","imgLocked":"assets/coupler-locked.png"},{"id":"skirt","name":"スカート","rarity":"銅","imgColor":"assets/skirt-color.png","imgLocked":"assets/skirt-locked.png"},{"id":"vvvf","name":"VVVFインバーター","rarity":"銀","imgColor":"assets/vvvf-color.png","imgLocked":"assets/vvvf-locked.png"},{"id":"bogie","name":"台車（走行装置）","rarity":"銀","imgColor":"assets/bogie-color.png","imgLocked":"assets/bogie-locked.png"},{"id":"light","name":"ライト（前照灯・尾灯）","rarity":"銅","imgColor":"assets/light-color.png","imgLocked":"assets/light-locked.png"},{"id":"door","name":"ドア（乗降扉）","rarity":"銅","imgColor":"assets/door-color.png","imgLocked":"assets/door-locked.png"},{"id":"display","name":"電光板（行先表示）","rarity":"銅","imgColor":"assets/display-color.png","imgLocked":"assets/display-locked.png"}];
+const partInfo={"antenna":{"catch":"屋根の上にある、小さな“耳”。","body":"無線アンテナは、走行中の列車と運転指令所などをつなぐ通信の入口です。ダイヤが乱れたときの連絡や、事故・災害など緊急時の情報共有にも欠かせません。見た目は小さくても、列車が“今どうなっているか”を外とつなぐ大事な部品です。","talk":"配信でひとこと：『電車の耳みたいなもの！小さいけど、情報戦では超重要です。』"},"cooler":{"catch":"屋根の上の、巨大なエアコン。","body":"冷房装置は、車内の温度や湿度を快適に保つ空調の主役です。通勤電車では屋根上に載るタイプがよく見られ、冷房だけでなく換気や除湿なども空調システム全体で行います。真夏の満員電車を支える、かなり重要な“快適装備”です。","talk":"配信でひとこと：『これが止まると夏の車内は一気にハードモードです。』"},"panto":{"catch":"架線から電気をもらう、電車の“ストロー”。","body":"パンタグラフは車両の屋根上にある集電装置で、架線に触れながら走って電気を受け取ります。高速で走っても架線にきちんと追従し続けることが大切で、接触が離れすぎると安定した集電が難しくなります。電車が走るための電気の入口です。","talk":"配信でひとこと：『金レアにした理由はこれ！電車の命綱、電気の入口です。』"},"coupler":{"catch":"車両どうしが握手する、“鉄の手”。","body":"連結器は車両と車両をつなぎ、引っ張る力や押す力を車体同士に伝える装置です。連結装置には衝撃をやわらげる仕組みも組み合わされ、発進やブレーキ時の前後方向の力を受け止めます。編成をひとつの列車にする、まさに接続の主役です。","talk":"配信でひとこと：『電車同士の握手！でも握力はめちゃくちゃ強いです。』"},"skirt":{"catch":"電車の顔の下を守る、“前面シールド”。","body":"スカートは車両前面の下側を覆う部分で、障害物の巻き込みを抑えたり、床下機器へのダメージを減らしたりする役目があります。安全面だけでなく、先頭車の見た目を決める大きなデザイン要素でもあります。","talk":"配信でひとこと：『名前はスカートだけど、役割はかなり武闘派。前面の盾です。』"},"vvvf":{"catch":"モーターを操る、電車の“DJ兼司令塔”。","body":"VVVFインバーターは、電圧と周波数を変化させながら交流モーターを制御する装置です。加速の強さや速度を細かく調整し、回生ブレーキと組み合わせて省エネにも貢献します。車種によっては発進時に独特の音が聞こえるので、音で楽しむファンも多い部品です。","talk":"配信でひとこと：『あの発車音、実はモーターを操っている電気の仕事なんです。』"},"bogie":{"catch":"車輪だけじゃない。“足まわり全部入りセット”。","body":"台車は車輪・車軸・ばね・ブレーキ装置などをまとめて支える走行装置です。車体を支えながらカーブに沿って向きを変え、線路から来る振動や衝撃もやわらげます。電動車ではモーターなどの駆動装置が組み込まれることもあり、走る・曲がる・止まるを足元から支えます。","talk":"配信でひとこと：『電車の足って車輪だけじゃないんです。台車がほぼ足まわり全部担当！』"},"light":{"catch":"前を照らして、列車の向きも知らせる“目”。","body":"前照灯は進行方向の前方を照らし、夜間や暗い場所での視認を助けます。尾灯は列車の後ろ側を示すための灯火です。先頭と最後尾を見分ける大切なサインでもあり、電車の表情を決めるデザインポイントでもあります。","talk":"配信でひとこと：『ライトを見ると“こっちが前！”が分かる。電車の目とサインです。』"},"door":{"catch":"毎駅いちばん忙しい、“乗り降りのゲート”。","body":"乗降扉は駅でお客さんが安全に乗り降りするための設備です。閉扉状態は安全運行に直結するため、乗務員は扉の状態を確認してから列車を発車させます。毎日何度も開閉を繰り返すので、使いやすさと安全性の両方が重要です。","talk":"配信でひとこと：『たぶん車両の中で一番“開け閉め”してる働き者です。』"},"display":{"catch":"行先を一瞬で伝える、電車の“名札”。","body":"行先表示器は、列車の行先や種別などをお客さんに伝える案内表示です。駅に入ってきた列車を見た瞬間に『どこへ行くのか』『どんな列車なのか』を判断する手助けになります。LED式では表示内容を切り替えやすく、さまざまな運用に対応できます。","talk":"配信でひとこと：『ここが“稲尾行き”になるだけで、一気に本物の路線っぽくなります。』"}};
+let owned=new Set(JSON.parse(localStorage.getItem("inaoOwned")||"[]"));
+let rolls=Number(localStorage.getItem("inaoRolls")||0);
+let noNewStreak=Number(localStorage.getItem("inaoNoNewStreak")||0);
+const cards=document.getElementById("cards"),haveCount=document.getElementById("haveCount"),progressBar=document.getElementById("progressBar"),modal=document.getElementById("modal"),rarityBig=document.getElementById("rarityBig"),resultImg=document.getElementById("resultImg"),resultTitle=document.getElementById("resultTitle"),resultText=document.getElementById("resultText"),completeText=document.getElementById("completeText"),drawOverlay=document.getElementById("drawOverlay"),rarityOrb=document.getElementById("rarityOrb"),drawStatus=document.getElementById("drawStatus"),drawSub=document.getElementById("drawSub");
+const totalDrawCount=document.getElementById("totalDrawCount");
+
+const saveOverlay=document.getElementById("saveOverlay"),
+loadOverlay=document.getElementById("loadOverlay"),
+saveStatus=document.getElementById("saveStatus"),
+loadStatus=document.getElementById("loadStatus"),
+saveFileInput=document.getElementById("saveFileInput");
+
+
+const yQuestionOverlay=document.getElementById("yQuestionOverlay"),
+yQuestionDrawOverlay=document.getElementById("yQuestionDrawOverlay"),
+yQuestionResultOverlay=document.getElementById("yQuestionResultOverlay"),
+yQuestionSlot=document.getElementById("yQuestionSlot"),
+yQuestionNo=document.getElementById("yQuestionNo"),
+yQuestionText=document.getElementById("yQuestionText");
+let currentYQuestion=null;
+const howToOverlay=document.getElementById("howToOverlay"),
+questionBoxOverlay=document.getElementById("questionBoxOverlay"),
+questionDrawOverlay=document.getElementById("questionDrawOverlay"),
+questionResultOverlay=document.getElementById("questionResultOverlay"),
+questionSlot=document.getElementById("questionSlot"),
+questionNo=document.getElementById("questionNo"),
+questionText=document.getElementById("questionText"),
+questionAnswer=document.getElementById("questionAnswer"),
+questionRevealBtn=document.getElementById("questionRevealBtn");
+let currentRailwayQuestion=null;
+
+
+const specialSelectBtn=document.getElementById("specialSelectBtn"),
+specialEmergencyOverlay=document.getElementById("specialEmergencyOverlay"),
+specialPickerOverlay=document.getElementById("specialPickerOverlay"),
+specialConfirmOverlay=document.getElementById("specialConfirmOverlay"),
+specialAcquireOverlay=document.getElementById("specialAcquireOverlay"),
+specialPartsGrid=document.getElementById("specialPartsGrid"),
+specialConfirmImg=document.getElementById("specialConfirmImg"),
+specialConfirmName=document.getElementById("specialConfirmName"),
+specialAcquireImg=document.getElementById("specialAcquireImg"),
+specialAcquireName=document.getElementById("specialAcquireName");
+let selectedSpecialPart=null;
+
+const completeOverlay=document.getElementById("completeOverlay"),completeCountdown=document.getElementById("completeCountdown");
+const partDetailOverlay=document.getElementById("partDetailOverlay"),
+detailImageView=document.getElementById("detailImageView"),
+detailTextView=document.getElementById("detailTextView"),
+detailLargeImg=document.getElementById("detailLargeImg"),
+detailSideImg=document.getElementById("detailSideImg"),
+detailName=document.getElementById("detailName"),
+detailSideName=document.getElementById("detailSideName"),
+detailRarity=document.getElementById("detailRarity"),
+detailCatch=document.getElementById("detailCatch"),
+detailBody=document.getElementById("detailBody"),
+detailTalk=document.getElementById("detailTalk");
+let currentDetailPart=null;
+
+
+function render(){
+  cards.innerHTML="";
+  parts.forEach((p)=>{
+    const got=owned.has(p.id);
+    const c=document.createElement("div");
+    c.className="card"+(got?" acquired":"");
+    const shownImage=got?p.imgColor:p.imgLocked;
+    c.innerHTML=`<div class="partPic"><img src="${shownImage}" alt="${p.name}"></div><div class="partName">${p.name}</div><div class="badge">${got?"獲得済み":"未獲得"}・${p.rarity}</div>${got?'<button class="viewDetailBtn">クリックで見る</button><div class="acquiredStamp">済</div>':''}`;
+    if(got){
+      c.dataset.partId=p.id;
+      c.addEventListener("click",()=>openPartDetail(p));
+      const viewBtn=c.querySelector(".viewDetailBtn");
+      if(viewBtn){
+        viewBtn.addEventListener("click",(e)=>{
+          e.stopPropagation();
+          openPartDetail(p);
+        });
+      }
+    }
+    cards.appendChild(c);
+  });
+  haveCount.textContent=owned.size;
+  progressBar.style.width=(owned.size*10)+"%";
+  totalDrawCount.textContent=rolls;
+}
+
+function openPartDetail(p){
+  currentDetailPart=p;
+  const info=partInfo[p.id];
+  detailLargeImg.src=p.imgColor;
+  detailLargeImg.alt=p.name;
+  detailSideImg.src=p.imgColor;
+  detailSideImg.alt=p.name;
+  detailName.textContent=p.name;
+  detailSideName.textContent=p.name;
+  detailRarity.textContent=p.rarity+"レア";
+  detailRarity.style.background=rarityColor(p.rarity);
+  detailCatch.textContent=info.catch;
+  detailBody.textContent=info.body;
+  detailTalk.textContent=info.talk;
+  detailImageView.style.display="grid";
+  detailTextView.style.display="none";
+  partDetailOverlay.classList.add("show");
+}
+function showDetailText(){
+  if(!currentDetailPart)return;
+  detailImageView.style.display="none";
+  detailTextView.style.display="grid";
+}
+function showDetailImage(){
+  detailTextView.style.display="none";
+  detailImageView.style.display="grid";
+}
+function closePartDetail(){
+  partDetailOverlay.classList.remove("show");
+  currentDetailPart=null;
+}
+
+let completeTimer=null;
+function showCompleteCelebration(){
+  if(completeTimer) clearInterval(completeTimer);
+
+  // restart CSS animations reliably
+  completeOverlay.classList.remove("show");
+  void completeOverlay.offsetWidth;
+  completeOverlay.classList.add("show");
+
+  let remain=20;
+  completeCountdown.textContent=remain;
+
+  completeTimer=setInterval(()=>{
+    remain--;
+    completeCountdown.textContent=Math.max(0,remain);
+    if(remain<=0){
+      clearInterval(completeTimer);
+      completeTimer=null;
+      completeOverlay.classList.remove("show");
+    }
+  },1000);
+}
+
+const yExpertQuestions=["VVVFインバータ車で空転再粘着制御を設計する場合、速度センサ情報だけでは粘着限界を正確に捉えにくい条件下で、どの物理量を監視し、トルク指令をどの時間スケールで戻すべきですか？","誘導電動機駆動車でベクトル制御を行う際、低速域で二次抵抗値の温度変化が磁束推定とトルク精度へ与える影響を、実車ではどのように補償しますか？","永久磁石同期電動機を採用した車両を救援・無電源けん引する際、回転子磁束による逆起電力を考慮して主回路をどのように保護・隔離しますか？","回生ブレーキ使用中に架線側が回生電力を受け取れない『回生失効』が発生した場合、空気ブレーキへのブレンディングで編成減速度を乱さないために何を制御しますか？","高速域でパンタグラフと架線の接触力変動が増大した場合、離線率を下げるためにパンタグラフ側と架線側でそれぞれ変更できる代表的な設計パラメータは何ですか？","交流電化区間の異相区分を通過する車両で、主回路遮断器の開閉シーケンスを誤ると具体的にどのような電気現象・設備障害が起こり得ますか？","軌道回路でレール表面の錆や低軸重車両によって短絡感度が不足する場合、在線検知の信頼性を確保するため現場ではどのような対策・検証を行いますか？","車軸カウンタ方式で計数不一致が発生し区間が占有扱いになった場合、安全を担保しながらリセットを実施するために必要な確認条件は何ですか？","連動装置における進路鎖錠・接近鎖錠・保留鎖錠は、それぞれどの危険を防ぐための鎖錠で、解除条件はどう異なりますか？","ATS/ATCの速度照査パターンを設定する際、列車ごとのブレーキ性能差・勾配・応答遅れ・空走時間をどのように安全側へ織り込みますか？","ボルスタレス台車で蛇行動安定性と曲線通過性能を両立させる場合、軸箱支持剛性やヨーダンパ特性を変更すると走行特性はどう変化しますか？","車輪踏面の等価踏面勾配が増大したとき、直線高速走行時の蛇行動限界速度と曲線通過時の自己操舵性にはどのようなトレードオフが生じますか？","車輪フラットを床下振動データから検出する場合、速度変化によって衝撃の発生周波数が変わる問題をどのような信号処理で扱いますか？","ロングレールの設定温度から大きく外れた状態で軌道作業を行う場合、座屈またはレール破断リスクを評価するうえで現場が確認すべき条件は何ですか？","分岐器のトングレール密着不良が発生した際、転てつ機・ロック機構・異物・軌道変位のどこに原因があるかを、どの順序で切り分けますか？","空気ばね式車体傾斜または車高制御で荷重変動が大きい場合、左右高さを追従させながら過渡的なロールを抑えるためにどのような制御上の工夫が必要ですか？","編成内のブレーキ指令伝送に遅延または一部車両の応答不良が生じた場合、列車全体の減速度と連結器力にはどのような影響が現れ、故障診断では何を比較しますか？","補助電源装置の三相出力に異常がなくても空調機群だけが断続的に停止する場合、車両側電源品質・負荷・保護回路の観点からどの測定項目を優先しますか？","車両基地で絶縁抵抗値が基準を下回った編成について、雨水侵入・主回路機器・補助回路・配線劣化を安全かつ効率的に切り分ける実務的な手順は何ですか？","営業線で原因不明の瞬間的な非常ブレーキ指令が再現性なく発生する場合、車上ログ・保安装置・列車情報伝送・引通し線・地上設備のどの時系列データを突き合わせて原因を絞り込みますか？"];
+const railwayQuestions=[{"q":"電車はどうやって線路の上を曲がれるの？","a":"鉄道の車輪は左右が完全な円筒ではなく、わずかに傾いた円すい形に近い形状です。カーブでは左右の車輪が接する位置が変わり、実質的な直径差が生まれることで自然に曲がりやすくなります。"},{"q":"パンタグラフは走りながらどうやって架線から離れないの？","a":"ばねや空気圧などでパンタグラフを上向きに押し、架線に一定の力で接触させています。高速走行では架線側の張り方やパンタグラフの形状も重要になります。"},{"q":"VVVFインバーターは何をしている装置？","a":"モーターへ送る電気の電圧と周波数を細かく変え、加速・速度・回生ブレーキをコントロールする装置です。発車時の独特な音も制御の結果として聞こえることがあります。"},{"q":"電車の車輪にはゴムタイヤが付いていないのに、なぜ滑りにくいの？","a":"鉄の車輪と鉄のレールでも十分な粘着力があります。ただし雨・落ち葉・油などで滑りやすくなるため、空転や滑走を検知してモーターやブレーキを細かく制御します。"},{"q":"レールの間隔はなぜ路線によって違うの？","a":"鉄道が作られた時代や地域、目的、既存路線との直通計画などの歴史的事情で軌間が異なります。日本では1,067mmや1,435mmなど複数の軌間があります。"},{"q":"電車の台車はどんな仕事をしているの？","a":"車輪・車軸・ばね・ブレーキ・場合によってはモーターなどをまとめ、車体を支えながら走る・曲がる・止まるを足元から担当します。"},{"q":"電車のドアはどうやって『全部閉まった』と確認しているの？","a":"各ドアに閉状態を検知するスイッチやセンサーがあり、閉扉状態がそろうと乗務員へ知らせます。安全確認が取れないと発車できない仕組みが一般的です。"},{"q":"電車の行先表示はどうやって切り替えているの？","a":"現在はLEDやLCDなど電子式が主流で、乗務員の設定や運行管理システムと連動して列車種別・行先・号車案内などを切り替えます。"},{"q":"電車のライトは前を照らすだけ？","a":"前照灯は前方視認を助け、尾灯は列車の最後尾を示します。灯火は列車の進行方向や状態を周囲へ知らせる大切なサインでもあります。"},{"q":"連結器にはどれくらい大きな力がかかるの？","a":"編成全体の引張力や圧縮力が伝わるため非常に大きな力を受けます。連結器周辺には衝撃をやわらげる緩衝装置も組み合わされています。"},{"q":"電車の『スカート』は何のためにあるの？","a":"先頭車の下部を覆い、障害物の巻き込み軽減や床下機器の保護に役立ちます。安全面だけでなく車両の顔つきを決めるデザイン要素でもあります。"},{"q":"電車のクーラーは家庭用エアコンと何が違うの？","a":"大人数の乗客、頻繁なドア開閉、強い日射、車両振動などに対応する必要があり、鉄道車両向けに高い能力と耐久性を持たせています。"},{"q":"列車無線は何のために使われるの？","a":"運転指令所と乗務員の連絡、運転整理、異常時の情報共有などに使われます。安全な運行を支える重要な通信手段です。"},{"q":"電車は停電したらすぐ真っ暗になるの？","a":"多くの車両にはバッテリーがあり、非常灯や一部の案内・保安装置など必要な機器へ一定時間電力を供給できます。"},{"q":"回生ブレーキって何？","a":"モーターを発電機として使い、減速時の運動エネルギーを電気へ戻すブレーキです。戻した電力を他の列車などが利用できる場合があります。"},{"q":"電車のブレーキは全部同じ種類？","a":"電気ブレーキ、空気ブレーキなどを組み合わせて使います。速度や状況に応じて自動的に分担し、安定した減速を行います。"},{"q":"非常ブレーキは通常ブレーキと何が違うの？","a":"緊急時に最大限の制動力を得るためのブレーキ扱いです。安全を優先し、通常より強い減速度で停止を目指します。"},{"q":"電車の運転士は速度をどうやって正確に守っているの？","a":"速度計だけでなく、信号・標識・運転時刻表・保安装置などを確認しながら運転します。ATCやATSなどが速度超過を監視する路線もあります。"},{"q":"ATSとATCは何が違うの？","a":"ATSは主に信号無視や速度超過などを検知して警報・ブレーキを行う仕組み、ATCは許容速度などを車内へ連続的に伝えながら速度を制御する方式として使われます。"},{"q":"ホームドアと電車のドア位置が合うのはなぜ？","a":"車両形式や編成長、停止位置を合わせて設計・運用しています。対応車種が多い路線では可動範囲の広いホームドアを使う場合もあります。"},{"q":"電車は駅でどうして毎回ほぼ同じ位置に停まれるの？","a":"運転士が停止目標を見ながらブレーキを調整します。ATOを使う路線では自動運転装置が停止位置を制御することもあります。"},{"q":"ATOって完全な無人運転のこと？","a":"ATOは列車の加速・定速・減速・停止などを自動化する装置です。ATOを使っていても運転士が乗務する路線は多く、無人運転とは必ずしも同じではありません。"},{"q":"鉄道信号の赤・黄・緑は道路信号と同じ意味？","a":"似ていますが鉄道では信号の組み合わせによって許容速度や次の信号の状態などを示すことがあります。路線や信号方式によって意味は異なります。"},{"q":"線路脇にある小さな標識は誰が見るの？","a":"主に運転士や保守作業員が見ます。速度、勾配、停止位置、設備位置など運転・保守に必要な情報が示されています。"},{"q":"ポイントはどうやって列車の進路を変えるの？","a":"分岐器の可動レールを転てつ機で動かし、車輪が進むレールを切り替えます。信号システムと連動し、安全が確認できないと進路を構成できない仕組みがあります。"},{"q":"列車が通っている線路に別の列車が入らないのはなぜ？","a":"軌道回路や車軸カウンタなどで列車の在線を検知し、閉そくや連動装置によって同じ区間へ列車が入らないよう制御しています。"},{"q":"『閉そく』って何？","a":"線路をいくつかの区間に分け、原則として同じ区間へ複数列車を入れないようにする考え方です。列車同士の安全な間隔を確保する基本です。"},{"q":"線路の砂利にはどんな役割があるの？","a":"バラストと呼ばれ、荷重を分散し、排水を助け、線路位置を保ち、振動もやわらげます。バラストを使わないスラブ軌道もあります。"},{"q":"新幹線の線路に砂利が少ない場所があるのはなぜ？","a":"高速・高頻度運転では保守量を減らすため、コンクリート製のスラブ軌道を採用する区間があります。構造が安定し、線路変形が起きにくい利点があります。"},{"q":"レールのつなぎ目の『ガタンゴトン』が減ったのはなぜ？","a":"長いレールを溶接してつなぐロングレールが増え、継ぎ目が少なくなったためです。乗り心地や騒音、保守の面でも効果があります。"},{"q":"ロングレールは暑い日に伸びて曲がらないの？","a":"温度変化による力を考慮して敷設・管理します。レールを適切な温度条件で固定し、締結装置や道床で変形を抑えています。"},{"q":"踏切は列車が来るのをどうやって知るの？","a":"線路上の検知装置などで列車の接近を検知し、警報機や遮断機を作動させます。列車速度や線区条件に応じて制御されています。"},{"q":"駅の発車メロディーは何のため？","a":"発車時刻が近いことを利用者へ知らせ、乗降を促す目的があります。駅や路線によってベル・ブザー・メロディーなど様々です。"},{"q":"車掌は発車前に何を確認しているの？","a":"乗降の完了、ホームやドア周辺の安全、ドア閉状態、信号などを確認し、運転士へ発車可能であることを知らせます。"},{"q":"ワンマン運転では車掌の仕事はどうなるの？","a":"運転士がドア扱いや車内放送、乗降確認など一部の業務を兼ねます。カメラ・モニター・ホーム設備などで安全確認を支援します。"},{"q":"電車の窓が開かない車両が増えたのはなぜ？","a":"空調効率、騒音低減、高速走行時の安全性などのため固定窓が増えました。一方で非常時の換気などを考え一部開閉可能な窓を残す車両もあります。"},{"q":"電車の車体は何でできているの？","a":"ステンレス、アルミニウム合金、鋼などが使われます。軽量化、耐食性、強度、製造方法などを考えて材料が選ばれます。"},{"q":"ステンレス車体が銀色のままのことが多いのはなぜ？","a":"ステンレスは腐食に強く、全面塗装を省けるためです。色帯やラッピングだけで路線カラーを表現することも多くあります。"},{"q":"アルミ車体は何が良いの？","a":"軽量化しやすく、必要な強度を確保しながら省エネや加減速性能の向上に役立ちます。押出形材を使った車体構造もよく採用されます。"},{"q":"電車の床下に箱がたくさん付いているのはなぜ？","a":"制御装置、補助電源装置、空気圧縮機、蓄電池など走行やサービスに必要な機器を床下へ搭載しているためです。"},{"q":"補助電源装置は何を動かしているの？","a":"照明、空調、制御回路など、主電動機以外の車内設備へ必要な電力を供給します。SIVなどの方式が使われます。"},{"q":"空気圧縮機は電車のどこで使うの？","a":"主に空気ブレーキやドア装置などで使う圧縮空気を作ります。車両によっては他の空気機器にも利用されます。"},{"q":"電車のモーターは全部の車両に付いているの？","a":"すべての車両に付けるとは限りません。モーター付きの電動車と、モーターを持たない付随車を組み合わせて編成を作ることが一般的です。"},{"q":"M車・T車って何？","a":"M車はモーターを持つ電動車、T車はモーターを持たない付随車を表す略称として使われます。編成の性能や重量配分を考えて組み合わせます。"},{"q":"電車の形式番号はどうやって決まるの？","a":"鉄道会社ごとの命名ルールで決まります。世代、用途、車体構造、電気方式などを番号に反映する会社もあり、全国共通ルールではありません。"},{"q":"同じ形式でも先頭車と中間車で番号が違うのはなぜ？","a":"車両の役割や搭載機器、運転台の有無などを区別しやすくするため、番台や記号、番号体系を分けることがあります。"},{"q":"電車の『編成』って何？","a":"複数の車両を連結して、ひとまとまりとして運転する単位です。2両編成、10両編成など、路線や輸送量に応じて構成が変わります。"},{"q":"なぜ朝の電車は長い編成が多いの？","a":"通勤・通学時間帯は乗客が集中するため、1本あたりの輸送力を増やす必要があります。増結や長編成化で混雑緩和を図る場合があります。"},{"q":"鉄道車両はどれくらい長く使われるの？","a":"会社や車種、更新工事の有無で大きく異なりますが、数十年使われる例も珍しくありません。途中で機器更新や内装改修を行い寿命を延ばすこともあります。"},{"q":"古い電車のモーター音と新しい電車の音が違うのはなぜ？","a":"モーターの種類や制御方式が異なるためです。抵抗制御、界磁チョッパ、VVVFインバーターなど世代によって音の特徴が大きく変わります。"}];
+
+
+
+const MANUAL_SAVE_KEY="inaoManualSaveV1";
+
+function makeSaveData(){
+  return {
+    app:"INAO_ORIGINAL_TRAIN_PROJECT",
+    saveVersion:1,
+    savedAt:new Date().toISOString(),
+    owned:[...owned],
+    rolls:Number(rolls)||0,
+    noNewStreak:Number(noNewStreak)||0
+  };
+}
+function validateSaveData(data){
+  if(!data || data.app!=="INAO_ORIGINAL_TRAIN_PROJECT") throw new Error("このアプリのセーブデータではありません。");
+  if(!Array.isArray(data.owned)) throw new Error("獲得部品データが不正です。");
+  const validIds=new Set(parts.map(p=>p.id));
+  if(data.owned.some(id=>!validIds.has(id))) throw new Error("未知の部品IDが含まれています。");
+  if(!Number.isFinite(Number(data.rolls)) || Number(data.rolls)<0) throw new Error("抽選回数データが不正です。");
+  if(!Number.isFinite(Number(data.noNewStreak)) || Number(data.noNewStreak)<0) throw new Error("進行データが不正です。");
+  return true;
+}
+function applySaveData(data){
+  validateSaveData(data);
+  owned.clear();
+  data.owned.forEach(id=>owned.add(id));
+  rolls=Math.floor(Number(data.rolls)||0);
+  noNewStreak=Math.floor(Number(data.noNewStreak)||0);
+
+  // Update the app's normal autosave keys as well.
+  localStorage.setItem("inaoOwned",JSON.stringify([...owned]));
+  localStorage.setItem("inaoRolls",String(rolls));
+  localStorage.setItem("inaoNoNewStreak",String(noNewStreak));
+  render();
+}
+function openSavePopup(){
+  saveStatus.textContent="";
+  saveOverlay.classList.add("show");
+}
+function closeSavePopup(){saveOverlay.classList.remove("show")}
+function openLoadPopup(){
+  loadStatus.textContent="";
+  loadOverlay.classList.add("show");
+}
+function closeLoadPopup(){loadOverlay.classList.remove("show")}
+
+function browserSave(){
+  try{
+    localStorage.setItem(MANUAL_SAVE_KEY,JSON.stringify(makeSaveData()));
+    saveStatus.textContent="✓ ブラウザにセーブしました";
+  }catch(e){
+    saveStatus.textContent="保存に失敗しました："+e.message;
+  }
+}
+function browserLoad(){
+  try{
+    const raw=localStorage.getItem(MANUAL_SAVE_KEY);
+    if(!raw) throw new Error("ブラウザセーブがありません。");
+    applySaveData(JSON.parse(raw));
+    loadStatus.textContent="✓ ブラウザセーブを読み込みました";
+  }catch(e){
+    loadStatus.textContent="読み込みに失敗しました："+e.message;
+  }
+}
+function exportSaveData(){
+  try{
+    const data=makeSaveData();
+    const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement("a");
+    const stamp=new Date().toISOString().replace(/[:.]/g,"-");
+    a.href=url;
+    a.download="INAO_train_save_"+stamp+".json";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),1000);
+    saveStatus.textContent="✓ セーブデータを書き出しました";
+  }catch(e){
+    saveStatus.textContent="書き出しに失敗しました："+e.message;
+  }
+}
+function importSaveFile(file){
+  if(!file) return;
+  const reader=new FileReader();
+  reader.onload=()=>{
+    try{
+      const data=JSON.parse(String(reader.result||""));
+      applySaveData(data);
+      loadStatus.textContent="✓ セーブデータを読み込みました";
+    }catch(e){
+      loadStatus.textContent="読み込みに失敗しました："+e.message;
+    }finally{
+      saveFileInput.value="";
+    }
+  };
+  reader.onerror=()=>{
+    loadStatus.textContent="ファイルを読み込めませんでした。";
+    saveFileInput.value="";
+  };
+  reader.readAsText(file,"utf-8");
+}
+function openYQuestionBox(){
+  yQuestionOverlay.classList.add("show");
+}
+function closeYQuestionBox(){
+  yQuestionOverlay.classList.remove("show");
+}
+function startYQuestionDraw(){
+  yQuestionOverlay.classList.remove("show");
+  yQuestionResultOverlay.classList.remove("show");
+  yQuestionDrawOverlay.classList.add("show");
+  yQuestionSlot.classList.add("spinning");
+
+  let ticks=0;
+  const timer=setInterval(()=>{
+    yQuestionSlot.textContent=yExpertQuestions[Math.floor(Math.random()*yExpertQuestions.length)];
+    ticks++;
+    if(ticks>=16){
+      clearInterval(timer);
+      const index=Math.floor(Math.random()*yExpertQuestions.length);
+      currentYQuestion=yExpertQuestions[index];
+      yQuestionSlot.classList.remove("spinning");
+      yQuestionSlot.textContent=currentYQuestion;
+      setTimeout(()=>{
+        yQuestionDrawOverlay.classList.remove("show");
+        yQuestionNo.textContent="QUESTION "+String(index+1).padStart(2,"0")+" / 20";
+        yQuestionText.textContent=currentYQuestion;
+        yQuestionResultOverlay.classList.add("show");
+      },550);
+    }
+  },110);
+}
+function closeYQuestionResult(){
+  yQuestionResultOverlay.classList.remove("show");
+}
+function openHowTo(){
+  howToOverlay.classList.add("show");
+}
+function closeHowTo(){
+  howToOverlay.classList.remove("show");
+}
+function openQuestionBox(){
+  questionBoxOverlay.classList.add("show");
+}
+function closeQuestionBox(){
+  questionBoxOverlay.classList.remove("show");
+}
+function startQuestionDraw(){
+  questionBoxOverlay.classList.remove("show");
+  questionResultOverlay.classList.remove("show");
+  questionDrawOverlay.classList.add("show");
+  questionSlot.classList.add("spinning");
+
+  let ticks=0;
+  const timer=setInterval(()=>{
+    const temp=railwayQuestions[Math.floor(Math.random()*railwayQuestions.length)];
+    questionSlot.textContent=temp.q;
+    ticks++;
+    if(ticks>=14){
+      clearInterval(timer);
+      currentRailwayQuestion=railwayQuestions[Math.floor(Math.random()*railwayQuestions.length)];
+      const idx=railwayQuestions.indexOf(currentRailwayQuestion)+1;
+      questionSlot.classList.remove("spinning");
+      questionSlot.textContent=currentRailwayQuestion.q;
+
+      setTimeout(()=>{
+        questionDrawOverlay.classList.remove("show");
+        questionNo.textContent="QUESTION "+String(idx).padStart(2,"0")+" / 50";
+        questionText.textContent=currentRailwayQuestion.q;
+        questionAnswer.textContent=currentRailwayQuestion.a;
+        questionAnswer.classList.remove("show");
+        questionRevealBtn.textContent="豆知識を見る";
+        questionResultOverlay.classList.add("show");
+      },500);
+    }
+  },120);
+}
+function toggleQuestionAnswer(){
+  const isOpen=questionAnswer.classList.toggle("show");
+  questionRevealBtn.textContent=isOpen?"豆知識を隠す":"豆知識を見る";
+}
+function closeQuestionResult(){
+  questionResultOverlay.classList.remove("show");
+}
+function getSpecialSelectableParts(){
+  const unowned=parts.filter(p=>!owned.has(p.id));
+  const gold=unowned.find(p=>p.id==="panto");
+  const nonGold=unowned.filter(p=>p.id!=="panto");
+
+  // 通常仕様と同じく、金は最後の1個になった時だけ指定可能。
+  if(nonGold.length>0) return nonGold;
+  if(gold) return [gold];
+  return [];
+}
+
+function openSpecialEmergency(){
+  if(owned.size>=10){
+    alert("すべての部品を獲得済みです。");
+    return;
+  }
+  specialEmergencyOverlay.classList.add("show");
+}
+function closeSpecialEmergency(){
+  specialEmergencyOverlay.classList.remove("show");
+}
+function openSpecialPicker(){
+  closeSpecialEmergency();
+  renderSpecialPicker();
+  specialPickerOverlay.classList.add("show");
+}
+function closeSpecialPicker(){
+  specialPickerOverlay.classList.remove("show");
+}
+function renderSpecialPicker(){
+  const selectable=getSpecialSelectableParts();
+  specialPartsGrid.innerHTML="";
+  selectable.forEach(p=>{
+    const card=document.createElement("div");
+    card.className="specialPartCard";
+    const rColor=rarityColor(p.rarity);
+    card.innerHTML=`<img src="${p.imgColor}" alt="${p.name}">
+      <div class="name">${p.name}</div>
+      <div class="rar" style="background:${rColor}">${p.rarity}</div>`;
+    card.addEventListener("click",()=>openSpecialConfirm(p));
+    specialPartsGrid.appendChild(card);
+  });
+}
+function openSpecialConfirm(p){
+  selectedSpecialPart=p;
+  specialPickerOverlay.classList.remove("show");
+  specialConfirmImg.src=p.imgColor;
+  specialConfirmImg.alt=p.name;
+  specialConfirmName.textContent=p.name;
+  specialConfirmOverlay.classList.add("show");
+}
+function cancelSpecialConfirm(){
+  specialConfirmOverlay.classList.remove("show");
+  renderSpecialPicker();
+  specialPickerOverlay.classList.add("show");
+}
+function executeSpecialAcquire(){
+  if(!selectedSpecialPart || owned.has(selectedSpecialPart.id)) return;
+
+  const p=selectedSpecialPart;
+  specialConfirmOverlay.classList.remove("show");
+
+  owned.add(p.id);
+  noNewStreak=0;
+  localStorage.setItem("inaoOwned",JSON.stringify([...owned]));
+  localStorage.setItem("inaoNoNewStreak",noNewStreak);
+  render();
+
+  specialAcquireImg.src=p.imgColor;
+  specialAcquireImg.alt=p.name;
+  specialAcquireName.textContent=p.name;
+  specialAcquireOverlay.classList.remove("show");
+  void specialAcquireOverlay.offsetWidth;
+  specialAcquireOverlay.classList.add("show");
+
+  setTimeout(()=>{
+    specialAcquireOverlay.classList.remove("show");
+    selectedSpecialPart=null;
+    if(owned.size===10){
+      setTimeout(showCompleteCelebration,500);
+    }
+  },4200);
+}
+function weightedPick(){
+  const goldPart = parts.find(p => p.id === "panto");
+  const nonGoldParts = parts.filter(p => p.id !== "panto");
+  const nonGoldUnowned = nonGoldParts.filter(p => !owned.has(p.id));
+  const nonGoldOwned = nonGoldParts.filter(p => owned.has(p.id));
+
+  // 金（パンタグラフ）は必ず最後。
+  // 金だけが残った瞬間、次の1回で即獲得。
+  if(nonGoldUnowned.length === 0 && !owned.has("panto")){
+    return goldPart;
+  }
+
+  // 初回はダブりが存在しないので未獲得を獲得。
+  if(nonGoldOwned.length === 0){
+    return nonGoldUnowned[Math.floor(Math.random()*nonGoldUnowned.length)];
+  }
+
+  // 隠し救済：10回連続で新しい部品を獲得できなかったら、次の1回は未獲得確定。
+  const pityNew = noNewStreak >= 10;
+
+  // 通常時：27%で未獲得、73%で獲得済み（ダブり）。
+  if(pityNew || Math.random() < 0.27){
+    return nonGoldUnowned[Math.floor(Math.random()*nonGoldUnowned.length)];
+  }
+
+  return nonGoldOwned[Math.floor(Math.random()*nonGoldOwned.length)];
+}
+function rarityColor(r){return r==="金"?"#d9a411":r==="銀"?"#8b949f":"#bd6b2b"}
+function roll(){
+  const btn=document.getElementById("gachaBtn");
+  btn.disabled=true;
+
+  drawOverlay.classList.add("show");
+
+  const cycle=[
+    {label:"銅",cls:"bronze",status:"銅レアリティを判定中…"},
+    {label:"銀",cls:"silver",status:"銀レアリティを判定中…"},
+    {label:"金",cls:"gold",status:"金レアリティを判定中…"}
+  ];
+
+  let step=0;
+  const animationTimer=setInterval(()=>{
+    const s=cycle[step%cycle.length];
+    rarityOrb.className="rarityOrb "+s.cls;
+    rarityOrb.textContent=s.label;
+    drawStatus.textContent=s.status;
+    step++;
+  },220);
+
+  setTimeout(()=>{
+    clearInterval(animationTimer);
+
+    const p=weightedPick();
+    const duplicate=owned.has(p.id);
+
+    const finalCls=p.rarity==="金"?"gold":p.rarity==="銀"?"silver":"bronze";
+    rarityOrb.className="rarityOrb "+finalCls;
+    rarityOrb.textContent=p.rarity;
+    drawStatus.textContent=p.rarity+"レアリティ確定！";
+    drawSub.textContent="部品を確認しています…";
+
+    setTimeout(()=>{
+      rolls++;
+      if(!duplicate){
+        owned.add(p.id);
+        noNewStreak=0;
+      }else{
+        noNewStreak++;
+      }
+      localStorage.setItem("inaoOwned",JSON.stringify([...owned]));
+      localStorage.setItem("inaoRolls",rolls);
+      localStorage.setItem("inaoNoNewStreak",noNewStreak);
+      render();
+
+      rarityBig.textContent=p.rarity;
+      rarityBig.style.color=rarityColor(p.rarity);
+      resultImg.src=p.imgColor;
+      resultImg.alt=p.name;
+      resultTitle.textContent=duplicate?"重複しました！":p.name+" を獲得！";
+      resultText.textContent=duplicate
+        ? p.name+" はすでに獲得済みです。抽選回数："+rolls+"回"
+        : "コレクション "+owned.size+" / 10　｜　抽選回数："+rolls+"回";
+      completeText.innerHTML=owned.size===10?'<div class="complete">🚆 オリジナル電車 完成！</div>':'';
+      if(owned.size===10) setTimeout(showCompleteCelebration,1200);
+
+      drawOverlay.classList.remove("show");
+      modal.classList.add("show");
+      btn.disabled=false;
+    },650);
+  },1900);
+}
+function resetAll(){
+  if(confirm("ガチャの獲得状況をすべてリセットしますか？")){
+    owned.clear();rolls=0;noNewStreak=0;
+    localStorage.removeItem("inaoOwned");localStorage.removeItem("inaoRolls");localStorage.removeItem("inaoNoNewStreak");localStorage.removeItem("inaoDuplicateStreak");render();
+  }
+}
+document.getElementById("gachaBtn").addEventListener("click",roll);
+document.getElementById("closeBtn").addEventListener("click",()=>modal.classList.remove("show"));
+modal.addEventListener("click",e=>{if(e.target===modal)modal.classList.remove("show")});
+document.getElementById("resetBtn").addEventListener("click",resetAll);
+document.getElementById("resetSide").addEventListener("click",resetAll);
+document.getElementById("detailNext").addEventListener("click",showDetailText);
+document.getElementById("detailBack").addEventListener("click",showDetailImage);
+document.getElementById("detailClose").addEventListener("click",closePartDetail);
+detailLargeImg.addEventListener("click",showDetailText);
+partDetailOverlay.addEventListener("click",e=>{if(e.target===partDetailOverlay)closePartDetail()});
+
+specialSelectBtn.addEventListener("click",openSpecialEmergency);
+document.getElementById("specialEmergencyCancel").addEventListener("click",closeSpecialEmergency);
+document.getElementById("specialEmergencyExecute").addEventListener("click",openSpecialPicker);
+document.getElementById("specialPickerClose").addEventListener("click",()=>{
+  closeSpecialPicker();
+  specialEmergencyOverlay.classList.add("show");
+});
+document.getElementById("specialConfirmCancel").addEventListener("click",cancelSpecialConfirm);
+document.getElementById("specialConfirmExecute").addEventListener("click",executeSpecialAcquire);
+specialEmergencyOverlay.addEventListener("click",e=>{if(e.target===specialEmergencyOverlay)closeSpecialEmergency()});
+specialPickerOverlay.addEventListener("click",e=>{if(e.target===specialPickerOverlay)closeSpecialPicker()});
+
+
+document.getElementById("howToBtn").addEventListener("click",openHowTo);
+document.getElementById("howToClose").addEventListener("click",closeHowTo);
+howToOverlay.addEventListener("click",e=>{if(e.target===howToOverlay)closeHowTo()});
+
+document.getElementById("questionBoxBtn").addEventListener("click",openQuestionBox);
+document.getElementById("questionBoxClose").addEventListener("click",closeQuestionBox);
+document.getElementById("questionDrawBtn").addEventListener("click",startQuestionDraw);
+document.getElementById("questionRevealBtn").addEventListener("click",toggleQuestionAnswer);
+document.getElementById("questionAgainBtn").addEventListener("click",startQuestionDraw);
+document.getElementById("questionResultClose").addEventListener("click",closeQuestionResult);
+questionBoxOverlay.addEventListener("click",e=>{if(e.target===questionBoxOverlay)closeQuestionBox()});
+questionResultOverlay.addEventListener("click",e=>{if(e.target===questionResultOverlay)closeQuestionResult()});
+
+
+document.getElementById("yQuestionBtn").addEventListener("click",openYQuestionBox);
+document.getElementById("yQuestionClose").addEventListener("click",closeYQuestionBox);
+document.getElementById("yQuestionDrawBtn").addEventListener("click",startYQuestionDraw);
+document.getElementById("yQuestionAgainBtn").addEventListener("click",startYQuestionDraw);
+document.getElementById("yQuestionResultClose").addEventListener("click",closeYQuestionResult);
+yQuestionOverlay.addEventListener("click",e=>{if(e.target===yQuestionOverlay)closeYQuestionBox()});
+yQuestionResultOverlay.addEventListener("click",e=>{if(e.target===yQuestionResultOverlay)closeYQuestionResult()});
+
+
+document.getElementById("saveBtn").addEventListener("click",openSavePopup);
+document.getElementById("loadBtn").addEventListener("click",openLoadPopup);
+document.getElementById("saveClose").addEventListener("click",closeSavePopup);
+document.getElementById("loadClose").addEventListener("click",closeLoadPopup);
+document.getElementById("browserSaveBtn").addEventListener("click",browserSave);
+document.getElementById("browserLoadBtn").addEventListener("click",browserLoad);
+document.getElementById("exportSaveBtn").addEventListener("click",exportSaveData);
+document.getElementById("importLoadBtn").addEventListener("click",()=>saveFileInput.click());
+saveFileInput.addEventListener("change",()=>importSaveFile(saveFileInput.files[0]));
+saveOverlay.addEventListener("click",e=>{if(e.target===saveOverlay)closeSavePopup()});
+loadOverlay.addEventListener("click",e=>{if(e.target===loadOverlay)closeLoadPopup()});
+
+const stationShiritoriFallback=[{"name": "相生駅", "yomi": "あいおい"}, {"name": "青森駅", "yomi": "あおもり"}, {"name": "赤羽駅", "yomi": "あかばね"}, {"name": "秋葉原駅", "yomi": "あきはばら"}, {"name": "浅草駅", "yomi": "あさくさ"}, {"name": "旭川駅", "yomi": "あさひかわ"}, {"name": "熱海駅", "yomi": "あたみ"}, {"name": "飯田橋駅", "yomi": "いいだばし"}, {"name": "池袋駅", "yomi": "いけぶくろ"}, {"name": "石川町駅", "yomi": "いしかわちょう"}, {"name": "出雲市駅", "yomi": "いずもし"}, {"name": "伊東駅", "yomi": "いとう"}, {"name": "稲毛駅", "yomi": "いなげ"}, {"name": "上野駅", "yomi": "うえの"}, {"name": "宇都宮駅", "yomi": "うつのみや"}, {"name": "宇治駅", "yomi": "うじ"}, {"name": "浦和駅", "yomi": "うらわ"}, {"name": "海芝浦駅", "yomi": "うみしばうら"}, {"name": "恵比寿駅", "yomi": "えびす"}, {"name": "江坂駅", "yomi": "えさか"}, {"name": "越後湯沢駅", "yomi": "えちごゆざわ"}, {"name": "江ノ島駅", "yomi": "えのしま"}, {"name": "大分駅", "yomi": "おおいた"}, {"name": "大井町駅", "yomi": "おおいまち"}, {"name": "大垣駅", "yomi": "おおがき"}, {"name": "大阪駅", "yomi": "おおさか"}, {"name": "大宮駅", "yomi": "おおみや"}, {"name": "岡山駅", "yomi": "おかやま"}, {"name": "小田原駅", "yomi": "おだわら"}, {"name": "御茶ノ水駅", "yomi": "おちゃのみず"}, {"name": "海浜幕張駅", "yomi": "かいひんまくはり"}, {"name": "鹿児島中央駅", "yomi": "かごしまちゅうおう"}, {"name": "柏駅", "yomi": "かしわ"}, {"name": "金沢駅", "yomi": "かなざわ"}, {"name": "鎌倉駅", "yomi": "かまくら"}, {"name": "亀戸駅", "yomi": "かめいど"}, {"name": "川崎駅", "yomi": "かわさき"}, {"name": "祇園四条駅", "yomi": "ぎおんしじょう"}, {"name": "北千住駅", "yomi": "きたせんじゅ"}, {"name": "吉祥寺駅", "yomi": "きちじょうじ"}, {"name": "岐阜駅", "yomi": "ぎふ"}, {"name": "京都駅", "yomi": "きょうと"}, {"name": "清澄白河駅", "yomi": "きよすみしらかわ"}, {"name": "熊本駅", "yomi": "くまもと"}, {"name": "倉敷駅", "yomi": "くらしき"}, {"name": "久留米駅", "yomi": "くるめ"}, {"name": "黒部宇奈月温泉駅", "yomi": "くろべうなづきおんせん"}, {"name": "京急蒲田駅", "yomi": "けいきゅうかまた"}, {"name": "京成上野駅", "yomi": "けいせいうえの"}, {"name": "県庁前駅", "yomi": "けんちょうまえ"}, {"name": "高知駅", "yomi": "こうち"}, {"name": "神戸駅", "yomi": "こうべ"}, {"name": "国分寺駅", "yomi": "こくぶんじ"}, {"name": "小倉駅", "yomi": "こくら"}, {"name": "越谷駅", "yomi": "こしがや"}, {"name": "五反田駅", "yomi": "ごたんだ"}, {"name": "西郷駅", "yomi": "さいごう"}, {"name": "堺駅", "yomi": "さかい"}, {"name": "桜木町駅", "yomi": "さくらぎちょう"}, {"name": "札幌駅", "yomi": "さっぽろ"}, {"name": "佐世保駅", "yomi": "させぼ"}, {"name": "三宮駅", "yomi": "さんのみや"}, {"name": "塩尻駅", "yomi": "しおじり"}, {"name": "品川駅", "yomi": "しながわ"}, {"name": "渋谷駅", "yomi": "しぶや"}, {"name": "島田駅", "yomi": "しまだ"}, {"name": "下北沢駅", "yomi": "しもきたざわ"}, {"name": "新大阪駅", "yomi": "しんおおさか"}, {"name": "新宿駅", "yomi": "しんじゅく"}, {"name": "新橋駅", "yomi": "しんばし"}, {"name": "水道橋駅", "yomi": "すいどうばし"}, {"name": "巣鴨駅", "yomi": "すがも"}, {"name": "逗子駅", "yomi": "ずし"}, {"name": "住吉駅", "yomi": "すみよし"}, {"name": "仙台駅", "yomi": "せんだい"}, {"name": "千里中央駅", "yomi": "せんりちゅうおう"}, {"name": "瀬田駅", "yomi": "せた"}, {"name": "草加駅", "yomi": "そうか"}, {"name": "蘇我駅", "yomi": "そが"}, {"name": "高崎駅", "yomi": "たかさき"}, {"name": "高田馬場駅", "yomi": "たかだのばば"}, {"name": "高松駅", "yomi": "たかまつ"}, {"name": "立川駅", "yomi": "たちかわ"}, {"name": "田町駅", "yomi": "たまち"}, {"name": "千葉駅", "yomi": "ちば"}, {"name": "千歳駅", "yomi": "ちとせ"}, {"name": "調布駅", "yomi": "ちょうふ"}, {"name": "津駅", "yomi": "つ"}, {"name": "塚口駅", "yomi": "つかぐち"}, {"name": "辻堂駅", "yomi": "つじどう"}, {"name": "鶴橋駅", "yomi": "つるはし"}, {"name": "天王寺駅", "yomi": "てんのうじ"}, {"name": "天神駅", "yomi": "てんじん"}, {"name": "東京駅", "yomi": "とうきょう"}, {"name": "戸塚駅", "yomi": "とつか"}, {"name": "鳥取駅", "yomi": "とっとり"}, {"name": "富山駅", "yomi": "とやま"}, {"name": "豊橋駅", "yomi": "とよはし"}, {"name": "長崎駅", "yomi": "ながさき"}, {"name": "長野駅", "yomi": "ながの"}, {"name": "中野駅", "yomi": "なかの"}, {"name": "名古屋駅", "yomi": "なごや"}, {"name": "那覇空港駅", "yomi": "なはくうこう"}, {"name": "成田駅", "yomi": "なりた"}, {"name": "新潟駅", "yomi": "にいがた"}, {"name": "西船橋駅", "yomi": "にしふなばし"}, {"name": "日暮里駅", "yomi": "にっぽり"}, {"name": "沼津駅", "yomi": "ぬまづ"}, {"name": "根岸駅", "yomi": "ねぎし"}, {"name": "練馬駅", "yomi": "ねりま"}, {"name": "野田駅", "yomi": "のだ"}, {"name": "登戸駅", "yomi": "のぼりと"}, {"name": "博多駅", "yomi": "はかた"}, {"name": "函館駅", "yomi": "はこだて"}, {"name": "八王子駅", "yomi": "はちおうじ"}, {"name": "浜松駅", "yomi": "はままつ"}, {"name": "原宿駅", "yomi": "はらじゅく"}, {"name": "彦根駅", "yomi": "ひこね"}, {"name": "姫路駅", "yomi": "ひめじ"}, {"name": "広島駅", "yomi": "ひろしま"}, {"name": "日吉駅", "yomi": "ひよし"}, {"name": "福井駅", "yomi": "ふくい"}, {"name": "福岡空港駅", "yomi": "ふくおかくうこう"}, {"name": "福島駅", "yomi": "ふくしま"}, {"name": "藤沢駅", "yomi": "ふじさわ"}, {"name": "二子玉川駅", "yomi": "ふたこたまがわ"}, {"name": "別府駅", "yomi": "べっぷ"}, {"name": "保土ケ谷駅", "yomi": "ほどがや"}, {"name": "本郷三丁目駅", "yomi": "ほんごうさんちょう"}, {"name": "舞浜駅", "yomi": "まいはま"}, {"name": "松江駅", "yomi": "まつえ"}, {"name": "松本駅", "yomi": "まつもと"}, {"name": "松山駅", "yomi": "まつやま"}, {"name": "丸亀駅", "yomi": "まるがめ"}, {"name": "三鷹駅", "yomi": "みたか"}, {"name": "水戸駅", "yomi": "みと"}, {"name": "宮崎駅", "yomi": "みやざき"}, {"name": "武蔵小杉駅", "yomi": "むさしこすぎ"}, {"name": "室蘭駅", "yomi": "むろらん"}, {"name": "目黒駅", "yomi": "めぐろ"}, {"name": "盛岡駅", "yomi": "もりおか"}, {"name": "門前仲町駅", "yomi": "もんぜんなかちょう"}, {"name": "八潮駅", "yomi": "やしお"}, {"name": "山形駅", "yomi": "やまがた"}, {"name": "大和駅", "yomi": "やまと"}, {"name": "有楽町駅", "yomi": "ゆうらくち"}, {"name": "湯島駅", "yomi": "ゆしま"}, {"name": "横浜駅", "yomi": "よこはま"}, {"name": "四日市駅", "yomi": "よっかいち"}, {"name": "代々木駅", "yomi": "よよぎ"}, {"name": "蘭越駅", "yomi": "らんこし"}, {"name": "栗東駅", "yomi": "りっとう"}, {"name": "留萌駅", "yomi": "るもい"}, {"name": "蓮台寺駅", "yomi": "れんだいじ"}, {"name": "六甲道駅", "yomi": "ろっこうみち"}, {"name": "和歌山駅", "yomi": "わかやま"}, {"name": "和光市駅", "yomi": "わこうし"}, {"name": "稚内駅", "yomi": "わっかない"}];
+
+let stationShiritoriData=[...stationShiritoriFallback].map((s,i)=>({
+  id:"fallback-"+i,
+  name:String(s.name||"").replace(/駅$/,""),
+  yomi:String(s.yomi||"").replace(/えき$/,""),
+  prefecture:""
+}));
+const STATION_DB_CACHE_KEY="inaoStationDbCacheV2";
+const STATION_DB_URL="https://raw.githubusercontent.com/Seo-4d696b75/station_database/main/out/main/station.csv";
+
+function parseCsvLine(line){
+  const out=[]; let cur="", quoted=false;
+  for(let i=0;i<line.length;i++){
+    const c=line[i];
+    if(c==='"'){
+      if(quoted && line[i+1]==='"'){cur+='"';i++;}
+      else quoted=!quoted;
+    }else if(c===',' && !quoted){out.push(cur);cur="";}
+    else cur+=c;
+  }
+  out.push(cur); return out;
+}
+function parseNationwideStationCsv(text){
+  const lines=String(text||"").replace(/\r/g,"").split("\n").filter(Boolean);
+  if(lines.length<2) throw new Error("駅データが空です");
+  const head=parseCsvLine(lines[0]);
+  const ix={};
+  ["code","name","name_kana","prefecture","closed"].forEach(k=>ix[k]=head.indexOf(k));
+  if(ix.code<0||ix.name<0||ix.name_kana<0||ix.closed<0) throw new Error("駅データ形式が違います");
+  const result=[], seen=new Set();
+  for(let i=1;i<lines.length;i++){
+    const r=parseCsvLine(lines[i]);
+    if(r[ix.closed]!=="0") continue; // currently operating stations only
+    const id=(r[ix.code]||"").trim(), rawName=(r[ix.name]||"").trim(), rawYomi=(r[ix.name_kana]||"").trim();
+    if(!id||!rawName||!rawYomi) continue;
+    let name=rawName.replace(/駅$/,"");
+    let yomi=rawYomi.replace(/えき$/,"");
+    if(!name||!yomi||seen.has(id)) continue;
+    seen.add(id);
+    result.push({id,name,yomi,prefecture:r[ix.prefecture]||""});
+  }
+  return result;
+}
+function updateStationDbStatus(msg){const e=document.getElementById("stationDbStatus");if(e)e.textContent=msg}
+async function loadNationwideStations(){
+  try{
+    const cached=localStorage.getItem(STATION_DB_CACHE_KEY);
+    if(cached){
+      const d=JSON.parse(cached);
+      if(Array.isArray(d)&&d.length>3000){
+        stationShiritoriData=d;
+        updateStationDbStatus("全国駅データ "+d.length.toLocaleString()+"駅 読み込み済み");
+      }
+    }
+  }catch(e){}
+  try{
+    const res=await fetch(STATION_DB_URL,{cache:"no-cache"});
+    if(!res.ok) throw new Error("HTTP "+res.status);
+    const data=parseNationwideStationCsv(await res.text());
+    if(data.length<3000) throw new Error("駅数が不足しています");
+    stationShiritoriData=data;
+    updateStationDbStatus("全国駅データ "+data.length.toLocaleString()+"駅 読み込み済み");
+    try{localStorage.setItem(STATION_DB_CACHE_KEY,JSON.stringify(data))}catch(e){}
+  }catch(e){
+    if(stationShiritoriData.length<=stationShiritoriFallback.length){
+      updateStationDbStatus("内蔵データ "+stationShiritoriData.length+"駅で動作中");
+    }
+  }
+}
+loadNationwideStations();
+
+let stationUsed=new Set(), stationHistory=[], stationRequired="";
+const ssOverlay=document.getElementById("stationShiritoriOverlay"),ssDraw=document.getElementById("stationDrawOverlay");
+function hiraNorm(s){return String(s||"").trim().replace(/駅$/,"").replace(/[ァ-ヶ]/g,c=>String.fromCharCode(c.charCodeAt(0)-0x60)).replace(/[ー・\s]/g,"")}
+function tailKana(y){let s=hiraNorm(y); if(!s)return ""; const small={"ゃ":"や","ゅ":"ゆ","ょ":"よ","ぁ":"あ","ぃ":"い","ぅ":"う","ぇ":"え","ぉ":"お","っ":"つ","ゎ":"わ"}; let c=s.at(-1); return small[c]||c}
+function headKana(y){return hiraNorm(y).charAt(0)}
+function lookupInput(v){
+ let raw=String(v||"").trim().replace(/駅$/,""), q=hiraNorm(raw);
+ return stationShiritoriData.find(s=>String(s.name).replace(/駅$/,"")===raw||hiraNorm(s.yomi)===q);
+}
+function openStationShiritori(){
+ stationUsed=new Set();stationHistory=[];stationRequired="";
+ document.getElementById("stationStart").style.display="grid";document.getElementById("stationResult").classList.remove("show");
+ document.getElementById("stationFirstInput").value="";document.getElementById("stationStartError").textContent="";
+ ssOverlay.classList.add("show");setTimeout(()=>document.getElementById("stationFirstInput").focus(),80);
+}
+function closeStationShiritori(){ssOverlay.classList.remove("show")}
+function renderStationHistory(){
+ document.getElementById("stationHistory").innerHTML=stationHistory.map((x,i)=>`${i+1}. ${x.who}：<b>${x.name}駅</b>（${x.yomi}）`).join("<br>");
+}
+function animateStationPick(required,cb){
+ const pool=stationShiritoriData.filter(s=>headKana(s.yomi)===required&&!stationUsed.has(s.id));
+ if(!pool.length){cb(null);return}
+ ssDraw.classList.add("show");let ticks=0;
+ const el=document.getElementById("stationDrawWord");
+ const timer=setInterval(()=>{const x=pool[Math.floor(Math.random()*pool.length)];el.textContent=x.name+"駅（"+x.yomi+"）";if(++ticks>=15){clearInterval(timer);const pick=pool[Math.floor(Math.random()*pool.length)];setTimeout(()=>{ssDraw.classList.remove("show");cb(pick)},250)}},90);
+}
+function showComputerStation(st){
+ stationUsed.add(st.id);stationHistory.push({who:"COM",name:st.name,yomi:st.yomi});
+ document.getElementById("stationStart").style.display="none";document.getElementById("stationResult").classList.add("show");
+ document.getElementById("stationKanji").textContent=st.name+"駅";document.getElementById("stationYomi").textContent=st.yomi;
+ stationRequired=tailKana(st.yomi);
+ const next=document.getElementById("stationNextLetter");
+ if(stationRequired==="ん"){next.textContent="「ん」で終了！";document.getElementById("stationNextInput").disabled=true;document.getElementById("stationNextSubmit").disabled=true}
+ else{next.textContent="次は「"+stationRequired+"」から";const inp=document.getElementById("stationNextInput");inp.disabled=false;document.getElementById("stationNextSubmit").disabled=false;inp.placeholder="「"+stationRequired+"」から始まる駅名";inp.value="";setTimeout(()=>inp.focus(),80)}
+ document.getElementById("stationTurnError").textContent="";renderStationHistory();
+}
+function computerRespond(required){
+ animateStationPick(required,st=>{if(!st){document.getElementById("stationTurnError").textContent="「"+required+"」から始まる未使用の駅が見つかりませんでした。";return}showComputerStation(st)})
+}
+function firstStationSubmit(){
+ const err=document.getElementById("stationStartError"),v=document.getElementById("stationFirstInput").value,st=lookupInput(v);
+ if(!st){err.textContent="登録されている駅名を漢字またはひらがなで入力してください。";return}
+ if(stationUsed.has(st.id)){err.textContent="その駅はすでに使われています。";return}
+ stationUsed.add(st.id);stationHistory.push({who:"あなた",name:st.name,yomi:st.yomi});renderStationHistory();
+ const t=tailKana(st.yomi);if(t==="ん"){err.textContent="「ん」で終わるため、ここで終了です。";return}err.textContent="";computerRespond(t);
+}
+function nextStationSubmit(){
+ const err=document.getElementById("stationTurnError"),v=document.getElementById("stationNextInput").value,st=lookupInput(v);
+ if(!st){err.textContent="登録されている駅名を漢字またはひらがなで入力してください。";return}
+ if(headKana(st.yomi)!==stationRequired){err.textContent="「"+stationRequired+"」から始まる駅名を入力してください。";return}
+ if(stationUsed.has(st.id)){err.textContent="その駅はすでに使われています。";return}
+ stationUsed.add(st.id);stationHistory.push({who:"あなた",name:st.name,yomi:st.yomi});renderStationHistory();
+ const t=tailKana(st.yomi);if(t==="ん"){err.textContent="「ん」で終わりました。ゲーム終了！";return}err.textContent="";computerRespond(t);
+}
+document.getElementById("stationShiritoriBtn").addEventListener("click",openStationShiritori);
+document.getElementById("stationShiritoriClose").addEventListener("click",closeStationShiritori);
+document.getElementById("stationFirstSubmit").addEventListener("click",firstStationSubmit);
+document.getElementById("stationNextSubmit").addEventListener("click",nextStationSubmit);
+document.getElementById("stationFirstInput").addEventListener("keydown",e=>{if(e.key==="Enter")firstStationSubmit()});
+document.getElementById("stationNextInput").addEventListener("keydown",e=>{if(e.key==="Enter")nextStationSubmit()});
+ssOverlay.addEventListener("click",e=>{if(e.target===ssOverlay)closeStationShiritori()});
+
+
+/* ===== v1.65 core-state Undo / Redo ===== */
+const inaoHistoryKeys=new Set(["inaoOwned","inaoRolls","inaoNoNewStreak"]);
+let inaoUndoStack=[],inaoRedoStack=[],inaoHistoryApplying=false,inaoHistoryBatch=null;
+const inaoOriginalSetItem=localStorage.setItem.bind(localStorage);
+
+function inaoCurrentSnapshot(){
+  return {
+    owned:[...owned],
+    rolls:Number(rolls)||0,
+    noNewStreak:Number(noNewStreak)||0
+  };
+}
+function inaoSnapshotEqual(a,b){
+  return !!a&&!!b&&a.rolls===b.rolls&&a.noNewStreak===b.noNewStreak&&
+    JSON.stringify(a.owned)===JSON.stringify(b.owned);
+}
+function inaoUpdateHistoryButtons(){
+  const u=document.getElementById("undoBtn"),r=document.getElementById("redoBtn");
+  if(u)u.disabled=inaoUndoStack.length===0;
+  if(r)r.disabled=inaoRedoStack.length===0;
+}
+function inaoPushUndo(snap){
+  const last=inaoUndoStack[inaoUndoStack.length-1];
+  if(!inaoSnapshotEqual(last,snap)){
+    inaoUndoStack.push(JSON.parse(JSON.stringify(snap)));
+    if(inaoUndoStack.length>100)inaoUndoStack.shift();
+  }
+  inaoRedoStack=[];
+  inaoUpdateHistoryButtons();
+}
+localStorage.setItem=function(key,value){
+  if(!inaoHistoryApplying&&inaoHistoryKeys.has(String(key))){
+    if(!inaoHistoryBatch){
+      inaoHistoryBatch=inaoCurrentSnapshot();
+      setTimeout(()=>{
+        if(inaoHistoryBatch){
+          const before=inaoHistoryBatch,after=inaoCurrentSnapshot();
+          if(!inaoSnapshotEqual(before,after))inaoPushUndo(before);
+          inaoHistoryBatch=null;
+          inaoUpdateHistoryButtons();
+        }
+      },0);
+    }
+  }
+  return inaoOriginalSetItem(key,value);
+};
+function inaoApplyHistorySnapshot(s){
+  inaoHistoryApplying=true;
+  owned=new Set(s.owned||[]);
+  rolls=Math.max(0,Number(s.rolls)||0);
+  noNewStreak=Math.max(0,Number(s.noNewStreak)||0);
+  inaoOriginalSetItem("inaoOwned",JSON.stringify([...owned]));
+  inaoOriginalSetItem("inaoRolls",String(rolls));
+  inaoOriginalSetItem("inaoNoNewStreak",String(noNewStreak));
+  render();
+  inaoHistoryApplying=false;
+  inaoUpdateHistoryButtons();
+}
+function inaoUndo(){
+  if(!inaoUndoStack.length)return;
+  const current=inaoCurrentSnapshot(),previous=inaoUndoStack.pop();
+  inaoRedoStack.push(current);
+  inaoApplyHistorySnapshot(previous);
+}
+function inaoRedo(){
+  if(!inaoRedoStack.length)return;
+  const current=inaoCurrentSnapshot(),next=inaoRedoStack.pop();
+  inaoUndoStack.push(current);
+  inaoApplyHistorySnapshot(next);
+}
+document.getElementById("undoBtn").addEventListener("click",inaoUndo);
+document.getElementById("redoBtn").addEventListener("click",inaoRedo);
+setTimeout(inaoUpdateHistoryButtons,0);
+
+render();
+</script>
+</body>
+</html>
+<style>
+.rarityRow{grid-template-columns:46px 1fr!important}
+.rarityRow .rate{display:none!important}
+
+/* ===== v1.25 main train image: never crop ===== */
+.trainStage{
+  overflow:hidden;
+  background:transparent;
+}
+.trainImage{
+  width:100% !important;
+  height:100% !important;
+  max-width:100% !important;
+  max-height:100% !important;
+  object-fit:contain !important;
+  object-position:center center !important;
+  background:transparent !important;
+}
+@media (min-width:1200px){
+  .trainStage{
+    height:300px !important;
+    padding:6px !important;
+  }
+  .trainImage{
+    height:100% !important;
+  }
+}
+
+
+/* ===== v1.26 tighten collection bottom whitespace ===== */
+@media (min-width:1200px){
+  .main{
+    grid-template-rows:112px 392px auto 34px !important;
+  }
+  .collection{
+    padding:6px 14px 6px !important;
+    min-height:0 !important;
+    height:auto !important;
+    align-self:start;
+  }
+  .collectionHeader{
+    margin-bottom:5px !important;
+  }
+  .cards{
+    height:auto !important;
+    min-height:0 !important;
+    align-items:start !important;
+  }
+  .card{
+    height:auto !important;
+    min-height:0 !important;
+  }
+  .footer{
+    height:34px !important;
+    padding:4px 14px !important;
+  }
+}
+
+
+/* ===== v1.27 enlarge center train while keeping 16:9 fit ===== */
+@media (min-width:1200px){
+  .main{
+    grid-template-rows:100px 430px auto 32px !important;
+  }
+
+  .header{
+    height:100px !important;
+    padding:6px 18px !important;
+    grid-template-columns:200px 1fr 105px !important;
+  }
+
+  .logo{
+    font-size:40px !important;
+  }
+  .logoTop{font-size:10px !important}
+  .logoSub{font-size:14px !important}
+  .titleWrap h1{font-size:clamp(26px,2.2vw,42px) !important}
+  .titleWrap p{font-size:17px !important}
+  .stamp{font-size:15px !important;padding:4px 7px !important}
+
+  .hero{
+    height:430px !important;
+  }
+
+  .heroOverlay{
+    height:100% !important;
+    grid-template-columns:190px minmax(0,1fr) 220px !important;
+    gap:10px !important;
+    padding:8px 12px 62px !important;
+  }
+
+  .progressPanel{
+    padding:10px !important;
+  }
+  .panelTitle{
+    font-size:15px !important;
+  }
+  .progressNum{
+    font-size:38px !important;
+  }
+  .smallCopy{
+    font-size:12px !important;
+  }
+
+  .rarityRows{
+    padding:6px 8px !important;
+  }
+  .items{
+    font-size:10px !important;
+  }
+  .medal{
+    width:30px !important;
+    height:30px !important;
+    font-size:12px !important;
+  }
+
+  .trainStage{
+    height:356px !important;
+    min-height:356px !important;
+    padding:0 !important;
+  }
+
+  .trainImage{
+    width:100% !important;
+    height:100% !important;
+    max-width:none !important;
+    max-height:none !important;
+    object-fit:contain !important;
+    object-position:center center !important;
+    border-radius:10px !important;
+  }
+
+  .gachaBtn{
+    bottom:8px !important;
+    min-width:430px !important;
+    padding:13px 28px !important;
+    font-size:24px !important;
+  }
+
+  .collection{
+    padding:5px 12px 4px !important;
+  }
+  .collectionHeader{
+    margin-bottom:4px !important;
+  }
+  .collectionHeader h2{
+    font-size:20px !important;
+  }
+  .partPic{
+    height:88px !important;
+  }
+  .partName{
+    min-height:36px !important;
+    font-size:10px !important;
+  }
+  .badge{
+    font-size:9px !important;
+    padding:3px 4px !important;
+    margin:2px 6px 4px !important;
+  }
+  .viewDetailBtn{
+    padding:5px 6px !important;
+    font-size:9px !important;
+    margin:0 6px 5px !important;
+    width:calc(100% - 12px) !important;
+  }
+  .acquiredStamp{
+    width:32px !important;
+    height:32px !important;
+    font-size:16px !important;
+    margin-bottom:4px !important;
+  }
+
+  .footer{
+    height:32px !important;
+    font-size:10px !important;
+  }
+}
+
+
+/* ===== v1.28 center promotional image ===== */
+@media (min-width:1200px){
+  .trainStage{
+    height:356px !important;
+    min-height:356px !important;
+    padding:0 !important;
+    overflow:hidden !important;
+    background:transparent !important;
+  }
+  .trainImage{
+    width:100% !important;
+    height:100% !important;
+    object-fit:contain !important;
+    object-position:center center !important;
+    border-radius:10px !important;
+    background:transparent !important;
+  }
+}
+
+
+/* ===== v1.29 move gacha button beside image and enlarge center visual ===== */
+@media (min-width:1200px){
+  .main{
+    grid-template-rows:96px 452px auto 30px !important;
+  }
+
+  .header{
+    height:96px !important;
+    padding:5px 16px !important;
+  }
+
+  .hero{
+    height:452px !important;
+  }
+
+  .heroOverlay{
+    height:100% !important;
+    grid-template-columns:182px minmax(0,1fr) 205px !important;
+    gap:8px !important;
+    padding:8px 10px !important;
+  }
+
+  .trainStage{
+    height:436px !important;
+    min-height:436px !important;
+    display:grid !important;
+    grid-template-columns:minmax(0,1fr) 150px !important;
+    gap:10px !important;
+    align-items:center !important;
+    padding:0 !important;
+    overflow:visible !important;
+  }
+
+  .trainImage{
+    width:100% !important;
+    height:100% !important;
+    object-fit:contain !important;
+    object-position:center center !important;
+    border-radius:10px !important;
+  }
+
+  .gachaBtn{
+    position:static !important;
+    left:auto !important;
+    bottom:auto !important;
+    transform:none !important;
+    min-width:0 !important;
+    width:150px !important;
+    max-width:none !important;
+    height:240px !important;
+    padding:18px 14px !important;
+    border-radius:26px !important;
+    font-size:23px !important;
+    line-height:1.35 !important;
+    white-space:normal !important;
+    writing-mode:horizontal-tb !important;
+    box-shadow:0 8px 0 #9d0046,0 12px 22px rgba(0,0,0,.20) !important;
+    align-self:center !important;
+  }
+
+  .gachaBtn:active{
+    transform:translateY(5px) !important;
+    box-shadow:0 3px 0 #9d0046 !important;
+  }
+
+  /* Move the button into the train stage visually without changing JS */
+  .heroOverlay{
+    position:relative !important;
+  }
+
+  .hero > .gachaBtn{
+    position:absolute !important;
+    left:calc(50% + 265px) !important;
+    top:50% !important;
+    bottom:auto !important;
+    transform:translate(-50%,-50%) !important;
+    z-index:5 !important;
+  }
+
+  .hero > .gachaBtn:active{
+    transform:translate(-50%,-45%) !important;
+  }
+
+  /* Give the image more usable width by slightly shrinking side panels */
+  .progressPanel{
+    padding:8px !important;
+  }
+  .rarityPanel .panelTitle{
+    padding:7px 9px !important;
+  }
+  .rarityRows{
+    padding:5px 7px !important;
+  }
+
+  /* Keep collection compact so everything stays inside 16:9 */
+  .collection{
+    padding:4px 10px 3px !important;
+  }
+  .collectionHeader{
+    margin-bottom:3px !important;
+  }
+  .partPic{
+    height:82px !important;
+  }
+  .partName{
+    min-height:32px !important;
+    font-size:9px !important;
+  }
+  .badge{
+    font-size:8px !important;
+    margin:2px 5px 3px !important;
+    padding:3px 4px !important;
+  }
+  .viewDetailBtn{
+    font-size:8px !important;
+    padding:4px 5px !important;
+    margin:0 5px 4px !important;
+    width:calc(100% - 10px) !important;
+  }
+  .acquiredStamp{
+    width:28px !important;
+    height:28px !important;
+    font-size:14px !important;
+    margin-bottom:3px !important;
+  }
+
+  .footer{
+    height:30px !important;
+    font-size:9px !important;
+  }
+}
+
+
+/* ===== v1.30 gacha under progress + larger center image ===== */
+@media (min-width:1200px){
+  .main{
+    grid-template-rows:94px 470px auto 30px !important;
+  }
+
+  .header{
+    height:94px !important;
+    padding:5px 16px !important;
+  }
+
+  .hero{
+    height:470px !important;
+  }
+
+  .heroOverlay{
+    height:100% !important;
+    grid-template-columns:190px minmax(0,1fr) 210px !important;
+    gap:10px !important;
+    padding:8px 10px !important;
+  }
+
+  .progressPanel{
+    padding:9px !important;
+    align-self:start !important;
+  }
+
+  .trainStage{
+    height:454px !important;
+    min-height:454px !important;
+    padding:0 !important;
+  }
+
+  .trainImage{
+    width:100% !important;
+    height:100% !important;
+    object-fit:contain !important;
+    object-position:center center !important;
+  }
+
+  /* ガチャボタンを製造状況の下へ */
+  .hero > .gachaBtn{
+    position:absolute !important;
+    left:105px !important;
+    top:315px !important;
+    bottom:auto !important;
+    transform:none !important;
+    width:170px !important;
+    min-width:170px !important;
+    max-width:170px !important;
+    height:auto !important;
+    padding:14px 12px !important;
+    border-radius:18px !important;
+    font-size:18px !important;
+    line-height:1.35 !important;
+    white-space:normal !important;
+    box-shadow:0 7px 0 #9d0046,0 10px 18px rgba(0,0,0,.18) !important;
+  }
+
+  .hero > .gachaBtn:active{
+    transform:translateY(4px) !important;
+    box-shadow:0 3px 0 #9d0046 !important;
+  }
+
+  /* 右パネルはそのまま見やすく */
+  .rarityPanel{
+    align-self:start !important;
+  }
+
+  /* コレクションを少し下げつつ済スタンプまで収める */
+  .collection{
+    padding:10px 10px 4px !important;
+  }
+  .collectionHeader{
+    margin-bottom:5px !important;
+  }
+  .partPic{
+    height:84px !important;
+  }
+  .partName{
+    min-height:32px !important;
+    font-size:9px !important;
+  }
+  .badge{
+    font-size:8px !important;
+    padding:3px 4px !important;
+    margin:2px 5px 3px !important;
+  }
+  .viewDetailBtn{
+    font-size:8px !important;
+    padding:4px 5px !important;
+    margin:0 5px 4px !important;
+    width:calc(100% - 10px) !important;
+  }
+  .acquiredStamp{
+    width:28px !important;
+    height:28px !important;
+    font-size:14px !important;
+    margin-bottom:3px !important;
+  }
+
+  .footer{
+    height:30px !important;
+    font-size:9px !important;
+  }
+}
+
+
+/* ===== v1.31 maximize center image + button under image ===== */
+@media (min-width:1200px){
+  .main{
+    grid-template-rows:88px 500px auto 28px !important;
+  }
+
+  .header{
+    height:88px !important;
+    padding:4px 14px !important;
+    grid-template-columns:180px 1fr 90px !important;
+  }
+
+  .logo{font-size:36px !important}
+  .logoTop{font-size:9px !important}
+  .logoSub{font-size:12px !important}
+  .titleWrap h1{font-size:clamp(24px,2vw,38px) !important}
+  .titleWrap p{font-size:15px !important}
+  .stamp{font-size:13px !important;padding:3px 5px !important}
+
+  .hero{
+    height:500px !important;
+  }
+
+  .heroOverlay{
+    height:100% !important;
+    grid-template-columns:145px minmax(0,1fr) 165px !important;
+    gap:6px !important;
+    padding:6px 8px 64px !important;
+  }
+
+  .progressPanel{
+    padding:7px !important;
+  }
+  .panelTitle{
+    font-size:13px !important;
+    padding-bottom:4px !important;
+  }
+  .progressNum{
+    font-size:34px !important;
+    margin:5px 0 4px !important;
+  }
+  .bar{height:10px !important}
+  .smallCopy{
+    font-size:10px !important;
+    line-height:1.35 !important;
+    margin-top:6px !important;
+  }
+  .progressPanel > div:last-child{
+    margin-top:7px !important;
+    font-size:10px !important;
+  }
+
+  .rarityPanel .panelTitle{
+    padding:6px 7px !important;
+    font-size:12px !important;
+  }
+  .rarityRows{
+    padding:4px 6px !important;
+  }
+  .rarityRow{
+    grid-template-columns:28px 1fr !important;
+    gap:5px !important;
+    padding:4px 0 !important;
+  }
+  .medal{
+    width:26px !important;
+    height:26px !important;
+    font-size:10px !important;
+  }
+  .items{
+    font-size:9px !important;
+    line-height:1.25 !important;
+  }
+
+  .trainStage{
+    height:430px !important;
+    min-height:430px !important;
+    padding:0 !important;
+    overflow:hidden !important;
+    background:transparent !important;
+  }
+
+  .trainImage{
+    width:100% !important;
+    height:100% !important;
+    max-width:none !important;
+    max-height:none !important;
+    object-fit:contain !important;
+    object-position:center center !important;
+    border-radius:8px !important;
+    background:transparent !important;
+  }
+
+  /* ガチャボタンを画像の下・中央へ */
+  .hero > .gachaBtn{
+    position:absolute !important;
+    left:50% !important;
+    bottom:8px !important;
+    top:auto !important;
+    transform:translateX(-50%) !important;
+    width:420px !important;
+    min-width:420px !important;
+    max-width:55% !important;
+    height:auto !important;
+    padding:12px 26px !important;
+    border-radius:999px !important;
+    font-size:23px !important;
+    line-height:1.2 !important;
+    white-space:nowrap !important;
+    box-shadow:0 7px 0 #9d0046,0 11px 20px rgba(0,0,0,.18) !important;
+  }
+
+  .hero > .gachaBtn:active{
+    transform:translate(-50%,4px) !important;
+    box-shadow:0 3px 0 #9d0046 !important;
+  }
+
+  /* コレクションは済スタンプまで収める */
+  .collection{
+    padding:4px 8px 3px !important;
+  }
+  .collectionHeader{
+    margin-bottom:3px !important;
+  }
+  .collectionHeader h2{
+    font-size:18px !important;
+  }
+  .collectionHeader span{
+    font-size:9px !important;
+  }
+  .cards{
+    gap:5px !important;
+  }
+  .partPic{
+    height:76px !important;
+  }
+  .partName{
+    min-height:28px !important;
+    font-size:8.5px !important;
+    padding:3px 3px 0 !important;
+  }
+  .badge{
+    font-size:7.5px !important;
+    padding:2px 3px !important;
+    margin:2px 4px 3px !important;
+  }
+  .viewDetailBtn{
+    font-size:7.5px !important;
+    padding:3px 4px !important;
+    margin:0 4px 3px !important;
+    width:calc(100% - 8px) !important;
+  }
+  .acquiredStamp{
+    width:25px !important;
+    height:25px !important;
+    font-size:12px !important;
+    margin-bottom:2px !important;
+  }
+
+  .footer{
+    height:28px !important;
+    font-size:8.5px !important;
+    padding:3px 10px !important;
+  }
+}
+
+
+/* ===== v1.32 centered no-crop image + adaptive side panels ===== */
+@media (min-width:1200px){
+  .main{
+    grid-template-rows:88px 500px auto 28px !important;
+  }
+
+  .hero{
+    height:500px !important;
+  }
+
+  .heroOverlay{
+    height:100% !important;
+    display:grid !important;
+    grid-template-columns:
+      clamp(180px, 12vw, 240px)
+      minmax(0, 1fr)
+      clamp(200px, 14vw, 270px) !important;
+    gap:clamp(8px, .8vw, 16px) !important;
+    padding:8px 10px 64px !important;
+    align-items:stretch !important;
+  }
+
+  /* Left/right cards should visually fill their columns instead of leaving dead space */
+  .progressPanel,
+  .rarityPanel{
+    height:100% !important;
+    min-height:0 !important;
+    align-self:stretch !important;
+    display:flex !important;
+    flex-direction:column !important;
+    justify-content:flex-start !important;
+  }
+
+  .progressPanel{
+    padding:clamp(10px, 1vw, 18px) !important;
+  }
+
+  .panelTitle{
+    font-size:clamp(16px, 1.15vw, 23px) !important;
+    line-height:1.25 !important;
+  }
+
+  .progressNum{
+    font-size:clamp(46px, 3.8vw, 74px) !important;
+    margin:10px 0 8px !important;
+    line-height:1 !important;
+  }
+
+  .bar{
+    height:clamp(12px, .9vw, 18px) !important;
+  }
+
+  .smallCopy{
+    font-size:clamp(13px, .9vw, 18px) !important;
+    line-height:1.55 !important;
+    margin-top:12px !important;
+  }
+
+  .progressPanel > div:last-child{
+    margin-top:auto !important;
+    padding-top:12px !important;
+    font-size:clamp(12px, .85vw, 17px) !important;
+    line-height:1.5 !important;
+  }
+
+  .rarityPanel .panelTitle{
+    padding:clamp(9px, .8vw, 14px) !important;
+    font-size:clamp(15px, 1.05vw, 21px) !important;
+  }
+
+  .rarityRows{
+    flex:1 !important;
+    display:flex !important;
+    flex-direction:column !important;
+    justify-content:space-evenly !important;
+    padding:8px 10px !important;
+  }
+
+  .rarityRow{
+    grid-template-columns:clamp(34px, 2.4vw, 46px) 1fr !important;
+    gap:clamp(7px, .6vw, 11px) !important;
+    padding:clamp(7px, .7vw, 12px) 0 !important;
+    align-items:center !important;
+  }
+
+  .medal{
+    width:clamp(32px, 2.4vw, 46px) !important;
+    height:clamp(32px, 2.4vw, 46px) !important;
+    font-size:clamp(12px, .9vw, 17px) !important;
+  }
+
+  .items{
+    font-size:clamp(11px, .82vw, 16px) !important;
+    line-height:1.45 !important;
+  }
+
+  /* Center image: always fully visible, centered, and as large as possible */
+  .trainStage{
+    height:428px !important;
+    min-height:428px !important;
+    width:100% !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    overflow:hidden !important;
+    padding:0 !important;
+    background:transparent !important;
+  }
+
+  .trainImage{
+    display:block !important;
+    width:100% !important;
+    height:100% !important;
+    max-width:100% !important;
+    max-height:100% !important;
+    object-fit:contain !important;
+    object-position:50% 50% !important;
+    margin:auto !important;
+    border-radius:8px !important;
+    background:transparent !important;
+  }
+
+  /* Keep gacha button centered directly under image */
+  .hero > .gachaBtn{
+    position:absolute !important;
+    left:50% !important;
+    bottom:8px !important;
+    top:auto !important;
+    transform:translateX(-50%) !important;
+    width:clamp(360px, 30vw, 520px) !important;
+    min-width:0 !important;
+    max-width:52% !important;
+    padding:12px 26px !important;
+    font-size:clamp(20px, 1.45vw, 27px) !important;
+    white-space:nowrap !important;
+  }
+
+  .hero > .gachaBtn:active{
+    transform:translate(-50%,4px) !important;
+  }
+
+  /* Keep collection compact enough for 16:9 while preserving the stamp */
+  .collection{
+    padding:4px 8px 3px !important;
+  }
+
+  .partPic{
+    height:76px !important;
+  }
+
+  .partName{
+    min-height:28px !important;
+    font-size:8.5px !important;
+  }
+
+  .badge{
+    font-size:7.5px !important;
+    padding:2px 3px !important;
+    margin:2px 4px 3px !important;
+  }
+
+  .viewDetailBtn{
+    font-size:7.5px !important;
+    padding:3px 4px !important;
+    margin:0 4px 3px !important;
+    width:calc(100% - 8px) !important;
+  }
+
+  .acquiredStamp{
+    width:25px !important;
+    height:25px !important;
+    font-size:12px !important;
+    margin-bottom:2px !important;
+  }
+}
+
+/* Slightly narrower desktop screens: prioritize image visibility and balanced side panels */
+@media (min-width:1200px) and (max-width:1550px){
+  .heroOverlay{
+    grid-template-columns:170px minmax(0,1fr) 190px !important;
+  }
+  .panelTitle{
+    font-size:15px !important;
+  }
+  .progressNum{
+    font-size:44px !important;
+  }
+  .smallCopy,
+  .items{
+    font-size:11px !important;
+  }
+}
+
+
+/* ===== v1.33 image-priority adaptive side panels ===== */
+@media (min-width:1200px){
+  /* Keep the center image dominant, but let side panels grow with the viewport */
+  .heroOverlay{
+    grid-template-columns:
+      clamp(190px, 13.5vw, 280px)
+      minmax(0, 1fr)
+      clamp(220px, 15.5vw, 310px) !important;
+    gap:clamp(8px, .9vw, 18px) !important;
+  }
+
+  .progressPanel{
+    padding:clamp(12px, 1.1vw, 20px) !important;
+  }
+
+  .panelTitle{
+    font-size:clamp(18px, 1.3vw, 26px) !important;
+    line-height:1.22 !important;
+  }
+
+  .progressNum{
+    font-size:clamp(54px, 4.2vw, 82px) !important;
+    margin:12px 0 10px !important;
+  }
+
+  .bar{
+    height:clamp(14px, 1vw, 20px) !important;
+  }
+
+  .smallCopy{
+    font-size:clamp(14px, 1vw, 20px) !important;
+    line-height:1.55 !important;
+    margin-top:14px !important;
+  }
+
+  .progressPanel > div:last-child{
+    font-size:clamp(13px, .95vw, 18px) !important;
+    line-height:1.5 !important;
+  }
+
+  .rarityPanel .panelTitle{
+    font-size:clamp(17px, 1.2vw, 24px) !important;
+    padding:clamp(10px, .9vw, 15px) !important;
+  }
+
+  .rarityRows{
+    padding:clamp(8px, .8vw, 14px) !important;
+  }
+
+  .rarityRow{
+    grid-template-columns:clamp(38px, 2.6vw, 50px) 1fr !important;
+    gap:clamp(8px, .7vw, 12px) !important;
+    padding:clamp(8px, .7vw, 13px) 0 !important;
+  }
+
+  .medal{
+    width:clamp(36px, 2.7vw, 50px) !important;
+    height:clamp(36px, 2.7vw, 50px) !important;
+    font-size:clamp(13px, .95vw, 18px) !important;
+  }
+
+  .items{
+    font-size:clamp(12px, .9vw, 17px) !important;
+    line-height:1.42 !important;
+  }
+
+  /* Preserve image priority */
+  .trainStage{
+    min-width:0 !important;
+    width:100% !important;
+  }
+
+  .trainImage{
+    width:100% !important;
+    height:100% !important;
+    object-fit:contain !important;
+    object-position:center center !important;
+  }
+}
+
+/* On narrower desktop widths, reduce side panels before shrinking the image */
+@media (min-width:1200px) and (max-width:1500px){
+  .heroOverlay{
+    grid-template-columns:175px minmax(0,1fr) 195px !important;
+  }
+
+  .panelTitle{font-size:16px !important}
+  .progressNum{font-size:46px !important}
+  .smallCopy{font-size:12px !important}
+  .progressPanel > div:last-child{font-size:11px !important}
+  .rarityPanel .panelTitle{font-size:15px !important}
+  .items{font-size:10.5px !important}
+  .medal{
+    width:32px !important;
+    height:32px !important;
+    font-size:11px !important;
+  }
+}
+
+
+/* ===== v1.34 enlarge side panel frames, not just text ===== */
+@media (min-width:1200px){
+  .heroOverlay{
+    grid-template-columns:
+      clamp(230px, 16vw, 330px)
+      minmax(0, 1fr)
+      clamp(250px, 18vw, 360px) !important;
+    gap:clamp(10px, 1vw, 20px) !important;
+  }
+
+  .progressPanel,
+  .rarityPanel{
+    width:100% !important;
+    max-width:none !important;
+    min-width:0 !important;
+    height:100% !important;
+    align-self:stretch !important;
+    border-radius:14px !important;
+    box-shadow:0 10px 28px rgba(8,55,110,.14) !important;
+  }
+
+  .progressPanel{
+    padding:clamp(14px, 1.25vw, 24px) !important;
+  }
+
+  .rarityPanel .panelTitle{
+    padding:clamp(12px, 1vw, 18px) !important;
+  }
+
+  .rarityRows{
+    padding:clamp(10px, .9vw, 16px) !important;
+  }
+
+  .trainStage{
+    min-width:0 !important;
+  }
+
+  .trainImage{
+    object-fit:contain !important;
+    object-position:center center !important;
+  }
+}
+
+@media (min-width:1200px) and (max-width:1500px){
+  .heroOverlay{
+    grid-template-columns:200px minmax(0,1fr) 220px !important;
+  }
+}
+
+
+/* ===== v1.35 faithful business-card logo ===== */
+.realLogoBox{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  width:100% !important;
+  height:100% !important;
+  overflow:visible !important;
+}
+.realLogoImage{
+  display:block !important;
+  width:100% !important;
+  max-width:250px !important;
+  height:auto !important;
+  object-fit:contain !important;
+  object-position:left center !important;
+  filter:drop-shadow(0 1px 0 rgba(255,255,255,.9)) !important;
+}
+@media (min-width:1200px){
+  .header{
+    grid-template-columns:clamp(235px,15vw,295px) 1fr 105px !important;
+  }
+  .realLogoImage{
+    max-width:clamp(220px,14vw,280px) !important;
+  }
+}
+
+
+/* ===== v1.36 clean logo only / proper sizing ===== */
+.realLogoBox{
+  width:100% !important;
+  height:100% !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  overflow:visible !important;
+  padding:0 !important;
+  margin:0 !important;
+  background:transparent !important;
+}
+.realLogoImage{
+  display:block !important;
+  width:auto !important;
+  height:auto !important;
+  max-width:100% !important;
+  max-height:76px !important;
+  object-fit:contain !important;
+  object-position:center center !important;
+  margin:0 auto !important;
+  padding:0 !important;
+  background:transparent !important;
+  filter:none !important;
+}
+@media (min-width:1200px){
+  .header{
+    grid-template-columns:clamp(210px,14vw,270px) 1fr 105px !important;
+  }
+  .realLogoBox{
+    min-width:0 !important;
+  }
+  .realLogoImage{
+    max-width:clamp(190px,12vw,245px) !important;
+    max-height:72px !important;
+  }
+}
+
+
+/* ===== v1.37 logo no-crop fix ===== */
+.realLogoBox{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  width:100% !important;
+  height:100% !important;
+  min-width:0 !important;
+  overflow:visible !important;
+  padding:6px 10px !important;
+  box-sizing:border-box !important;
+}
+
+.realLogoImage{
+  display:block !important;
+  width:100% !important;
+  height:100% !important;
+  max-width:100% !important;
+  max-height:100% !important;
+  object-fit:contain !important;
+  object-position:center center !important;
+  margin:0 auto !important;
+  padding:0 !important;
+  transform:none !important;
+}
+
+@media (min-width:1200px){
+  .header{
+    grid-template-columns:clamp(235px,15vw,300px) 1fr 105px !important;
+    column-gap:14px !important;
+  }
+
+  .realLogoBox{
+    padding:8px 12px !important;
+  }
+
+  .realLogoImage{
+    width:auto !important;
+    height:auto !important;
+    max-width:100% !important;
+    max-height:68px !important;
+  }
+}
+
+
+/* ===== v1.38 center logo fully visible ===== */
+.realLogoBox{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  width:100% !important;
+  height:100% !important;
+  min-width:0 !important;
+  overflow:visible !important;
+  padding:4px 6px !important;
+  box-sizing:border-box !important;
+}
+
+.realLogoImage{
+  display:block !important;
+  width:auto !important;
+  height:auto !important;
+  max-width:92% !important;
+  max-height:64px !important;
+  object-fit:contain !important;
+  object-position:center center !important;
+  margin:0 auto !important;
+  padding:0 !important;
+  position:relative !important;
+  left:0 !important;
+  right:0 !important;
+  transform:none !important;
+}
+
+@media (min-width:1200px){
+  .header{
+    grid-template-columns:clamp(250px,16vw,320px) 1fr 105px !important;
+    column-gap:14px !important;
+  }
+
+  .realLogoBox{
+    justify-content:center !important;
+    padding:6px 8px !important;
+  }
+
+  .realLogoImage{
+    max-width:88% !important;
+    max-height:62px !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+  }
+}
+
+
+/* ===== v1.39 shift logo left to avoid clipping ===== */
+.realLogoBox{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  width:100% !important;
+  height:100% !important;
+  overflow:visible !important;
+  padding:4px 4px 4px 0 !important;
+  box-sizing:border-box !important;
+}
+
+.realLogoImage{
+  display:block !important;
+  width:auto !important;
+  height:auto !important;
+  max-width:90% !important;
+  max-height:62px !important;
+  object-fit:contain !important;
+  object-position:left center !important;
+  margin:0 !important;
+  padding:0 !important;
+  position:relative !important;
+  left:0 !important;
+  right:auto !important;
+  transform:none !important;
+}
+
+@media (min-width:1200px){
+  .header{
+    grid-template-columns:clamp(255px,16.5vw,330px) 1fr 105px !important;
+    column-gap:12px !important;
+  }
+
+  .realLogoBox{
+    justify-content:flex-start !important;
+    padding-left:0 !important;
+    padding-right:6px !important;
+  }
+
+  .realLogoImage{
+    max-width:86% !important;
+    max-height:60px !important;
+    margin-left:0 !important;
+    margin-right:auto !important;
+  }
+}
+
+
+/* ===== v1.40 wider logo display ===== */
+@media (min-width:1200px){
+  .header{
+    grid-template-columns:clamp(285px,18vw,360px) 1fr 100px !important;
+    column-gap:10px !important;
+  }
+
+  .realLogoBox{
+    justify-content:flex-start !important;
+    padding:3px 2px 3px 0 !important;
+    overflow:visible !important;
+  }
+
+  .realLogoImage{
+    max-width:96% !important;
+    max-height:58px !important;
+    width:auto !important;
+    height:auto !important;
+    object-fit:contain !important;
+    object-position:left center !important;
+    margin:0 !important;
+  }
+}
+
+
+/* ===== v1.41 full new logo ===== */
+@media (min-width:1200px){
+  .header{
+    grid-template-columns:clamp(300px,20vw,390px) 1fr 100px !important;
+    column-gap:10px !important;
+  }
+  .realLogoBox{
+    display:flex !important;
+    align-items:center !important;
+    justify-content:flex-start !important;
+    width:100% !important;
+    height:100% !important;
+    padding:2px 4px 2px 0 !important;
+    overflow:visible !important;
+  }
+  .realLogoImage{
+    display:block !important;
+    width:100% !important;
+    height:100% !important;
+    max-width:100% !important;
+    max-height:82px !important;
+    object-fit:contain !important;
+    object-position:left center !important;
+    margin:0 !important;
+    padding:0 !important;
+  }
+}
+
+
+/* ===== v1.42 corrected center image ===== */
+.trainStage{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  overflow:hidden !important;
+}
+.trainImage{
+  width:100% !important;
+  height:100% !important;
+  max-width:100% !important;
+  max-height:100% !important;
+  object-fit:contain !important;
+  object-position:center center !important;
+}
+
+
+/* ===== v1.46 total draw counter ===== */
+.totalDrawBox{
+  margin-top:12px;
+  padding:10px 12px;
+  border:1px solid #c9d6e4;
+  border-radius:12px;
+  background:linear-gradient(180deg,#ffffff,#f2f6fb);
+  display:flex;
+  align-items:baseline;
+  justify-content:center;
+  gap:6px;
+  color:var(--navy);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.8);
+}
+.totalDrawLabel{
+  font-size:13px;
+  font-weight:900;
+  letter-spacing:.04em;
+}
+.totalDrawBox strong{
+  font-size:30px;
+  line-height:1;
+  color:var(--pink);
+}
+.totalDrawUnit{
+  font-size:14px;
+  font-weight:900;
+}
+@media (min-width:1200px){
+  .totalDrawBox{
+    margin-top:clamp(9px,.8vw,14px) !important;
+    padding:clamp(8px,.7vw,12px) clamp(8px,.8vw,14px) !important;
+  }
+  .totalDrawLabel{
+    font-size:clamp(12px,.82vw,16px) !important;
+  }
+  .totalDrawBox strong{
+    font-size:clamp(28px,2.1vw,40px) !important;
+  }
+  .totalDrawUnit{
+    font-size:clamp(12px,.8vw,16px) !important;
+  }
+}
+
+
+/* ===== v1.47 10-second completion celebration ===== */
+.completeOverlay{
+  position:fixed;
+  inset:0;
+  z-index:60;
+  display:none;
+  place-items:center;
+  background:rgba(2,14,30,.86);
+  backdrop-filter:blur(7px);
+  padding:18px;
+}
+.completeOverlay.show{display:grid}
+
+.completePopup{
+  width:min(980px,94vw);
+  height:min(720px,90vh);
+  background:linear-gradient(180deg,#ffffff 0%,#f3f7fb 100%);
+  border-radius:28px;
+  overflow:hidden;
+  position:relative;
+  box-shadow:0 30px 100px rgba(0,0,0,.48);
+  border:3px solid rgba(255,255,255,.85);
+}
+
+.completeHeader{
+  position:absolute;
+  top:0; left:0; right:0;
+  z-index:4;
+  text-align:center;
+  padding:22px 24px 8px;
+  color:#082d5d;
+}
+.completeHeader .big{
+  font-size:clamp(30px,2.6vw,44px);
+  font-weight:1000;
+  letter-spacing:.03em;
+  text-shadow:0 2px 0 #fff;
+}
+.completeHeader .sub{
+  margin-top:5px;
+  font-size:clamp(14px,1.2vw,20px);
+  font-weight:900;
+  color:#d60062;
+}
+
+.completeVisual{
+  position:absolute;
+  inset:102px 24px 175px;
+  border-radius:22px;
+  overflow:hidden;
+  background:radial-gradient(circle at 50% 35%,#eef2f6,#cbd3dc 70%,#adb8c5 100%);
+  box-shadow:inset 0 0 0 1px rgba(5,44,87,.09);
+}
+
+.completeVisual img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  object-position:center;
+}
+
+.completeBW{
+  filter:grayscale(1) contrast(.96) brightness(.98);
+  animation:completeBwFade 20s linear forwards;
+}
+.completeColor{
+  opacity:0;
+  transform:scale(.98);
+  animation:completeColorFade 20s ease forwards;
+}
+
+.completeMessage{
+  position:absolute;
+  left:50%;
+  bottom:46px;
+  transform:translateX(-50%);
+  width:min(900px,91%);
+  min-height:130px;
+  display:grid;
+  place-items:center;
+  text-align:center;
+  color:#082d5d;
+  font-size:clamp(30px,2.35vw,45px);
+  font-weight:1000;
+  line-height:1.32;
+  padding:12px 22px;
+}
+
+.completeMessage .stage{
+  position:absolute;
+  opacity:0;
+  width:100%;
+}
+.completeOverlay.show .stage1{animation:msg1 20s linear forwards}
+.completeOverlay.show .stage2{animation:msg2 20s linear forwards}
+.completeOverlay.show .stage3{animation:msg3 20s linear forwards}
+
+.completeProgress{
+  position:absolute;
+  left:0; right:0; bottom:0;
+  height:14px;
+  background:#dbe3ec;
+}
+.completeProgressBar{
+  width:0%;
+  height:100%;
+  background:linear-gradient(90deg,#063c7a,#d60062);
+}
+.completeOverlay.show .completeProgressBar{
+  animation:completeProgress 20s linear forwards;
+}
+
+.completeCountdown{
+  position:absolute;
+  right:18px;
+  bottom:20px;
+  z-index:5;
+  background:rgba(5,44,87,.9);
+  color:#fff;
+  border-radius:999px;
+  padding:7px 11px;
+  font-size:13px;
+  font-weight:900;
+}
+
+.completeSpark{
+  position:absolute;
+  width:10px; height:10px;
+  border-radius:50%;
+  background:#d60062;
+  opacity:.7;
+  animation:spark 1.8s ease-in-out infinite alternate;
+}
+.completeSpark.s1{top:18%;left:8%}
+.completeSpark.s2{top:26%;right:10%;animation-delay:.3s}
+.completeSpark.s3{bottom:24%;left:14%;animation-delay:.6s}
+.completeSpark.s4{bottom:18%;right:14%;animation-delay:.9s}
+
+@keyframes completeBwFade{
+  0%,30%{opacity:1;transform:scale(1)}
+  40%,100%{opacity:0;transform:scale(1.015)}
+}
+@keyframes completeColorFade{
+  0%,30%{opacity:0;transform:scale(.98)}
+  42%,100%{opacity:1;transform:scale(1)}
+}
+@keyframes msg1{
+  0%,3%{opacity:0;transform:translateY(14px)}
+  6%,30%{opacity:1;transform:translateY(0)}
+  34%,100%{opacity:0;transform:translateY(-10px)}
+}
+@keyframes msg2{
+  0%,32%{opacity:0;transform:translateY(14px)}
+  36%,64%{opacity:1;transform:translateY(0)}
+  68%,100%{opacity:0;transform:translateY(-10px)}
+}
+@keyframes msg3{
+  0%,66%{opacity:0;transform:translateY(14px)}
+  70%,97%{opacity:1;transform:translateY(0)}
+  100%{opacity:0;transform:translateY(-6px)}
+}
+@keyframes completeProgress{from{width:0%}to{width:100%}}
+@keyframes spark{
+  from{transform:scale(.7);opacity:.2}
+  to{transform:scale(1.5);opacity:.9}
+}
+
+
+/* ===== v1.49 special designated part acquisition ===== */
+.gachaActionWrap{
+  position:absolute;
+  left:50%;
+  bottom:8px;
+  transform:translateX(-50%);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  z-index:6;
+}
+.gachaActionWrap .gachaBtn{
+  position:static !important;
+  left:auto !important;
+  right:auto !important;
+  top:auto !important;
+  bottom:auto !important;
+  transform:none !important;
+  margin:0 !important;
+}
+.specialSelectBtn{
+  border:3px solid #8b1010;
+  background:linear-gradient(180deg,#ff3b32,#b70000);
+  color:#fff;
+  border-radius:16px;
+  padding:12px 18px;
+  font-size:17px;
+  font-weight:1000;
+  letter-spacing:.04em;
+  cursor:pointer;
+  box-shadow:0 6px 0 #6a0000,0 10px 18px rgba(0,0,0,.22);
+  min-width:150px;
+  white-space:nowrap;
+}
+.specialSelectBtn:hover{
+  filter:brightness(1.08);
+}
+.specialSelectBtn:active{
+  transform:translateY(4px);
+  box-shadow:0 2px 0 #6a0000;
+}
+
+.specialOverlay{
+  position:fixed;
+  inset:0;
+  display:none;
+  place-items:center;
+  z-index:80;
+  background:rgba(20,0,0,.86);
+  backdrop-filter:blur(7px);
+  padding:20px;
+}
+.specialOverlay.show{display:grid}
+
+.specialEmergency{
+  width:min(760px,92vw);
+  background:linear-gradient(180deg,#2c0000,#120000);
+  border:5px solid #ff2a20;
+  border-radius:24px;
+  color:#fff;
+  box-shadow:0 0 0 6px rgba(255,42,32,.13),0 28px 90px rgba(0,0,0,.55);
+  overflow:hidden;
+  position:relative;
+}
+.specialEmergency::before,
+.specialEmergency::after{
+  content:"";
+  display:block;
+  height:18px;
+  background:repeating-linear-gradient(
+    135deg,
+    #ffd400 0 18px,
+    #1c1c1c 18px 36px
+  );
+}
+.specialEmergency .inner{
+  padding:34px 36px 30px;
+  text-align:center;
+}
+.emergencyLamp{
+  width:86px;
+  height:86px;
+  margin:0 auto 18px;
+  border-radius:50%;
+  background:radial-gradient(circle,#ffefef 0 12%,#ff2c20 25%,#8c0000 68%,#350000 100%);
+  border:7px solid #4b0000;
+  box-shadow:0 0 36px #ff1f15, inset 0 0 18px rgba(255,255,255,.35);
+  animation:alarmPulse .65s infinite alternate;
+}
+.emergencyTitle{
+  font-size:38px;
+  font-weight:1000;
+  letter-spacing:.05em;
+  color:#ffec54;
+  margin-bottom:12px;
+}
+.emergencyText{
+  font-size:24px;
+  font-weight:900;
+  line-height:1.55;
+}
+.emergencySub{
+  margin-top:12px;
+  font-size:14px;
+  color:#ffc2bd;
+  font-weight:700;
+}
+.emergencyBtns{
+  display:flex;
+  justify-content:center;
+  gap:14px;
+  margin-top:26px;
+}
+.emergencyCancel,
+.emergencyExecute{
+  border:0;
+  border-radius:12px;
+  padding:14px 24px;
+  font-size:18px;
+  font-weight:1000;
+  cursor:pointer;
+}
+.emergencyCancel{
+  background:#e7edf3;
+  color:#203040;
+}
+.emergencyExecute{
+  background:#e00000;
+  color:#fff;
+  box-shadow:0 4px 0 #750000;
+}
+@keyframes alarmPulse{
+  from{transform:scale(.94);filter:brightness(.9)}
+  to{transform:scale(1.06);filter:brightness(1.25)}
+}
+
+/* part picker */
+.specialPicker{
+  width:min(1040px,94vw);
+  max-height:88vh;
+  background:#f8fbff;
+  border-radius:24px;
+  overflow:hidden;
+  box-shadow:0 28px 90px rgba(0,0,0,.5);
+  border:3px solid #0a376d;
+}
+.specialPickerHeader{
+  background:linear-gradient(90deg,#062d5a,#0b4c8c);
+  color:#fff;
+  padding:18px 24px;
+  text-align:center;
+}
+.specialPickerHeader h2{
+  margin:0;
+  font-size:30px;
+}
+.specialPickerHeader p{
+  margin:6px 0 0;
+  font-size:14px;
+  opacity:.9;
+}
+.specialPickerBody{
+  padding:22px;
+  overflow:auto;
+  max-height:68vh;
+}
+.specialPartsGrid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  gap:14px;
+}
+.specialPartCard{
+  border:2px solid #c7d5e5;
+  border-radius:16px;
+  background:#fff;
+  padding:12px;
+  cursor:pointer;
+  transition:.18s ease;
+  text-align:center;
+}
+.specialPartCard:hover{
+  transform:translateY(-4px);
+  border-color:#0b4c8c;
+  box-shadow:0 10px 22px rgba(7,55,110,.16);
+}
+.specialPartCard img{
+  width:100%;
+  height:130px;
+  object-fit:contain;
+}
+.specialPartCard .name{
+  font-weight:1000;
+  color:#082d5d;
+  margin-top:8px;
+  font-size:16px;
+}
+.specialPartCard .rar{
+  display:inline-block;
+  margin-top:7px;
+  padding:4px 9px;
+  border-radius:999px;
+  color:#fff;
+  font-size:12px;
+  font-weight:900;
+}
+.specialPickerFooter{
+  padding:12px 18px 18px;
+  text-align:center;
+}
+.specialPickerClose{
+  border:1px solid #9bb0c8;
+  background:#fff;
+  color:#082d5d;
+  border-radius:10px;
+  padding:10px 18px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+/* selected confirmation */
+.specialConfirm{
+  width:min(760px,92vw);
+  background:#fff;
+  border-radius:24px;
+  overflow:hidden;
+  box-shadow:0 28px 90px rgba(0,0,0,.52);
+  border:4px solid #d60000;
+  text-align:center;
+}
+.specialConfirmTop{
+  background:repeating-linear-gradient(135deg,#c00000 0 22px,#8d0000 22px 44px);
+  color:#fff;
+  padding:14px 18px;
+  font-weight:1000;
+  font-size:20px;
+  letter-spacing:.06em;
+}
+.specialConfirmBody{
+  padding:26px;
+}
+.specialConfirmBody img{
+  width:220px;
+  height:220px;
+  object-fit:contain;
+}
+.specialConfirmName{
+  font-size:30px;
+  color:#082d5d;
+  font-weight:1000;
+  margin:10px 0 6px;
+}
+.specialConfirmText{
+  font-size:20px;
+  color:#2c3c50;
+  font-weight:900;
+  line-height:1.5;
+}
+.specialConfirmBtns{
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  margin-top:22px;
+}
+
+/* special acquisition animation */
+.specialAcquireOverlay{
+  position:fixed;
+  inset:0;
+  display:none;
+  place-items:center;
+  z-index:90;
+  background:radial-gradient(circle at 50% 45%,rgba(0,112,255,.42),rgba(0,5,20,.94) 65%);
+  backdrop-filter:blur(8px);
+}
+.specialAcquireOverlay.show{display:grid}
+.specialAcquireCard{
+  width:min(720px,90vw);
+  text-align:center;
+  color:#fff;
+  position:relative;
+}
+.specialAcquireBadge{
+  display:inline-block;
+  padding:8px 18px;
+  border:2px solid #7fe6ff;
+  border-radius:999px;
+  background:rgba(0,70,130,.65);
+  color:#a9f3ff;
+  font-weight:1000;
+  letter-spacing:.12em;
+  box-shadow:0 0 28px rgba(50,215,255,.45);
+  animation:specialFlash .7s infinite alternate;
+}
+.specialAcquireImageWrap{
+  margin:22px auto 18px;
+  width:min(460px,70vw);
+  height:330px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+}
+.specialAcquireImageWrap::before{
+  content:"";
+  position:absolute;
+  width:310px;height:310px;
+  border-radius:50%;
+  border:3px solid rgba(105,236,255,.8);
+  box-shadow:0 0 55px rgba(70,220,255,.8),inset 0 0 55px rgba(70,220,255,.25);
+  animation:specialSpin 3s linear infinite;
+}
+.specialAcquireImage{
+  position:relative;
+  z-index:2;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  filter:drop-shadow(0 18px 22px rgba(0,0,0,.38));
+  animation:specialPop .9s cubic-bezier(.2,.8,.2,1) both;
+}
+.specialAcquireTitle{
+  font-size:42px;
+  font-weight:1000;
+  text-shadow:0 0 18px rgba(89,229,255,.6);
+}
+.specialAcquireName{
+  margin-top:8px;
+  font-size:28px;
+  font-weight:1000;
+  color:#a9f3ff;
+}
+.specialAcquireSub{
+  margin-top:12px;
+  font-size:15px;
+  opacity:.86;
+  font-weight:700;
+}
+@keyframes specialFlash{
+  from{filter:brightness(.9);transform:scale(.98)}
+  to{filter:brightness(1.2);transform:scale(1.03)}
+}
+@keyframes specialSpin{
+  from{transform:rotate(0deg) scale(.95)}
+  to{transform:rotate(360deg) scale(1.05)}
+}
+@keyframes specialPop{
+  0%{opacity:0;transform:scale(.65) translateY(25px)}
+  70%{opacity:1;transform:scale(1.06) translateY(0)}
+  100%{opacity:1;transform:scale(1)}
+}
+
+@media (min-width:1200px){
+  .gachaActionWrap{
+    bottom:8px !important;
+  }
+  .gachaActionWrap .gachaBtn{
+    width:clamp(360px,30vw,520px) !important;
+    min-width:0 !important;
+    max-width:none !important;
+  }
+}
+
+
+
+/* ===== v1.50 restore original gacha button sizing ===== */
+.gachaActionWrap{
+  position:absolute !important;
+  left:50% !important;
+  bottom:8px !important;
+  transform:translateX(-50%) !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:12px !important;
+  z-index:6 !important;
+  width:max-content !important;
+  max-width:90% !important;
+}
+
+.gachaActionWrap .gachaBtn{
+  position:static !important;
+  left:auto !important;
+  right:auto !important;
+  top:auto !important;
+  bottom:auto !important;
+  transform:none !important;
+  margin:0 !important;
+}
+
+/* size the special button to complement, not distort, the main button */
+.specialSelectBtn{
+  min-width:132px !important;
+  width:132px !important;
+  padding:11px 12px !important;
+  font-size:15px !important;
+  border-radius:14px !important;
+  line-height:1.2 !important;
+  flex:0 0 auto !important;
+}
+
+@media (min-width:1200px){
+  .gachaActionWrap{
+    bottom:8px !important;
+  }
+  .gachaActionWrap .gachaBtn{
+    width:clamp(360px,30vw,520px) !important;
+    min-width:0 !important;
+    max-width:none !important;
+    padding:12px 26px !important;
+    border-radius:999px !important;
+    font-size:clamp(20px,1.45vw,27px) !important;
+    line-height:1.2 !important;
+    white-space:nowrap !important;
+    box-shadow:0 7px 0 #9d0046,0 11px 20px rgba(0,0,0,.18) !important;
+  }
+
+  .gachaActionWrap .gachaBtn:active{
+    transform:translateY(4px) !important;
+    box-shadow:0 3px 0 #9d0046 !important;
+  }
+}
+
+
+
+/* ===== v1.51 equal-size action buttons ===== */
+.gachaActionWrap{
+  position:absolute !important;
+  left:50% !important;
+  bottom:8px !important;
+  transform:translateX(-50%) !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:14px !important;
+  z-index:6 !important;
+  width:auto !important;
+  max-width:92% !important;
+}
+
+.gachaActionWrap .gachaBtn,
+.gachaActionWrap .specialSelectBtn{
+  position:static !important;
+  left:auto !important;
+  right:auto !important;
+  top:auto !important;
+  bottom:auto !important;
+  transform:none !important;
+  margin:0 !important;
+
+  width:360px !important;
+  min-width:360px !important;
+  max-width:360px !important;
+  height:auto !important;
+
+  padding:12px 26px !important;
+  border-radius:999px !important;
+  font-size:23px !important;
+  line-height:1.2 !important;
+  font-weight:1000 !important;
+  white-space:nowrap !important;
+  box-sizing:border-box !important;
+  flex:0 0 360px !important;
+
+  border:0 !important;
+}
+
+.gachaActionWrap .gachaBtn{
+  background:linear-gradient(180deg,var(--pink2),var(--pink)) !important;
+  color:#fff !important;
+  box-shadow:0 7px 0 #9d0046,0 11px 20px rgba(0,0,0,.18) !important;
+}
+
+.gachaActionWrap .specialSelectBtn{
+  background:linear-gradient(180deg,#ff3b32,#c80000) !important;
+  color:#fff !important;
+  box-shadow:0 7px 0 #7b0000,0 11px 20px rgba(0,0,0,.18) !important;
+}
+
+.gachaActionWrap .gachaBtn:active,
+.gachaActionWrap .specialSelectBtn:active{
+  transform:translateY(4px) !important;
+}
+
+.gachaActionWrap .gachaBtn:active{
+  box-shadow:0 3px 0 #9d0046 !important;
+}
+.gachaActionWrap .specialSelectBtn:active{
+  box-shadow:0 3px 0 #7b0000 !important;
+}
+
+@media (min-width:1200px) and (max-width:1550px){
+  .gachaActionWrap .gachaBtn,
+  .gachaActionWrap .specialSelectBtn{
+    width:320px !important;
+    min-width:320px !important;
+    max-width:320px !important;
+    flex-basis:320px !important;
+    font-size:21px !important;
+  }
+}
+
+
+
+/* ===== v1.52 pantograph special-designation restriction label ===== */
+.noSpecialNote{
+  margin-top:6px;
+  display:inline-block;
+  padding:4px 9px;
+  border-radius:999px;
+  background:#6d737c;
+  color:#fff;
+  font-size:11px;
+  line-height:1;
+  font-weight:1000;
+  letter-spacing:.03em;
+  border:1px solid rgba(255,255,255,.35);
+}
+@media (min-width:1200px){
+  .noSpecialNote{
+    font-size:clamp(10px,.72vw,13px) !important;
+    padding:4px 8px !important;
+  }
+}
+
+
+
+/* ===== v1.53 how-to + railway question box ===== */
+.infoOverlay{
+  position:fixed;
+  inset:0;
+  z-index:100;
+  display:none;
+  place-items:center;
+  background:rgba(2,18,38,.82);
+  backdrop-filter:blur(7px);
+  padding:18px;
+}
+.infoOverlay.show{display:grid}
+
+.infoModal{
+  width:min(980px,94vw);
+  max-height:90vh;
+  background:#fff;
+  border-radius:24px;
+  overflow:hidden;
+  box-shadow:0 30px 100px rgba(0,0,0,.48);
+  border:2px solid #d6e1ee;
+}
+.infoTop{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:16px 20px;
+  background:linear-gradient(90deg,#062e5d,#0a4a87);
+  color:#fff;
+}
+.infoTop h2{
+  margin:0;
+  font-size:28px;
+}
+.infoClose{
+  width:38px;height:38px;
+  border:0;
+  border-radius:50%;
+  background:rgba(255,255,255,.16);
+  color:#fff;
+  font-size:22px;
+  font-weight:900;
+  cursor:pointer;
+}
+.infoBody{
+  padding:22px;
+  overflow:auto;
+  max-height:calc(90vh - 72px);
+}
+
+/* How to */
+.howGrid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+}
+.howCard{
+  border:1px solid #cbd8e6;
+  border-radius:16px;
+  background:linear-gradient(180deg,#fff,#f5f8fc);
+  padding:18px;
+}
+.howStep{
+  display:inline-grid;
+  place-items:center;
+  width:38px;height:38px;
+  border-radius:50%;
+  background:var(--pink);
+  color:#fff;
+  font-size:18px;
+  font-weight:1000;
+  margin-bottom:10px;
+}
+.howCard h3{
+  margin:0 0 7px;
+  color:var(--navy);
+  font-size:20px;
+}
+.howCard p{
+  margin:0;
+  color:#40526a;
+  font-size:15px;
+  line-height:1.7;
+  font-weight:700;
+}
+.howNotice{
+  margin-top:16px;
+  padding:14px 16px;
+  border-radius:14px;
+  background:#fff3f7;
+  border-left:6px solid var(--pink);
+  color:#70324d;
+  font-size:14px;
+  line-height:1.65;
+  font-weight:800;
+}
+
+/* Question box */
+.questionLauncher{
+  text-align:center;
+  padding:8px 8px 16px;
+}
+.questionLauncher .dice{
+  font-size:72px;
+  filter:drop-shadow(0 8px 10px rgba(0,0,0,.18));
+  animation:qFloat 1.8s ease-in-out infinite alternate;
+}
+.questionLauncher h3{
+  margin:8px 0 6px;
+  color:var(--navy);
+  font-size:30px;
+}
+.questionLauncher p{
+  margin:0 auto 18px;
+  max-width:680px;
+  color:#566b84;
+  font-size:16px;
+  line-height:1.7;
+  font-weight:700;
+}
+.questionDrawBtn{
+  border:0;
+  border-radius:999px;
+  padding:15px 30px;
+  background:linear-gradient(180deg,var(--pink2),var(--pink));
+  color:#fff;
+  font-size:22px;
+  font-weight:1000;
+  cursor:pointer;
+  box-shadow:0 7px 0 #9d0046,0 12px 22px rgba(0,0,0,.18);
+}
+.questionDrawBtn:active{
+  transform:translateY(4px);
+  box-shadow:0 3px 0 #9d0046;
+}
+
+.questionDrawOverlay{
+  position:fixed;
+  inset:0;
+  z-index:110;
+  display:none;
+  place-items:center;
+  background:rgba(1,12,26,.88);
+  backdrop-filter:blur(8px);
+}
+.questionDrawOverlay.show{display:grid}
+
+.questionMachine{
+  width:min(620px,92vw);
+  padding:34px 28px 30px;
+  background:linear-gradient(180deg,#fff,#eff5fb);
+  border:4px solid #0a376e;
+  border-radius:26px;
+  text-align:center;
+  box-shadow:0 30px 90px rgba(0,0,0,.5);
+}
+.questionMachineLabel{
+  color:var(--navy);
+  font-size:20px;
+  font-weight:1000;
+  letter-spacing:.12em;
+}
+.questionSlot{
+  margin:22px auto;
+  height:108px;
+  border-radius:16px;
+  background:#071e39;
+  color:#fff;
+  display:grid;
+  place-items:center;
+  padding:14px 22px;
+  font-size:22px;
+  line-height:1.45;
+  font-weight:1000;
+  box-shadow:inset 0 0 26px rgba(0,0,0,.45);
+  overflow:hidden;
+}
+.questionSlot.spinning{
+  animation:qSlotPulse .24s ease-in-out infinite alternate;
+}
+.questionSpinSub{
+  color:#657b95;
+  font-size:14px;
+  font-weight:800;
+}
+.qDots{
+  margin-top:14px;
+  display:flex;
+  justify-content:center;
+  gap:8px;
+}
+.qDots span{
+  width:9px;height:9px;border-radius:50%;
+  background:var(--pink);
+  animation:qDot 1s ease-in-out infinite;
+}
+.qDots span:nth-child(2){animation-delay:.16s}
+.qDots span:nth-child(3){animation-delay:.32s}
+
+/* Result */
+.questionResult{
+  width:min(840px,94vw);
+  background:#fff;
+  border-radius:24px;
+  overflow:hidden;
+  border:3px solid #0a376e;
+  box-shadow:0 30px 100px rgba(0,0,0,.52);
+}
+.questionResultHead{
+  background:linear-gradient(90deg,#062e5d,#0a4a87);
+  color:#fff;
+  padding:15px 20px;
+  text-align:center;
+  font-size:18px;
+  font-weight:1000;
+  letter-spacing:.08em;
+}
+.questionResultBody{
+  padding:26px 30px 28px;
+  text-align:center;
+}
+.questionNo{
+  display:inline-block;
+  margin-bottom:12px;
+  padding:5px 12px;
+  border-radius:999px;
+  background:#eef4fa;
+  color:#0a376e;
+  font-size:13px;
+  font-weight:1000;
+}
+.questionText{
+  color:#0a376e;
+  font-size:30px;
+  line-height:1.5;
+  font-weight:1000;
+  min-height:100px;
+  display:grid;
+  place-items:center;
+}
+.answerBox{
+  display:none;
+  margin-top:18px;
+  padding:18px 20px;
+  border-radius:16px;
+  background:#f3f7fb;
+  border-left:6px solid var(--pink);
+  text-align:left;
+  color:#30445d;
+  font-size:17px;
+  line-height:1.75;
+  font-weight:750;
+}
+.answerBox.show{display:block}
+.questionResultBtns{
+  margin-top:22px;
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:10px;
+}
+.qResultBtn{
+  border:0;
+  border-radius:12px;
+  padding:12px 20px;
+  font-size:16px;
+  font-weight:1000;
+  cursor:pointer;
+}
+.qReveal{background:var(--pink);color:#fff}
+.qAgain{background:var(--navy);color:#fff}
+.qClose{background:#e8edf3;color:#24364d}
+
+@keyframes qFloat{
+  from{transform:translateY(0) rotate(-4deg)}
+  to{transform:translateY(-8px) rotate(4deg)}
+}
+@keyframes qSlotPulse{
+  from{transform:scale(.985);filter:brightness(.9)}
+  to{transform:scale(1.015);filter:brightness(1.2)}
+}
+@keyframes qDot{
+  0%,80%,100%{opacity:.3;transform:translateY(0)}
+  40%{opacity:1;transform:translateY(-5px)}
+}
+
+@media(max-width:760px){
+  .howGrid{grid-template-columns:1fr}
+  .questionText{font-size:23px}
+  .infoTop h2{font-size:22px}
+}
+
+
+/* ===== v1.54 Y QUESTION box ===== */
+.yExpertResult{
+  border-color:#a40000;
+  box-shadow:0 0 0 5px rgba(210,0,0,.12),0 30px 100px rgba(0,0,0,.55);
+}
+.yExpertResult .questionResultHead{
+  background:repeating-linear-gradient(135deg,#8f0000 0 24px,#bd0000 24px 48px);
+}
+.yExpertQuestionText{
+  font-size:clamp(25px,2vw,36px);
+  line-height:1.55;
+  min-height:230px;
+}
+
+
+/* ===== v1.55 Y question popup: button only ===== */
+.yQuestionOnlyButton{
+  min-height:260px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:30px;
+}
+.yQuestionOnlyButton .questionDrawBtn{
+  font-size:clamp(24px,2vw,34px);
+  padding:18px 38px;
+}
+
+
+/* ===== v1.56 Y question pre-message ===== */
+.yQuestionOnlyButton{
+  flex-direction:column;
+  gap:22px;
+}
+.yQuestionPreText{
+  color:var(--navy);
+  font-size:clamp(25px,2vw,36px);
+  line-height:1.35;
+  font-weight:1000;
+  text-align:center;
+}
+
+
+/* ===== v1.58 Save / Load ===== */
+.saveLoadOverlay{
+  position:fixed; inset:0; z-index:130;
+  display:none; place-items:center;
+  background:rgba(2,18,38,.84);
+  backdrop-filter:blur(7px);
+  padding:18px;
+}
+.saveLoadOverlay.show{display:grid}
+.saveLoadModal{
+  width:min(620px,92vw);
+  background:#fff;
+  border-radius:24px;
+  overflow:hidden;
+  border:3px solid #0a376e;
+  box-shadow:0 30px 100px rgba(0,0,0,.52);
+}
+.saveLoadTop{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:16px 20px;
+  background:linear-gradient(90deg,#062e5d,#0a4a87);
+  color:#fff;
+}
+.saveLoadTop h2{margin:0;font-size:28px}
+.saveLoadClose{
+  width:38px;height:38px;border:0;border-radius:50%;
+  background:rgba(255,255,255,.16);color:#fff;
+  font-size:22px;font-weight:1000;cursor:pointer;
+}
+.saveLoadBody{
+  padding:30px 26px;
+  display:grid;
+  gap:16px;
+}
+.saveLoadAction{
+  width:100%;
+  border:0;
+  border-radius:16px;
+  padding:20px 18px;
+  cursor:pointer;
+  font-size:22px;
+  font-weight:1000;
+  color:#fff;
+  background:linear-gradient(180deg,#1680d8,#07519a);
+  box-shadow:0 6px 0 #063d73,0 10px 20px rgba(0,0,0,.15);
+}
+.saveLoadAction.fileAction{
+  background:linear-gradient(180deg,var(--pink2),var(--pink));
+  box-shadow:0 6px 0 #9d0046,0 10px 20px rgba(0,0,0,.15);
+}
+.saveLoadAction:active{transform:translateY(4px);box-shadow:none}
+.saveLoadStatus{
+  min-height:22px;
+  text-align:center;
+  font-size:14px;
+  line-height:1.5;
+  font-weight:900;
+  color:#31506e;
+}
+.saveLoadHint{
+  margin:0;
+  text-align:center;
+  color:#667b92;
+  font-size:13px;
+  line-height:1.6;
+  font-weight:700;
+}
+
+
+/* ===== v1.60 Save/Load fixed to left sidebar ===== */
+#saveBtn,#loadBtn{
+  width:100%;
+  box-sizing:border-box;
+}
+
+
+/* ===== v1.62 Station Shiritori ===== */
+.stationShiritoriOverlay{position:fixed;inset:0;z-index:145;display:none;place-items:center;background:rgba(1,16,34,.88);backdrop-filter:blur(8px);padding:18px}
+.stationShiritoriOverlay.show{display:grid}
+.stationShiritoriModal{width:min(760px,94vw);background:#fff;border:3px solid #0b4d88;border-radius:26px;overflow:hidden;box-shadow:0 30px 100px rgba(0,0,0,.5)}
+.stationShiritoriHead{display:flex;align-items:center;justify-content:space-between;padding:15px 20px;background:linear-gradient(90deg,#063361,#0c65a9);color:#fff}
+.stationShiritoriHead h2{margin:0;font-size:28px}.stationShiritoriClose{width:38px;height:38px;border:0;border-radius:50%;background:rgba(255,255,255,.17);color:#fff;font-size:22px;font-weight:1000;cursor:pointer}
+.stationShiritoriBody{padding:26px}.stationStart,.stationTurn{display:grid;gap:15px}
+.stationPrompt{text-align:center;font-weight:1000;color:#153d62;font-size:21px}.stationInputRow{display:flex;gap:10px}
+.stationInput{flex:1;min-width:0;border:3px solid #b7d8ef;border-radius:15px;padding:15px 17px;font-size:23px;font-weight:900;outline:none}
+.stationInput:focus{border-color:#1681ca}.stationSubmit{border:0;border-radius:15px;padding:13px 24px;background:linear-gradient(180deg,#ff4c9c,#d60062);color:#fff;font-size:20px;font-weight:1000;cursor:pointer}
+.stationError{min-height:24px;text-align:center;color:#c9003c;font-weight:900}
+.stationResult{display:none;text-align:center}.stationResult.show{display:block}
+.stationResultLabel{font-size:14px;font-weight:1000;color:#5d7a94;letter-spacing:.12em}.stationKanji{font-size:clamp(38px,5vw,62px);font-weight:1000;color:#092e54;margin-top:8px}
+.stationYomi{font-size:clamp(24px,3vw,34px);font-weight:1000;color:#e00068;margin:4px 0 16px}
+.stationNextLetter{display:inline-block;padding:8px 18px;border-radius:999px;background:#edf7ff;color:#07599c;font-size:20px;font-weight:1000;margin-bottom:18px}
+.stationHistory{max-height:150px;overflow:auto;margin-top:18px;border-top:1px solid #d9e7f2;padding-top:12px;font-size:14px;color:#526a80;line-height:1.7}
+.stationDrawOverlay{position:fixed;inset:0;z-index:155;display:none;place-items:center;background:rgba(0,20,45,.94)}
+.stationDrawOverlay.show{display:grid}.stationDrawBox{text-align:center;color:#fff;width:min(850px,92vw)}
+.stationDrawSmall{font-size:15px;font-weight:1000;letter-spacing:.2em;opacity:.75}.stationDrawWord{font-size:clamp(34px,5vw,64px);font-weight:1000;margin:22px 0;text-shadow:0 0 28px rgba(74,192,255,.8)}
+.stationDrawSub{font-size:18px;font-weight:900;opacity:.85}
+
+
+/* ===== v1.65 Undo / Redo ===== */
+.historyControlWrap{display:flex;align-items:center;gap:7px}
+.historyBtn{border:2px solid #b9d5e9;background:#f4faff;color:#174e78;border-radius:10px;padding:8px 12px;font-size:13px;font-weight:1000;cursor:pointer;white-space:nowrap;transition:.15s}
+.historyBtn:hover:not(:disabled){background:#e4f4ff;transform:translateY(-1px)}
+.historyBtn:disabled{opacity:.38;cursor:not-allowed}
+
+</style>
