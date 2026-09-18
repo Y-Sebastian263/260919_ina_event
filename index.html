@@ -4209,5 +4209,23 @@ render();
 .historyBtn:hover:not(:disabled){background:#e4f4ff;transform:translateY(-1px)}
 .historyBtn:disabled{opacity:.38;cursor:not-allowed}
 
+/* ===== v1.67 roomier desktop header ===== */
+@media (min-width:1200px){
+  .main{
+    grid-template-rows:128px 460px auto 28px !important;
+  }
+  .header{
+    height:128px !important;
+    padding:14px 18px !important;
+  }
+  .hero{
+    height:460px !important;
+  }
+  .trainStage{
+    height:388px !important;
+    min-height:388px !important;
+  }
+}
+
 </style>
 
