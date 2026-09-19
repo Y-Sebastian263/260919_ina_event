@@ -1280,6 +1280,21 @@
   font-size:13px;font-weight:1000;cursor:pointer;white-space:nowrap
 }
 .shiritoriRecordEdit:hover{filter:brightness(1.12)}
+.shiritoriInlineEdit{
+  grid-column:2 / -1;display:grid;grid-template-columns:1fr 1fr 1fr auto auto;
+  gap:8px;align-items:center;width:100%
+}
+.shiritoriInlineEdit input{
+  min-width:0;width:100%;border:2px solid #bdd6e8;border-radius:10px;
+  padding:9px 10px;font-size:15px;font-weight:900;outline:none
+}
+.shiritoriInlineEdit input:focus{border-color:#1681ca}
+.shiritoriInlineSave,.shiritoriInlineCancel{
+  border:0;border-radius:999px;padding:9px 13px;font-size:13px;font-weight:1000;
+  cursor:pointer;white-space:nowrap
+}
+.shiritoriInlineSave{background:#e50067;color:#fff}
+.shiritoriInlineCancel{background:#dfe8ef;color:#17344f}
 .shiritoriRecordEmpty{padding:28px;text-align:center;color:#8094a7;font-weight:900}
 @media(max-width:650px){
   .shiritoriRecordForm{grid-template-columns:1fr}
@@ -1287,6 +1302,7 @@
   .shiritoriRecordItem{grid-template-columns:58px minmax(0,1fr) auto}
   .shiritoriRecordPerson{grid-column:2;text-align:left;max-width:none}
   .shiritoriRecordActions{grid-column:3;grid-row:1 / span 2}
+  .shiritoriInlineEdit{grid-column:2 / -1;grid-template-columns:1fr;}
 }
 
 </style>
@@ -1357,7 +1373,7 @@
 <div class="cards" id="cards"></div>
 </section>
 
-<footer class="footer"><div><b id="secretSettingsFooterTrigger">INAO 稲尾電鉄グループ</b></div><div>鉄道でつながる、笑顔の未来。</div><div>ORIGINAL TRAIN PROJECT ver.1.98.0</div></footer>
+<footer class="footer"><div><b id="secretSettingsFooterTrigger">INAO 稲尾電鉄グループ</b></div><div>鉄道でつながる、笑顔の未来。</div><div>ORIGINAL TRAIN PROJECT ver.1.99.0</div></footer>
 </main>
 </div>
 
@@ -2960,7 +2976,7 @@ loadNationwideStations();
 
 const SHIRITORI_RECORD_KEY="inaoShiritoriRecordsV1";
 let shiritoriRecords=[];
-let shiritoriEditIndex=-1;
+let shiritoriInlineEditIndex=-1;
 try{
   const storedShiritoriRecords=JSON.parse(localStorage.getItem(SHIRITORI_RECORD_KEY)||"[]");
   if(Array.isArray(storedShiritoriRecords)) shiritoriRecords=storedShiritoriRecords;
@@ -2992,48 +3008,100 @@ function renderShiritoriRecords(){
     return;
   }
 
-  list.innerHTML=shiritoriRecords.map((x,i)=>
-    '<div class="shiritoriRecordItem">'+
-      '<div class="shiritoriRecordIndex">#'+String(shiritoriRecords.length-i).padStart(2,"0")+'</div>'+
+  list.innerHTML=shiritoriRecords.map((x,i)=>{
+    const no=String(shiritoriRecords.length-i).padStart(2,"0");
+    if(i===shiritoriInlineEditIndex){
+      return '<div class="shiritoriRecordItem">'+
+        '<div class="shiritoriRecordIndex">#'+no+'</div>'+
+        '<div class="shiritoriInlineEdit">'+
+          '<input type="text" class="shiritoriInlineName" value="'+escapeHtml(x.name||"")+'" placeholder="名前">'+
+          '<input type="text" class="shiritoriInlineKanji" value="'+escapeHtml(x.kanji||"")+'" placeholder="漢字">'+
+          '<input type="text" class="shiritoriInlineYomi" value="'+escapeHtml(x.yomi||"")+'" placeholder="読み">'+
+          '<button type="button" class="shiritoriInlineSave" data-save-index="'+i+'">保存</button>'+
+          '<button type="button" class="shiritoriInlineCancel">キャンセル</button>'+
+        '</div>'+
+      '</div>';
+    }
+    return '<div class="shiritoriRecordItem">'+
+      '<div class="shiritoriRecordIndex">#'+no+'</div>'+
       '<div class="shiritoriRecordMain">'+
         '<div class="shiritoriRecordKanji">'+escapeHtml(x.kanji)+'</div>'+
         '<div class="shiritoriRecordYomi">'+escapeHtml(x.yomi)+'</div>'+
       '</div>'+
       '<div class="shiritoriRecordPerson">'+(x.name?"👤 "+escapeHtml(x.name):"")+'</div>'+
       '<div class="shiritoriRecordActions"><button type="button" class="shiritoriRecordEdit" data-edit-index="'+i+'">修正</button></div>'+
-    '</div>'
-  ).join("");
+    '</div>';
+  }).join("");
+
   list.querySelectorAll(".shiritoriRecordEdit").forEach(btn=>{
-    btn.addEventListener("click",()=>startEditShiritoriRecord(Number(btn.dataset.editIndex)));
+    btn.addEventListener("click",()=>{
+      shiritoriInlineEditIndex=Number(btn.dataset.editIndex);
+      renderShiritoriRecords();
+      const row=list.querySelector(".shiritoriInlineEdit");
+      if(row) row.querySelector(".shiritoriInlineName")?.focus();
+    });
+  });
+  list.querySelectorAll(".shiritoriInlineCancel").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      shiritoriInlineEditIndex=-1;
+      renderShiritoriRecords();
+    });
+  });
+  list.querySelectorAll(".shiritoriInlineSave").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      const index=Number(btn.dataset.saveIndex);
+      const row=btn.closest(".shiritoriInlineEdit");
+      saveInlineShiritoriRecord(index,row);
+    });
+  });
+  list.querySelectorAll(".shiritoriInlineEdit input").forEach(inp=>{
+    inp.addEventListener("keydown",e=>{
+      if(e.key==="Escape"){
+        shiritoriInlineEditIndex=-1;
+        renderShiritoriRecords();
+      }
+      if(e.key==="Enter"){
+        const row=e.currentTarget.closest(".shiritoriInlineEdit");
+        const save=row?.querySelector(".shiritoriInlineSave");
+        if(save) save.click();
+      }
+    });
   });
 }
 function escapeHtml(v){
   return String(v??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[ch]));
 }
 function openShiritoriRecord(){
-  shiritoriEditIndex=-1;
-  document.getElementById("shiritoriRecordAdd").textContent="記録する";
+  shiritoriInlineEditIndex=-1;
   document.getElementById("shiritoriRecordError").textContent="";
   renderShiritoriRecords();
   shiritoriRecordOverlay.classList.add("show");
   setTimeout(()=>document.getElementById("shiritoriRecordName").focus(),60);
 }
 function closeShiritoriRecord(){
-  shiritoriEditIndex=-1;
-  document.getElementById("shiritoriRecordAdd").textContent="記録する";
+  shiritoriInlineEditIndex=-1;
   shiritoriRecordOverlay.classList.remove("show");
 }
-function startEditShiritoriRecord(index){
+function saveInlineShiritoriRecord(index,row){
   const x=shiritoriRecords[index];
-  if(!x) return;
-  shiritoriEditIndex=index;
-  document.getElementById("shiritoriRecordName").value=x.name||"";
-  document.getElementById("shiritoriRecordKanji").value=x.kanji||"";
-  document.getElementById("shiritoriRecordYomi").value=x.yomi||"";
-  document.getElementById("shiritoriRecordAdd").textContent="修正を保存";
-  document.getElementById("shiritoriRecordError").textContent="修正中：#"+String(shiritoriRecords.length-index).padStart(2,"0");
-  document.getElementById("shiritoriRecordName").focus();
-  document.querySelector(".shiritoriRecordBody").scrollTo({top:0,behavior:"smooth"});
+  if(!x || !row) return;
+  const name=row.querySelector(".shiritoriInlineName").value.trim();
+  const kanji=row.querySelector(".shiritoriInlineKanji").value.trim();
+  const yomi=row.querySelector(".shiritoriInlineYomi").value.trim();
+  if(!kanji || !yomi){
+    alert("漢字と読みを入力してください。");
+    return;
+  }
+  shiritoriRecords[index]={
+    ...x,
+    name,
+    kanji,
+    yomi,
+    updatedAt:new Date().toISOString()
+  };
+  shiritoriInlineEditIndex=-1;
+  saveShiritoriRecords();
+  renderShiritoriRecords();
 }
 function addShiritoriRecord(){
   const name=document.getElementById("shiritoriRecordName").value.trim();
@@ -3044,27 +3112,13 @@ function addShiritoriRecord(){
     err.textContent="漢字と読みを入力してください。";
     return;
   }
-  if(shiritoriEditIndex>=0 && shiritoriRecords[shiritoriEditIndex]){
-    const original=shiritoriRecords[shiritoriEditIndex];
-    shiritoriRecords[shiritoriEditIndex]={
-      ...original,
-      name,
-      kanji,
-      yomi,
-      updatedAt:new Date().toISOString()
-    };
-    shiritoriEditIndex=-1;
-    document.getElementById("shiritoriRecordAdd").textContent="記録する";
-    err.textContent="✓ 修正を保存しました";
-  }else{
-    shiritoriRecords.unshift({
-      name,
-      kanji,
-      yomi,
-      createdAt:new Date().toISOString()
-    });
-    err.textContent="";
-  }
+  shiritoriRecords.unshift({
+    name,
+    kanji,
+    yomi,
+    createdAt:new Date().toISOString()
+  });
+  err.textContent="";
   saveShiritoriRecords();
   document.getElementById("shiritoriRecordName").value="";
   document.getElementById("shiritoriRecordKanji").value="";
