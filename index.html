@@ -1305,6 +1305,64 @@
   .shiritoriInlineEdit{grid-column:2 / -1;grid-template-columns:1fr;}
 }
 
+
+/* ===== v2.03 shiritori social image export ===== */
+.shiritoriPostExportWrap{
+  margin-top:18px;padding:14px;background:#fff;border:1px solid #d8e4ee;border-radius:16px;
+  display:flex;align-items:center;gap:12px;justify-content:space-between
+}
+#shiritoriPostExportBtn{
+  border:0;border-radius:999px;padding:12px 20px;background:linear-gradient(180deg,#1680d8,#07519a);
+  color:#fff;font-size:17px;font-weight:1000;cursor:pointer;box-shadow:0 5px 0 #063d73
+}
+#shiritoriPostExportBtn:active{transform:translateY(3px);box-shadow:0 2px 0 #063d73}
+.shiritoriPostExportNote{font-size:12px;color:#6c8297;font-weight:900;text-align:right}
+.shiritoriPostOverlay{
+  position:fixed;inset:0;z-index:260;display:none;place-items:center;
+  background:rgba(1,12,27,.92);backdrop-filter:blur(8px);padding:18px
+}
+.shiritoriPostOverlay.show{display:grid}
+.shiritoriPostModal{
+  width:min(900px,96vw);max-height:94vh;background:#fff;border:3px solid #0a376e;
+  border-radius:24px;overflow:hidden;box-shadow:0 30px 100px rgba(0,0,0,.55)
+}
+.shiritoriPostHead{
+  display:flex;align-items:center;justify-content:space-between;padding:15px 20px;
+  background:linear-gradient(90deg,#063361,#0c65a9);color:#fff
+}
+.shiritoriPostHead h2{margin:2px 0 0;font-size:26px}
+.shiritoriPostKicker{font-size:11px;font-weight:1000;letter-spacing:.18em;opacity:.75}
+.shiritoriPostClose{
+  width:40px;height:40px;border:0;border-radius:50%;background:rgba(255,255,255,.17);
+  color:#fff;font-size:24px;font-weight:1000;cursor:pointer
+}
+.shiritoriPostBody{padding:16px;max-height:calc(94vh - 72px);overflow:auto;background:#eef4f8}
+.shiritoriPostPager{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;margin-bottom:12px}
+.shiritoriPostPager button{
+  border:0;border-radius:999px;padding:7px 12px;background:#dbe8f2;color:#0a376e;
+  font-size:12px;font-weight:1000;cursor:pointer
+}
+.shiritoriPostPager button.active{background:#0a376e;color:#fff}
+.shiritoriPostPreview{
+  width:min(680px,86vw);aspect-ratio:1/1;margin:auto;background:#fff;border-radius:16px;
+  overflow:hidden;box-shadow:0 12px 35px rgba(0,0,0,.18)
+}
+.shiritoriPostPreview img{display:block;width:100%;height:100%;object-fit:contain}
+.shiritoriPostActions{
+  display:flex;align-items:center;justify-content:center;gap:9px;flex-wrap:wrap;margin-top:14px
+}
+.shiritoriPostActions button{
+  border:0;border-radius:999px;padding:10px 15px;background:#0a376e;color:#fff;
+  font-weight:1000;cursor:pointer
+}
+#shiritoriPostDownload{background:#e00068}
+#shiritoriPostPageLabel{min-width:72px;text-align:center;color:#0a376e;font-weight:1000}
+.shiritoriPostInfo{text-align:center;margin-top:10px;color:#647a90;font-size:12px;font-weight:900}
+@media(max-width:650px){
+  .shiritoriPostExportWrap{display:grid}
+  .shiritoriPostExportNote{text-align:left}
+}
+
 </style>
 </head>
 <body>
@@ -1373,7 +1431,7 @@
 <div class="cards" id="cards"></div>
 </section>
 
-<footer class="footer"><div><b id="secretSettingsFooterTrigger">INAO 稲尾電鉄グループ</b></div><div>鉄道でつながる、笑顔の未来。</div><div>ORIGINAL TRAIN PROJECT ver.2.02.0</div></footer>
+<footer class="footer"><div><b id="secretSettingsFooterTrigger">INAO 稲尾電鉄グループ</b></div><div>鉄道でつながる、笑顔の未来。</div><div>ORIGINAL TRAIN PROJECT ver.2.03.0</div></footer>
 </main>
 </div>
 
@@ -1438,10 +1496,41 @@
         <div class="shiritoriRecordError" id="shiritoriRecordError"></div>
       </div>
 
+      <div class="shiritoriPostExportWrap">
+        <button type="button" id="shiritoriPostExportBtn">🖼 投稿画像出力</button>
+        <div class="shiritoriPostExportNote">40件ごとにスクエア画像へ自動分割します</div>
+      </div>
+
       <div class="shiritoriRecordListWrap">
         <div class="shiritoriRecordListTitle">記録一覧 <span>NEWEST FIRST</span></div>
         <div class="shiritoriRecordList" id="shiritoriRecordList"></div>
       </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="shiritoriPostOverlay" id="shiritoriPostOverlay">
+  <div class="shiritoriPostModal">
+    <div class="shiritoriPostHead">
+      <div>
+        <div class="shiritoriPostKicker">SOCIAL POST IMAGE</div>
+        <h2>駅名しりとり 投稿画像</h2>
+      </div>
+      <button type="button" class="shiritoriPostClose" id="shiritoriPostClose">×</button>
+    </div>
+    <div class="shiritoriPostBody">
+      <div class="shiritoriPostPager" id="shiritoriPostPager"></div>
+      <div class="shiritoriPostPreview">
+        <img id="shiritoriPostImage" alt="駅名しりとり投稿画像">
+      </div>
+      <div class="shiritoriPostActions">
+        <button type="button" id="shiritoriPostPrev">← 前の画像</button>
+        <span id="shiritoriPostPageLabel">1 / 1</span>
+        <button type="button" id="shiritoriPostNext">次の画像 →</button>
+        <button type="button" id="shiritoriPostDownload">この画像を保存</button>
+      </div>
+      <div class="shiritoriPostInfo" id="shiritoriPostInfo"></div>
     </div>
   </div>
 </div>
@@ -3000,6 +3089,9 @@ try{
 }catch(e){shiritoriRecords=[]}
 
 const shiritoriRecordOverlay=document.getElementById("shiritoriRecordOverlay");
+const shiritoriPostOverlay=document.getElementById("shiritoriPostOverlay");
+let shiritoriPostImages=[];
+let shiritoriPostPage=0;
 function saveShiritoriRecords(){
   localStorage.setItem(SHIRITORI_RECORD_KEY,JSON.stringify(shiritoriRecords));
 }
@@ -3088,6 +3180,127 @@ function renderShiritoriRecords(){
 function escapeHtml(v){
   return String(v??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[ch]));
 }
+function fitCanvasText(ctx,text,maxWidth,startSize,minSize){
+  let size=startSize;
+  do{
+    ctx.font="900 "+size+"px sans-serif";
+    if(ctx.measureText(text).width<=maxWidth) return size;
+    size-=1;
+  }while(size>minSize);
+  return minSize;
+}
+function drawShiritoriPostPage(items,pageIndex,totalPages,startNumber){
+  const canvas=document.createElement("canvas");
+  canvas.width=1080;
+  canvas.height=1080;
+  const ctx=canvas.getContext("2d");
+
+  ctx.fillStyle="#f4f8fb";
+  ctx.fillRect(0,0,1080,1080);
+
+  ctx.fillStyle="#063361";
+  ctx.fillRect(0,0,1080,118);
+  ctx.fillStyle="#ffffff";
+  ctx.font="1000 42px sans-serif";
+  ctx.fillText("駅名しりとり記録",48,58);
+  ctx.font="800 20px sans-serif";
+  ctx.fillStyle="#b9d9ef";
+  ctx.fillText("INAO ELECTRIC RAILWAY  /  SHIRITORI RECORD",48,91);
+
+  ctx.textAlign="right";
+  ctx.fillStyle="#ffffff";
+  ctx.font="1000 25px sans-serif";
+  ctx.fillText((pageIndex+1)+" / "+totalPages,1032,68);
+  ctx.textAlign="left";
+
+  const top=142, bottom=1038, gap=18;
+  const colW=(1080-48*2-gap)/2;
+  const rowH=(bottom-top)/20;
+
+  items.forEach((x,i)=>{
+    const col=Math.floor(i/20);
+    const row=i%20;
+    const x0=48+col*(colW+gap);
+    const y0=top+row*rowH;
+    const n=startNumber+i+1;
+
+    ctx.fillStyle=row%2===0?"#ffffff":"#eaf3f9";
+    ctx.fillRect(x0,y0,colW,rowH-3);
+
+    ctx.fillStyle="#0a376e";
+    ctx.font="1000 16px sans-serif";
+    ctx.fillText("#"+String(n).padStart(2,"0"),x0+10,y0+28);
+
+    const line=(x.name?x.name+"　":"")+(x.kanji||"")+"（"+(x.yomi||"")+"）";
+    const textX=x0+60;
+    const maxW=colW-72;
+    const size=fitCanvasText(ctx,line,maxW,19,10);
+    ctx.font="900 "+size+"px sans-serif";
+    ctx.fillStyle="#17344f";
+    ctx.fillText(line,textX,y0+29);
+  });
+
+  ctx.fillStyle="#7890a3";
+  ctx.font="800 15px sans-serif";
+  ctx.fillText("※ 名前・漢字・読みを1行で表示 / 1枚40件",48,1064);
+
+  return canvas.toDataURL("image/png");
+}
+function generateShiritoriPostImages(){
+  if(!shiritoriRecords.length){
+    alert("まだ記録がありません。");
+    return false;
+  }
+  // しりとりの開始から順番に並べて投稿画像化
+  const chronological=[...shiritoriRecords].reverse();
+  const pages=[];
+  for(let i=0;i<chronological.length;i+=40){
+    pages.push(chronological.slice(i,i+40));
+  }
+  shiritoriPostImages=pages.map((items,pageIndex)=>
+    drawShiritoriPostPage(items,pageIndex,pages.length,pageIndex*40)
+  );
+  shiritoriPostPage=0;
+  return true;
+}
+function renderShiritoriPostPage(){
+  if(!shiritoriPostImages.length) return;
+  document.getElementById("shiritoriPostImage").src=shiritoriPostImages[shiritoriPostPage];
+  document.getElementById("shiritoriPostPageLabel").textContent=
+    (shiritoriPostPage+1)+" / "+shiritoriPostImages.length;
+  document.getElementById("shiritoriPostPrev").disabled=shiritoriPostPage===0;
+  document.getElementById("shiritoriPostNext").disabled=shiritoriPostPage===shiritoriPostImages.length-1;
+  document.getElementById("shiritoriPostInfo").textContent=
+    "全"+shiritoriRecords.length+"件 / "+shiritoriPostImages.length+"枚に分割";
+  const pager=document.getElementById("shiritoriPostPager");
+  pager.innerHTML=shiritoriPostImages.map((_,i)=>
+    '<button type="button" data-post-page="'+i+'" class="'+(i===shiritoriPostPage?"active":"")+'">'+(i+1)+"枚目</button>"
+  ).join("");
+  pager.querySelectorAll("[data-post-page]").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      shiritoriPostPage=Number(btn.dataset.postPage);
+      renderShiritoriPostPage();
+    });
+  });
+}
+function openShiritoriPostExport(){
+  if(!generateShiritoriPostImages()) return;
+  renderShiritoriPostPage();
+  shiritoriPostOverlay.classList.add("show");
+}
+function closeShiritoriPostExport(){
+  shiritoriPostOverlay.classList.remove("show");
+}
+function downloadCurrentShiritoriPost(){
+  if(!shiritoriPostImages.length) return;
+  const a=document.createElement("a");
+  a.href=shiritoriPostImages[shiritoriPostPage];
+  a.download="station_shiritori_"+String(shiritoriPostPage+1).padStart(2,"0")+".png";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+}
+
 function openShiritoriRecord(){
   shiritoriInlineEditIndex=-1;
   document.getElementById("shiritoriRecordError").textContent="";
@@ -3199,6 +3412,16 @@ function nextStationSubmit(){
  const t=tailKana(st.yomi);if(t==="ん"){err.textContent="「ん」で終わりました。ゲーム終了！";return}err.textContent="";computerRespond(t);
 }
 document.getElementById("shiritoriRecordBtn").addEventListener("click",openShiritoriRecord);
+document.getElementById("shiritoriPostExportBtn").addEventListener("click",openShiritoriPostExport);
+document.getElementById("shiritoriPostClose").addEventListener("click",closeShiritoriPostExport);
+shiritoriPostOverlay.addEventListener("click",e=>{if(e.target===shiritoriPostOverlay)closeShiritoriPostExport()});
+document.getElementById("shiritoriPostPrev").addEventListener("click",()=>{
+  if(shiritoriPostPage>0){shiritoriPostPage--;renderShiritoriPostPage()}
+});
+document.getElementById("shiritoriPostNext").addEventListener("click",()=>{
+  if(shiritoriPostPage<shiritoriPostImages.length-1){shiritoriPostPage++;renderShiritoriPostPage()}
+});
+document.getElementById("shiritoriPostDownload").addEventListener("click",downloadCurrentShiritoriPost);
 document.getElementById("shiritoriRecordClose").addEventListener("click",closeShiritoriRecord);
 document.getElementById("shiritoriRecordAdd").addEventListener("click",addShiritoriRecord);
 shiritoriRecordOverlay.addEventListener("click",e=>{if(e.target===shiritoriRecordOverlay)closeShiritoriRecord()});
