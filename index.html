@@ -689,12 +689,72 @@
   }
 }
 
+
+/* ===== v1.75 hidden settings viewer ===== */
+#secretSettingsFooterTrigger,#secretSettingsSideTrigger{cursor:pointer;user-select:none}
+#secretSettingsFooterTrigger:active,#secretSettingsSideTrigger:active{opacity:.72}
+.secretSettingsOverlay{
+  position:fixed;inset:0;z-index:210;display:none;place-items:center;
+  background:rgba(1,12,26,.9);backdrop-filter:blur(9px);padding:18px
+}
+.secretSettingsOverlay.show{display:grid}
+.secretSettingsModal{
+  width:min(820px,95vw);max-height:90vh;background:#fff;border-radius:24px;
+  overflow:hidden;border:3px solid #0a376e;box-shadow:0 32px 110px rgba(0,0,0,.58)
+}
+.secretSettingsHead{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 20px;background:linear-gradient(90deg,#061f3e,#0a4b86);color:#fff
+}
+.secretSettingsHead h2{margin:2px 0 0;font-size:27px}
+.secretSettingsKicker{font-size:11px;font-weight:1000;letter-spacing:.17em;opacity:.7}
+.secretSettingsClose{
+  width:40px;height:40px;border:0;border-radius:50%;background:rgba(255,255,255,.16);
+  color:#fff;font-size:24px;font-weight:1000;cursor:pointer
+}
+.secretPasswordView{padding:34px 30px 32px;text-align:center}
+.secretLockIcon{font-size:58px;margin-bottom:8px}
+.secretPasswordView p{font-weight:900;color:#38516c;font-size:18px}
+.secretSettingsPassword{
+  width:min(360px,100%);border:3px solid #bfd4e5;border-radius:14px;
+  padding:14px 16px;text-align:center;font-size:24px;font-weight:1000;
+  letter-spacing:.14em;outline:none
+}
+.secretSettingsPassword:focus{border-color:#0a69ad}
+.secretSettingsError{min-height:24px;margin:8px 0;color:#ca003d;font-weight:1000}
+.secretSettingsUnlock{
+  border:0;border-radius:999px;padding:13px 28px;background:var(--navy);color:#fff;
+  font-size:18px;font-weight:1000;cursor:pointer
+}
+.secretRulesView{display:none;padding:20px;max-height:calc(90vh - 76px);overflow:auto;background:#f5f8fc}
+.secretRulesView.show{display:block}
+.secretCurrentState{
+  margin-bottom:14px;padding:14px 16px;border-radius:14px;background:#071f3c;color:#fff;
+  font-weight:900;line-height:1.65
+}
+.secretRuleSection{
+  margin-top:14px;padding:16px 18px;background:#fff;border:1px solid #d5e1ec;
+  border-radius:16px;box-shadow:0 6px 18px rgba(7,55,110,.06)
+}
+.secretRuleSection h3{margin:0 0 12px;color:#0a376e;font-size:20px}
+.secretRuleGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.secretRuleGrid>div{
+  padding:13px;border-radius:12px;background:#f1f6fb;text-align:center;
+  display:grid;gap:4px
+}
+.secretRuleGrid strong{font-size:19px;color:#0a376e}
+.secretRuleGrid span{font-size:15px;font-weight:1000;color:#d50061}
+.secretRuleList{margin:0;padding-left:1.35em;color:#30475f;font-weight:800;line-height:1.8}
+@media(max-width:650px){
+  .secretRuleGrid{grid-template-columns:1fr}
+}
+
 </style>
 </head>
 <body>
 <div class="app">
 <aside class="sidebar">
-<div class="side-brand">INAO</div>
+<div class="side-brand" id="secretSettingsSideTrigger">INAO</div>
 <button class="navbtn active"><span>🚆</span><span>ガチャ</span></button>
 <button class="navbtn" id="howToBtn"><span>❔</span><span>遊び方</span></button>
 <button class="navbtn" id="questionBoxBtn"><span>🎲</span><span>質問箱</span></button>
@@ -755,7 +815,7 @@
 <div class="cards" id="cards"></div>
 </section>
 
-<footer class="footer"><div><b>INAO 稲尾電鉄グループ</b></div><div>鉄道でつながる、笑顔の未来。</div><div>ORIGINAL TRAIN PROJECT ver.1.74.0</div></footer>
+<footer class="footer"><div><b id="secretSettingsFooterTrigger">INAO 稲尾電鉄グループ</b></div><div>鉄道でつながる、笑顔の未来。</div><div>ORIGINAL TRAIN PROJECT ver.1.75.0</div></footer>
 </main>
 </div>
 
@@ -1064,6 +1124,64 @@
 </div>
 
 
+
+<div class="secretSettingsOverlay" id="secretSettingsOverlay">
+  <div class="secretSettingsModal">
+    <div class="secretSettingsHead">
+      <div>
+        <div class="secretSettingsKicker">ADMIN / SECRET SETTINGS</div>
+        <h2 id="secretSettingsTitle">管理設定</h2>
+      </div>
+      <button class="secretSettingsClose" id="secretSettingsClose" type="button">×</button>
+    </div>
+
+    <div class="secretPasswordView" id="secretPasswordView">
+      <div class="secretLockIcon">🔐</div>
+      <p>パスワードを入力してください。</p>
+      <input id="secretSettingsPassword" class="secretSettingsPassword" type="password" inputmode="numeric" autocomplete="off" placeholder="PASSWORD">
+      <div class="secretSettingsError" id="secretSettingsError"></div>
+      <button class="secretSettingsUnlock" id="secretSettingsUnlock" type="button">設定を開く</button>
+    </div>
+
+    <div class="secretRulesView" id="secretRulesView">
+      <div class="secretCurrentState" id="secretCurrentState"></div>
+
+      <div class="secretRuleSection">
+        <h3>ガチャ確率</h3>
+        <div class="secretRuleGrid">
+          <div><strong>銅</strong><span>90%</span></div>
+          <div><strong>銀</strong><span>10%</span></div>
+          <div><strong>金</strong><span>通常確率なし</span></div>
+        </div>
+      </div>
+
+      <div class="secretRuleSection">
+        <h3>隠し進行ルール</h3>
+        <ul class="secretRuleList">
+          <li>通常ガチャ1〜20回目は、新規獲得が最大6種類まで。</li>
+          <li>21〜30回目は、新規獲得が最大8種類まで。</li>
+          <li>31回目以降は、パンタグラフ以外の9種類まで獲得可能。</li>
+          <li>40回目までにパンタグラフ以外の9種類が揃うよう、必要に応じて内部補正が入る。</li>
+          <li>パンタグラフ以外の9種類が揃ったあと、10回目の通常ガチャで金のパンタグラフが確定。</li>
+          <li>通常ガチャは最大50回。50回までに全10種類が揃う設計。</li>
+          <li>部品指定は通常の回数・種類数制限を受けない。</li>
+          <li>ただし金のパンタグラフは、他の9種類が揃った「ラストワン」の場合のみ部品指定可能。</li>
+        </ul>
+      </div>
+
+      <div class="secretRuleSection">
+        <h3>その他の隠し機能</h3>
+        <ul class="secretRuleList">
+          <li>右上の「稲尾 電気 鉄道」印をクリックすると、連続ガチャ設定を開く。</li>
+          <li>連続ガチャでも通常ガチャと同じ確率・種類数上限・金確定・50回上限を適用。</li>
+          <li>ページは3分ごとに自動再読み込み。</li>
+          <li>セーブ / ロード、1つ戻す / 1つ進むでもガチャ進行状態を保持。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="autoGachaOverlay" id="autoGachaOverlay">
   <div class="autoGachaModal">
     <div class="autoGachaHead">
@@ -1123,6 +1241,13 @@ autoGachaCount=document.getElementById("autoGachaCount"),
 autoGachaInfo=document.getElementById("autoGachaInfo"),
 autoGachaStart=document.getElementById("autoGachaStart");
 let autoGachaActive=false,autoGachaRemaining=0;
+
+const secretSettingsOverlay=document.getElementById("secretSettingsOverlay"),
+secretPasswordView=document.getElementById("secretPasswordView"),
+secretRulesView=document.getElementById("secretRulesView"),
+secretSettingsPassword=document.getElementById("secretSettingsPassword"),
+secretSettingsError=document.getElementById("secretSettingsError"),
+secretCurrentState=document.getElementById("secretCurrentState");
 
 const saveOverlay=document.getElementById("saveOverlay"),
 loadOverlay=document.getElementById("loadOverlay"),
@@ -1660,6 +1785,36 @@ function roll(onComplete){
     },650);
   },1900);
 }
+function openSecretSettings(){
+  secretSettingsPassword.value="";
+  secretSettingsError.textContent="";
+  secretRulesView.classList.remove("show");
+  secretPasswordView.style.display="block";
+  secretSettingsOverlay.classList.add("show");
+  setTimeout(()=>secretSettingsPassword.focus(),50);
+}
+function closeSecretSettings(){
+  secretSettingsOverlay.classList.remove("show");
+}
+function unlockSecretSettings(){
+  if(secretSettingsPassword.value!=="88888888"){
+    secretSettingsError.textContent="パスワードが違います。";
+    secretSettingsPassword.select();
+    return;
+  }
+  secretSettingsError.textContent="";
+  secretPasswordView.style.display="none";
+  secretRulesView.classList.add("show");
+  const nonGoldOwned=parts.filter(p=>p.id!=="panto"&&owned.has(p.id)).length;
+  const pantoState=owned.has("panto")
+    ?"パンタグラフ獲得済み"
+    :(pantoDueRoll>0?"金確定予定："+pantoDueRoll+"回目":"金確定カウント未開始");
+  secretCurrentState.innerHTML=
+    "現在の抽選回数：<b>"+rolls+" / 50回</b><br>"+
+    "現在の獲得数：<b>"+owned.size+" / 10種</b>（金以外 "+nonGoldOwned+" / 9種）<br>"+
+    "金レア状態：<b>"+pantoState+"</b>";
+}
+
 function refreshAutoGachaOptions(){
   const remaining=Math.max(0,50-rolls);
   autoGachaCount.innerHTML="";
@@ -1728,6 +1883,13 @@ function resetAll(){
     localStorage.removeItem("inaoOwned");localStorage.removeItem("inaoRolls");localStorage.removeItem("inaoNoNewStreak");localStorage.removeItem("inaoPantoDueRoll");localStorage.removeItem("inaoDuplicateStreak");autoGachaActive=false;autoGachaRemaining=0;document.getElementById("gachaBtn").disabled=false;render();
   }
 }
+document.getElementById("secretSettingsFooterTrigger").addEventListener("click",openSecretSettings);
+document.getElementById("secretSettingsSideTrigger").addEventListener("click",openSecretSettings);
+document.getElementById("secretSettingsClose").addEventListener("click",closeSecretSettings);
+document.getElementById("secretSettingsUnlock").addEventListener("click",unlockSecretSettings);
+secretSettingsPassword.addEventListener("keydown",e=>{if(e.key==="Enter")unlockSecretSettings()});
+secretSettingsOverlay.addEventListener("click",e=>{if(e.target===secretSettingsOverlay)closeSecretSettings()});
+
 document.getElementById("secretAutoGachaTrigger").addEventListener("click",openAutoGacha);
 document.getElementById("autoGachaClose").addEventListener("click",closeAutoGacha);
 autoGachaOverlay.addEventListener("click",e=>{if(e.target===autoGachaOverlay)closeAutoGacha()});
