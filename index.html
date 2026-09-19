@@ -814,8 +814,8 @@
 <div class="panel rarityPanel">
 <div class="panelTitle">レアリティと部品一覧</div>
 <div class="rarityRows">
-<div class="rarityRow"><div class="medal gold">金</div><div class="rate">特殊</div><div class="items">パンタグラフ（集電装置）<div class="noSpecialNote">ラストワン指定可</div></div></div>
-<div class="rarityRow"><div class="medal silver">銀</div><div class="rate">10%</div><div class="items">VVVFインバーター<br>無線アンテナ<br>台車</div></div>
+<div class="rarityRow"><div class="medal gold">金</div><div class="rate">1.45%</div><div class="items">パンタグラフ（集電装置）<div class="noSpecialNote">ラストワン指定可</div></div></div>
+<div class="rarityRow"><div class="medal silver">銀</div><div class="rate">5.35%</div><div class="items">VVVFインバーター<br>無線アンテナ<br>台車</div></div>
 <div class="rarityRow"><div class="medal bronze">銅</div><div class="rate">90%</div><div class="items">冷房装置<br>連結器<br>スカート<br>ライト<br>ドア<br>電光板</div></div>
 </div>
 </div>
@@ -835,7 +835,7 @@
 <div class="cards" id="cards"></div>
 </section>
 
-<footer class="footer"><div><b id="secretSettingsFooterTrigger">INAO 稲尾電鉄グループ</b></div><div>鉄道でつながる、笑顔の未来。</div><div>ORIGINAL TRAIN PROJECT ver.1.77.0</div></footer>
+<footer class="footer"><div><b id="secretSettingsFooterTrigger">INAO 稲尾電鉄グループ</b></div><div>鉄道でつながる、笑顔の未来。</div><div>ORIGINAL TRAIN PROJECT ver.1.78.0</div></footer>
 </main>
 </div>
 
@@ -1170,21 +1170,18 @@
         <h3>ガチャ確率</h3>
         <div class="secretRuleGrid">
           <div><strong>銅</strong><span>90%</span></div>
-          <div><strong>銀</strong><span>10%</span></div>
-          <div><strong>金</strong><span>通常確率なし</span></div>
+          <div><strong>銀</strong><span>5.35%</span></div>
+          <div><strong>金</strong><span>1.45%</span></div>
         </div>
       </div>
 
       <div class="secretRuleSection">
         <h3>隠し進行ルール</h3>
         <ul class="secretRuleList">
-          <li>通常ガチャ1〜20回目は、新規獲得が最大6種類まで。</li>
-          <li>21〜30回目は、新規獲得が最大8種類まで。</li>
-          <li>31回目以降は、パンタグラフ以外の9種類まで獲得可能。</li>
-          <li>40回目までにパンタグラフ以外の9種類が揃うよう、必要に応じて内部補正が入る。</li>
-          <li>パンタグラフ以外の9種類が揃ったあと、10回目の通常ガチャで金のパンタグラフが確定。</li>
-          <li>通常ガチャは最大50回。50回までに全10種類が揃う設計。</li>
-          <li>部品指定は通常の回数・種類数制限を受けない。</li>
+          <li>通常ガチャは最大50回。</li>
+          <li>重複排出あり。獲得済み部品も通常どおり抽選対象。</li>
+          <li>指定確率の合計が96.8%のため、残り3.2%は内部で再抽選。</li>
+          <li>部品指定は通常ガチャの確率に関係なく未獲得部品から選択可能。</li>
           <li>ただし金のパンタグラフは、他の9種類が揃った「ラストワン」の場合のみ部品指定可能。</li>
         </ul>
       </div>
@@ -1193,7 +1190,7 @@
         <h3>その他の隠し機能</h3>
         <ul class="secretRuleList">
           <li>右上の「稲尾 電気 鉄道」印をクリックすると、連続ガチャ設定を開く。</li>
-          <li>連続ガチャでも通常ガチャと同じ確率・種類数上限・金確定・50回上限を適用。</li>
+          <li>連続ガチャでも通常ガチャと同じ確率・重複あり・50回上限を適用。</li>
           <li>通常の「部品ガチャを回す」を押すと、先にページを再読み込みし、読み込み完了後にガチャを1回実行。</li>
           <li>セーブ / ロード、1つ戻す / 1つ進むでもガチャ進行状態を保持。</li>
         </ul>
@@ -1672,13 +1669,8 @@ function executeSpecialAcquire(){
 
   owned.add(p.id);
   noNewStreak=0;
-  const specialNonGoldOwned=parts.filter(x=>x.id!=="panto"&&owned.has(x.id)).length;
-  if(!owned.has("panto") && specialNonGoldOwned===9 && pantoDueRoll<=0){
-    pantoDueRoll=Math.min(50,rolls+10);
-  }
   localStorage.setItem("inaoOwned",JSON.stringify([...owned]));
   localStorage.setItem("inaoNoNewStreak",noNewStreak);
-  localStorage.setItem("inaoPantoDueRoll",String(pantoDueRoll));
   render();
 
   specialAcquireImg.src=p.imgColor;
@@ -1696,51 +1688,24 @@ function executeSpecialAcquire(){
     }
   },4200);
 }
-function pickByRarity(pool){
-  if(!pool.length) return null;
-  const selectedRarity=Math.random()<0.90?"銅":"銀";
-  let candidates=pool.filter(p=>p.rarity===selectedRarity);
-  if(!candidates.length) candidates=pool;
-  return candidates[Math.floor(Math.random()*candidates.length)];
-}
 function weightedPick(){
-  const goldPart=parts.find(p=>p.id==="panto");
-  const nonGoldParts=parts.filter(p=>p.id!=="panto");
-  const nonGoldOwned=nonGoldParts.filter(p=>owned.has(p.id));
-  const nonGoldUnowned=nonGoldParts.filter(p=>!owned.has(p.id));
-  const nextRoll=rolls+1;
-
-  // 他の9種が揃った後、10回目の通常ガチャで金を確定。
-  if(nonGoldUnowned.length===0 && !owned.has("panto")){
-    if(pantoDueRoll<=0){
-      pantoDueRoll=Math.min(50,rolls+10);
-      localStorage.setItem("inaoPantoDueRoll",String(pantoDueRoll));
+  // 通常抽選：銅90%・銀5.35%・金1.45%。
+  // 合計96.8%なので、残り3.2%は再抽選する。
+  let selectedRarity=null;
+  while(!selectedRarity){
+    const r=Math.random()*100;
+    if(r<90){
+      selectedRarity="銅";
+    }else if(r<95.35){
+      selectedRarity="銀";
+    }else if(r<96.80){
+      selectedRarity="金";
     }
-    if(nextRoll>=pantoDueRoll || nextRoll>=50) return goldPart;
-    return pickByRarity(nonGoldParts);
   }
 
-  // 通常ガチャで新規獲得できる種類数の上限。
-  // 1～20回: 最大6種 / 21～30回: 最大8種 / 31回以降: 最大9種。
-  const cap=nextRoll<=20?6:(nextRoll<=30?8:9);
-
-  // 40回目までに他の9種が必ず揃うよう、必要になった時点から未獲得を確定する。
-  // これにより、9種達成後10回目の金が最大50回目に収まる。
-  const drawsLeftThrough40=Math.max(0,41-nextRoll);
-  const mustForceNew=nextRoll>30 && nextRoll<=40 &&
-    nonGoldUnowned.length>0 && nonGoldUnowned.length>=drawsLeftThrough40;
-
-  if(mustForceNew){
-    return pickByRarity(nonGoldUnowned);
-  }
-
-  // 20回までは6種、30回までは8種を超えて新しい種類を増やさない。
-  if(nonGoldOwned.length>=cap){
-    return pickByRarity(nonGoldOwned.length?nonGoldOwned:nonGoldParts);
-  }
-
-  // 通常排出率：銅90%・銀10%。
-  return pickByRarity(nonGoldParts);
+  // 重複排出あり。獲得済みかどうかに関係なく全対象から抽選。
+  const candidates=parts.filter(p=>p.rarity===selectedRarity);
+  return candidates[Math.floor(Math.random()*candidates.length)];
 }
 function rarityColor(r){return r==="金"?"#d9a411":r==="銀"?"#8b949f":"#bd6b2b"}
 function roll(onComplete){
@@ -1789,14 +1754,9 @@ function roll(onComplete){
       }else{
         noNewStreak++;
       }
-      const nonGoldOwnedAfter=parts.filter(x=>x.id!=="panto"&&owned.has(x.id)).length;
-      if(!owned.has("panto") && nonGoldOwnedAfter===9 && pantoDueRoll<=0){
-        pantoDueRoll=Math.min(50,rolls+10);
-      }
       localStorage.setItem("inaoOwned",JSON.stringify([...owned]));
       localStorage.setItem("inaoRolls",rolls);
       localStorage.setItem("inaoNoNewStreak",noNewStreak);
-      localStorage.setItem("inaoPantoDueRoll",String(pantoDueRoll));
       render();
 
       rarityBig.textContent=p.rarity;
@@ -1840,7 +1800,7 @@ function unlockSecretSettings(){
   const nonGoldOwned=parts.filter(p=>p.id!=="panto"&&owned.has(p.id)).length;
   const pantoState=owned.has("panto")
     ?"パンタグラフ獲得済み"
-    :(pantoDueRoll>0?"金確定予定："+pantoDueRoll+"回目":"金確定カウント未開始");
+    :"未獲得（通常抽選1.45%）";
   secretCurrentState.innerHTML=
     "現在の抽選回数：<b>"+rolls+" / 50回</b><br>"+
     "現在の獲得数：<b>"+owned.size+" / 10種</b>（金以外 "+nonGoldOwned+" / 9種）<br>"+
