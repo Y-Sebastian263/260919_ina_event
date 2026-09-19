@@ -1195,6 +1195,93 @@
 }
 .completeZoomHint{text-align:center;margin-top:8px;color:#60748a;font-size:12px;font-weight:800}
 
+
+/* ===== v1.96 station shiritori record ===== */
+.shiritoriRecordOverlay{
+  position:fixed;inset:0;z-index:150;display:none;place-items:center;
+  background:rgba(1,16,34,.9);backdrop-filter:blur(8px);padding:18px
+}
+.shiritoriRecordOverlay.show{display:grid}
+.shiritoriRecordModal{
+  width:min(820px,95vw);max-height:92vh;background:#fff;border:3px solid #0b4d88;
+  border-radius:26px;overflow:hidden;box-shadow:0 30px 100px rgba(0,0,0,.5)
+}
+.shiritoriRecordHead{
+  display:flex;align-items:center;justify-content:space-between;padding:15px 20px;
+  background:linear-gradient(90deg,#063361,#0c65a9);color:#fff
+}
+.shiritoriRecordHead h2{margin:2px 0 0;font-size:28px}
+.shiritoriRecordKicker{font-size:11px;font-weight:1000;letter-spacing:.18em;opacity:.76}
+.shiritoriRecordClose{
+  width:38px;height:38px;border:0;border-radius:50%;background:rgba(255,255,255,.17);
+  color:#fff;font-size:22px;font-weight:1000;cursor:pointer
+}
+.shiritoriRecordBody{
+  padding:22px;max-height:calc(92vh - 74px);overflow:auto;background:#f5f8fc
+}
+.shiritoriLatest{
+  padding:20px;border-radius:18px;background:linear-gradient(135deg,#062f59,#0a65a7);
+  color:#fff;text-align:center;box-shadow:0 9px 24px rgba(8,55,110,.2)
+}
+.shiritoriLatestLabel{font-size:13px;font-weight:1000;letter-spacing:.14em;opacity:.75}
+.shiritoriLatestWord{
+  margin-top:8px;font-size:clamp(34px,5vw,60px);font-weight:1000;line-height:1.15
+}
+.shiritoriLatestReading{margin-top:4px;font-size:24px;font-weight:1000;color:#ffd6e9}
+.shiritoriLatestName{margin-top:8px;font-size:15px;font-weight:900;opacity:.88}
+.shiritoriRecordForm{
+  margin-top:18px;padding:18px;background:#fff;border:1px solid #d8e4ee;
+  border-radius:16px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px
+}
+.shiritoriRecordForm label{display:grid;gap:6px}
+.shiritoriRecordForm label span{font-size:13px;font-weight:1000;color:#486179}
+.shiritoriRecordForm input{
+  width:100%;border:2px solid #bdd6e8;border-radius:12px;padding:12px 13px;
+  font-size:18px;font-weight:900;outline:none
+}
+.shiritoriRecordForm input:focus{border-color:#1681ca}
+#shiritoriRecordAdd{
+  grid-column:1 / -1;border:0;border-radius:999px;padding:13px 20px;
+  background:linear-gradient(180deg,#ff4c9c,#d60062);color:#fff;
+  font-size:20px;font-weight:1000;cursor:pointer
+}
+.shiritoriRecordError{
+  grid-column:1 / -1;min-height:20px;text-align:center;color:#c9003c;font-weight:900
+}
+.shiritoriRecordListWrap{
+  margin-top:18px;background:#fff;border:1px solid #d8e4ee;border-radius:16px;
+  overflow:hidden
+}
+.shiritoriRecordListTitle{
+  padding:12px 15px;background:#eaf4fb;color:#0a376e;font-size:17px;font-weight:1000
+}
+.shiritoriRecordListTitle span{
+  margin-left:8px;font-size:10px;letter-spacing:.14em;color:#6f879d
+}
+.shiritoriRecordList{display:grid}
+.shiritoriRecordItem{
+  display:grid;grid-template-columns:74px minmax(0,1fr) auto;gap:12px;align-items:center;
+  padding:13px 15px;border-top:1px solid #e3ebf2
+}
+.shiritoriRecordItem:first-child{border-top:0}
+.shiritoriRecordIndex{
+  color:#7c91a4;font-size:12px;font-weight:1000;letter-spacing:.08em
+}
+.shiritoriRecordMain{min-width:0}
+.shiritoriRecordKanji{font-size:22px;font-weight:1000;color:#0a376e}
+.shiritoriRecordYomi{font-size:14px;font-weight:900;color:#e00068;margin-top:2px}
+.shiritoriRecordPerson{
+  max-width:180px;text-align:right;color:#526b82;font-size:14px;font-weight:1000;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
+.shiritoriRecordEmpty{padding:28px;text-align:center;color:#8094a7;font-weight:900}
+@media(max-width:650px){
+  .shiritoriRecordForm{grid-template-columns:1fr}
+  #shiritoriRecordAdd,.shiritoriRecordError{grid-column:1}
+  .shiritoriRecordItem{grid-template-columns:58px minmax(0,1fr)}
+  .shiritoriRecordPerson{grid-column:2;text-align:left;max-width:none}
+}
+
 </style>
 </head>
 <body>
@@ -1206,6 +1293,7 @@
 <button class="navbtn" id="questionBoxBtn"><span>🎲</span><span>質問箱</span></button>
 <button class="navbtn" id="yQuestionBtn"><span>⚠️</span><span>Yの質問</span></button>
 <button class="navbtn" id="stationShiritoriBtn"><span>🚉</span><span>駅名しりとり</span></button>
+<button class="navbtn" id="shiritoriRecordBtn"><span>📝</span><span>記録</span></button>
 <div style="flex:1"></div>
 <button class="navbtn" id="saveBtn"><span>💾</span><span>セーブ</span></button>
 <button class="navbtn" id="loadBtn"><span>📂</span><span>ロード</span></button>
@@ -1262,7 +1350,7 @@
 <div class="cards" id="cards"></div>
 </section>
 
-<footer class="footer"><div><b id="secretSettingsFooterTrigger">INAO 稲尾電鉄グループ</b></div><div>鉄道でつながる、笑顔の未来。</div><div>ORIGINAL TRAIN PROJECT ver.1.95.0</div></footer>
+<footer class="footer"><div><b id="secretSettingsFooterTrigger">INAO 稲尾電鉄グループ</b></div><div>鉄道でつながる、笑顔の未来。</div><div>ORIGINAL TRAIN PROJECT ver.1.96.0</div></footer>
 </main>
 </div>
 
@@ -1291,6 +1379,50 @@
   </div>
  </div>
 </div>
+
+<div class="shiritoriRecordOverlay" id="shiritoriRecordOverlay">
+  <div class="shiritoriRecordModal">
+    <div class="shiritoriRecordHead">
+      <div>
+        <div class="shiritoriRecordKicker">SHIRITORI RECORD</div>
+        <h2>📝 駅名しりとり記録</h2>
+      </div>
+      <button class="shiritoriRecordClose" id="shiritoriRecordClose" type="button">×</button>
+    </div>
+
+    <div class="shiritoriRecordBody">
+      <div class="shiritoriLatest">
+        <div class="shiritoriLatestLabel">現在の最後のしりとり</div>
+        <div class="shiritoriLatestWord" id="shiritoriLatestWord">まだ記録がありません</div>
+        <div class="shiritoriLatestReading" id="shiritoriLatestReading"></div>
+        <div class="shiritoriLatestName" id="shiritoriLatestName"></div>
+      </div>
+
+      <div class="shiritoriRecordForm">
+        <label>
+          <span>名前</span>
+          <input id="shiritoriRecordName" type="text" placeholder="例：Y">
+        </label>
+        <label>
+          <span>漢字</span>
+          <input id="shiritoriRecordKanji" type="text" placeholder="例：渋谷">
+        </label>
+        <label>
+          <span>読み</span>
+          <input id="shiritoriRecordYomi" type="text" placeholder="例：しぶや">
+        </label>
+        <button type="button" id="shiritoriRecordAdd">記録する</button>
+        <div class="shiritoriRecordError" id="shiritoriRecordError"></div>
+      </div>
+
+      <div class="shiritoriRecordListWrap">
+        <div class="shiritoriRecordListTitle">記録一覧 <span>NEWEST FIRST</span></div>
+        <div class="shiritoriRecordList" id="shiritoriRecordList"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="stationDrawOverlay" id="stationDrawOverlay"><div class="stationDrawBox"><div class="stationDrawSmall">STATION SHIRITORI</div><div class="stationDrawWord" id="stationDrawWord">駅名を探しています…</div><div class="stationDrawSub">つながる駅を抽選中</div></div></div>
 
 <div class="saveLoadOverlay" id="saveOverlay">
@@ -2008,7 +2140,8 @@ function makeSaveData(){
     owned:[...owned],
     rolls:Number(rolls)||0,
     noNewStreak:Number(noNewStreak)||0,
-    pantoDueRoll:Number(pantoDueRoll)||0
+    pantoDueRoll:Number(pantoDueRoll)||0,
+    shiritoriRecords:shiritoriRecords
   };
 }
 function validateSaveData(data){
@@ -2028,6 +2161,18 @@ function applySaveData(data){
   rolls=Math.floor(Number(data.rolls)||0);
   noNewStreak=Math.floor(Number(data.noNewStreak)||0);
   pantoDueRoll=Math.max(0,Math.floor(Number(data.pantoDueRoll)||0));
+  if(Array.isArray(data.shiritoriRecords)){
+    shiritoriRecords=data.shiritoriRecords
+      .filter(x=>x&&typeof x==="object")
+      .map(x=>({
+        name:String(x.name||""),
+        kanji:String(x.kanji||""),
+        yomi:String(x.yomi||""),
+        createdAt:String(x.createdAt||"")
+      }));
+    saveShiritoriRecords();
+    renderShiritoriRecords();
+  }
 
   // Update the app's normal autosave keys as well.
   localStorage.setItem("inaoOwned",JSON.stringify([...owned]));
@@ -2805,6 +2950,85 @@ async function loadNationwideStations(){
 }
 loadNationwideStations();
 
+const SHIRITORI_RECORD_KEY="inaoShiritoriRecordsV1";
+let shiritoriRecords=[];
+try{
+  const storedShiritoriRecords=JSON.parse(localStorage.getItem(SHIRITORI_RECORD_KEY)||"[]");
+  if(Array.isArray(storedShiritoriRecords)) shiritoriRecords=storedShiritoriRecords;
+}catch(e){shiritoriRecords=[]}
+
+const shiritoriRecordOverlay=document.getElementById("shiritoriRecordOverlay");
+function saveShiritoriRecords(){
+  localStorage.setItem(SHIRITORI_RECORD_KEY,JSON.stringify(shiritoriRecords));
+}
+function renderShiritoriRecords(){
+  const latest=shiritoriRecords[0];
+  const word=document.getElementById("shiritoriLatestWord");
+  const reading=document.getElementById("shiritoriLatestReading");
+  const person=document.getElementById("shiritoriLatestName");
+  const list=document.getElementById("shiritoriRecordList");
+
+  if(latest){
+    word.textContent=latest.kanji;
+    reading.textContent=latest.yomi;
+    person.textContent=latest.name ? "記録者："+latest.name : "";
+  }else{
+    word.textContent="まだ記録がありません";
+    reading.textContent="";
+    person.textContent="";
+  }
+
+  if(!shiritoriRecords.length){
+    list.innerHTML='<div class="shiritoriRecordEmpty">記録すると、ここに新しい順で追加されます。</div>';
+    return;
+  }
+
+  list.innerHTML=shiritoriRecords.map((x,i)=>
+    '<div class="shiritoriRecordItem">'+
+      '<div class="shiritoriRecordIndex">#'+String(shiritoriRecords.length-i).padStart(2,"0")+'</div>'+
+      '<div class="shiritoriRecordMain">'+
+        '<div class="shiritoriRecordKanji">'+escapeHtml(x.kanji)+'</div>'+
+        '<div class="shiritoriRecordYomi">'+escapeHtml(x.yomi)+'</div>'+
+      '</div>'+
+      '<div class="shiritoriRecordPerson">'+(x.name?"👤 "+escapeHtml(x.name):"")+'</div>'+
+    '</div>'
+  ).join("");
+}
+function escapeHtml(v){
+  return String(v??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[ch]));
+}
+function openShiritoriRecord(){
+  document.getElementById("shiritoriRecordError").textContent="";
+  renderShiritoriRecords();
+  shiritoriRecordOverlay.classList.add("show");
+  setTimeout(()=>document.getElementById("shiritoriRecordName").focus(),60);
+}
+function closeShiritoriRecord(){
+  shiritoriRecordOverlay.classList.remove("show");
+}
+function addShiritoriRecord(){
+  const name=document.getElementById("shiritoriRecordName").value.trim();
+  const kanji=document.getElementById("shiritoriRecordKanji").value.trim();
+  const yomi=document.getElementById("shiritoriRecordYomi").value.trim();
+  const err=document.getElementById("shiritoriRecordError");
+  if(!kanji || !yomi){
+    err.textContent="漢字と読みを入力してください。";
+    return;
+  }
+  shiritoriRecords.unshift({
+    name,
+    kanji,
+    yomi,
+    createdAt:new Date().toISOString()
+  });
+  saveShiritoriRecords();
+  document.getElementById("shiritoriRecordKanji").value="";
+  document.getElementById("shiritoriRecordYomi").value="";
+  err.textContent="";
+  renderShiritoriRecords();
+  document.getElementById("shiritoriRecordKanji").focus();
+}
+
 let stationUsed=new Set(), stationHistory=[], stationRequired="";
 const ssOverlay=document.getElementById("stationShiritoriOverlay"),ssDraw=document.getElementById("stationDrawOverlay");
 function hiraNorm(s){return String(s||"").trim().replace(/駅$/,"").replace(/[ァ-ヶ]/g,c=>String.fromCharCode(c.charCodeAt(0)-0x60)).replace(/[ー・\s]/g,"")}
@@ -2859,6 +3083,14 @@ function nextStationSubmit(){
  stationUsed.add(st.id);stationHistory.push({who:"あなた",name:st.name,yomi:st.yomi});renderStationHistory();
  const t=tailKana(st.yomi);if(t==="ん"){err.textContent="「ん」で終わりました。ゲーム終了！";return}err.textContent="";computerRespond(t);
 }
+document.getElementById("shiritoriRecordBtn").addEventListener("click",openShiritoriRecord);
+document.getElementById("shiritoriRecordClose").addEventListener("click",closeShiritoriRecord);
+document.getElementById("shiritoriRecordAdd").addEventListener("click",addShiritoriRecord);
+shiritoriRecordOverlay.addEventListener("click",e=>{if(e.target===shiritoriRecordOverlay)closeShiritoriRecord()});
+document.getElementById("shiritoriRecordName").addEventListener("keydown",e=>{if(e.key==="Enter")document.getElementById("shiritoriRecordKanji").focus()});
+document.getElementById("shiritoriRecordKanji").addEventListener("keydown",e=>{if(e.key==="Enter")document.getElementById("shiritoriRecordYomi").focus()});
+document.getElementById("shiritoriRecordYomi").addEventListener("keydown",e=>{if(e.key==="Enter")addShiritoriRecord()});
+
 document.getElementById("stationShiritoriBtn").addEventListener("click",openStationShiritori);
 document.getElementById("stationShiritoriClose").addEventListener("click",closeStationShiritori);
 document.getElementById("stationFirstSubmit").addEventListener("click",firstStationSubmit);
