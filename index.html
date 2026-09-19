@@ -769,6 +769,43 @@
   margin-right:6px;
 }
 
+
+/* ===== v1.80 NEW badge on first acquisition ===== */
+.partBig{position:relative}
+.newBadge{
+  position:absolute;
+  top:10px;
+  right:10px;
+  display:none;
+  z-index:3;
+  padding:7px 12px;
+  border-radius:10px;
+  background:linear-gradient(180deg,#ff477f,#d90052);
+  color:#fff;
+  font-size:28px;
+  line-height:1;
+  font-weight:1000;
+  letter-spacing:.05em;
+  border:3px solid rgba(255,255,255,.95);
+  box-shadow:0 7px 18px rgba(0,0,0,.28),0 0 18px rgba(255,44,112,.55);
+  transform:rotate(5deg);
+  text-shadow:0 2px 0 rgba(120,0,40,.35);
+}
+.newBadge.show{
+  display:block;
+  animation:newBadgePop .65s cubic-bezier(.2,.9,.25,1.15) both,
+            newBadgePulse 1s ease-in-out .65s infinite alternate;
+}
+@keyframes newBadgePop{
+  0%{opacity:0;transform:scale(.25) rotate(-12deg) translateY(-14px)}
+  70%{opacity:1;transform:scale(1.14) rotate(7deg) translateY(0)}
+  100%{opacity:1;transform:scale(1) rotate(5deg)}
+}
+@keyframes newBadgePulse{
+  from{filter:brightness(1);transform:scale(1) rotate(5deg)}
+  to{filter:brightness(1.16);transform:scale(1.06) rotate(5deg)}
+}
+
 </style>
 </head>
 <body>
@@ -835,7 +872,7 @@
 <div class="cards" id="cards"></div>
 </section>
 
-<footer class="footer"><div><b id="secretSettingsFooterTrigger">INAO 稲尾電鉄グループ</b></div><div>鉄道でつながる、笑顔の未来。</div><div>ORIGINAL TRAIN PROJECT ver.1.79.0</div></footer>
+<footer class="footer"><div><b id="secretSettingsFooterTrigger">INAO 稲尾電鉄グループ</b></div><div>鉄道でつながる、笑顔の未来。</div><div>ORIGINAL TRAIN PROJECT ver.1.80.0</div></footer>
 </main>
 </div>
 
@@ -1247,7 +1284,7 @@
 <div class="modal" id="modal">
 <div class="result">
 <div id="rarityBig" class="rarityBig">銀</div>
-<div class="partBig"><img id="resultImg" alt=""></div>
+<div class="partBig"><img id="resultImg" alt=""><div class="newBadge" id="newBadge">NEW</div></div>
 <h3 id="resultTitle">部品を獲得！</h3>
 <p id="resultText"></p>
 <div id="completeText"></div>
@@ -1264,6 +1301,7 @@ let noNewStreak=Number(localStorage.getItem("inaoNoNewStreak")||0);
 let pantoDueRoll=Number(localStorage.getItem("inaoPantoDueRoll")||0);
 const cards=document.getElementById("cards"),haveCount=document.getElementById("haveCount"),progressBar=document.getElementById("progressBar"),modal=document.getElementById("modal"),rarityBig=document.getElementById("rarityBig"),resultImg=document.getElementById("resultImg"),resultTitle=document.getElementById("resultTitle"),resultText=document.getElementById("resultText"),completeText=document.getElementById("completeText"),drawOverlay=document.getElementById("drawOverlay"),rarityOrb=document.getElementById("rarityOrb"),drawStatus=document.getElementById("drawStatus"),drawSub=document.getElementById("drawSub");
 const totalDrawCount=document.getElementById("totalDrawCount");
+const newBadge=document.getElementById("newBadge");
 const autoGachaOverlay=document.getElementById("autoGachaOverlay"),
 autoGachaCount=document.getElementById("autoGachaCount"),
 autoGachaInfo=document.getElementById("autoGachaInfo"),
@@ -1775,6 +1813,11 @@ function roll(onComplete){
       rarityBig.style.color=rarityColor(p.rarity);
       resultImg.src=p.imgColor;
       resultImg.alt=p.name;
+      newBadge.classList.remove("show");
+      if(!duplicate){
+        void newBadge.offsetWidth;
+        newBadge.classList.add("show");
+      }
       resultTitle.textContent=duplicate?"重複しました！":p.name+" を獲得！";
       resultText.textContent=duplicate
         ? p.name+" はすでに獲得済みです。抽選回数："+rolls+"回"
