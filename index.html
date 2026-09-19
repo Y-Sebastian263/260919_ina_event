@@ -663,6 +663,32 @@
 .autoGachaStart:active{transform:translateY(4px);box-shadow:0 3px 0 #9d0046}
 .autoGachaStart:disabled{opacity:.5;cursor:not-allowed}
 
+
+/* ===== v1.72 true centered header title ===== */
+.header{position:relative}
+.header .titleWrap{
+  position:absolute !important;
+  left:50% !important;
+  top:50% !important;
+  transform:translate(-50%,-50%) !important;
+  width:min(62vw,900px) !important;
+  max-width:calc(100% - 420px) !important;
+  text-align:center !important;
+  z-index:2 !important;
+  pointer-events:none;
+}
+.header .logoBox{justify-self:start;z-index:3}
+.header .stamp{justify-self:end;z-index:3}
+@media(max-width:1199px){
+  .header .titleWrap{
+    position:static !important;
+    transform:none !important;
+    width:auto !important;
+    max-width:none !important;
+    pointer-events:auto;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -729,7 +755,7 @@
 <div class="cards" id="cards"></div>
 </section>
 
-<footer class="footer"><div><b>INAO 稲尾電鉄グループ</b></div><div>鉄道でつながる、笑顔の未来。</div><div>ORIGINAL TRAIN PROJECT ver.1.71.0</div></footer>
+<footer class="footer"><div><b>INAO 稲尾電鉄グループ</b></div><div>鉄道でつながる、笑顔の未来。</div><div>ORIGINAL TRAIN PROJECT ver.1.72.0</div></footer>
 </main>
 </div>
 
