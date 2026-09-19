@@ -1373,7 +1373,7 @@
 <div class="cards" id="cards"></div>
 </section>
 
-<footer class="footer"><div><b id="secretSettingsFooterTrigger">INAO 稲尾電鉄グループ</b></div><div>鉄道でつながる、笑顔の未来。</div><div>ORIGINAL TRAIN PROJECT ver.1.99.0</div></footer>
+<footer class="footer"><div><b id="secretSettingsFooterTrigger">INAO 稲尾電鉄グループ</b></div><div>鉄道でつながる、笑顔の未来。</div><div>ORIGINAL TRAIN PROJECT ver.2.00.0</div></footer>
 </main>
 </div>
 
@@ -1762,6 +1762,7 @@
         <ul class="secretRuleList">
           <li>通常ガチャは最大50回。50回目までに全10種類が必ず揃う。</li>
           <li>通常時は重複排出あり。獲得済み部品も抽選対象。</li>
+          <li>15回目時点で銀を1種類以上獲得済みの場合、15回目は所持済み銀から1種類を確定で重複排出。</li>
           <li>20回目までに銀を1種類も獲得していない場合、20回目に未獲得の銀を1種類確定。</li>
           <li>30回目までに銀を2種類獲得していない場合、30回目に未獲得の銀を1種類確定。</li>
           <li>40回目までに銀3種類が揃っていない場合、40回目に未獲得の銀を1種類確定。</li>
@@ -2443,7 +2444,15 @@ function weightedPick(){
   const nextRoll=rolls+1;
   const remainingDraws=51-nextRoll;
   const unownedSilver=parts.filter(p=>p.rarity==="銀"&&!owned.has(p.id));
-  const ownedSilverCount=parts.filter(p=>p.rarity==="銀"&&owned.has(p.id)).length;
+  const ownedSilver=parts.filter(p=>p.rarity==="銀"&&owned.has(p.id));
+  const ownedSilverCount=ownedSilver.length;
+
+  // 15回目の隠し重複枠。
+  // 15回目時点ですでに銀を1種類以上所持している場合、
+  // 所持済み銀の中から1つを確定で重複排出する。
+  if(nextRoll===15 && ownedSilver.length){
+    return ownedSilver[Math.floor(Math.random()*ownedSilver.length)];
+  }
 
   // 銀の段階保証。
   // 20回目までに銀が1種未満なら、20回目に未獲得銀を1種確定。
