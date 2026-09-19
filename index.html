@@ -1002,6 +1002,82 @@
 @keyframes silverTextIn{from{opacity:0;transform:translateY(28px) scale(.86)}to{opacity:1;transform:none}}
 @keyframes silverShardFloat{from{transform:translateY(-10px) rotate(-12deg);opacity:.55}to{transform:translateY(10px) rotate(12deg);opacity:1}}
 
+
+/* ===== v1.88 public rate information ===== */
+.rateInfoBtn{
+  width:190px !important;
+  min-width:190px !important;
+  max-width:190px !important;
+  flex:0 0 190px !important;
+  border:0 !important;
+  border-radius:999px !important;
+  padding:12px 16px !important;
+  background:linear-gradient(180deg,#1680d8,#07519a) !important;
+  color:#fff !important;
+  font-size:18px !important;
+  line-height:1.2 !important;
+  font-weight:1000 !important;
+  white-space:nowrap !important;
+  box-shadow:0 7px 0 #063d73,0 11px 20px rgba(0,0,0,.18) !important;
+  cursor:pointer;
+}
+.rateInfoBtn:active{transform:translateY(4px) !important;box-shadow:0 3px 0 #063d73 !important}
+.rateInfoOverlay{
+  position:fixed;inset:0;z-index:190;display:none;place-items:center;
+  background:rgba(2,16,34,.86);backdrop-filter:blur(8px);padding:18px
+}
+.rateInfoOverlay.show{display:grid}
+.rateInfoModal{
+  width:min(700px,94vw);max-height:90vh;background:#fff;border-radius:24px;
+  overflow:hidden;border:3px solid #0a376e;box-shadow:0 30px 100px rgba(0,0,0,.52)
+}
+.rateInfoHead{
+  display:flex;align-items:center;justify-content:space-between;padding:17px 20px;
+  color:#fff;background:linear-gradient(90deg,#062e5d,#0a4a87)
+}
+.rateInfoHead h2{margin:2px 0 0;font-size:28px}
+.rateInfoKicker{font-size:11px;font-weight:1000;letter-spacing:.18em;opacity:.72}
+.rateInfoClose{
+  width:40px;height:40px;border:0;border-radius:50%;background:rgba(255,255,255,.16);
+  color:#fff;font-size:24px;font-weight:1000;cursor:pointer
+}
+.rateInfoBody{padding:24px;overflow:auto;max-height:calc(90vh - 74px)}
+.rateInfoRates{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.rateCard{
+  border-radius:16px;padding:18px 12px;text-align:center;color:#fff;
+  box-shadow:0 8px 20px rgba(0,0,0,.12)
+}
+.rateCard strong{display:block;font-size:24px}
+.rateCard span{display:block;margin-top:5px;font-size:34px;font-weight:1000}
+.bronzeRate{background:linear-gradient(180deg,#cb8140,#8d4c1e)}
+.silverRate{background:linear-gradient(180deg,#dce2e9,#7d8997)}
+.goldRate{background:linear-gradient(180deg,#ffd95a,#aa7300)}
+.rateInfoSection{
+  margin-top:18px;padding:16px;border-radius:16px;background:#f5f8fc;border:1px solid #d7e3ee
+}
+.rateInfoSection h3{margin:0 0 12px;color:#0a376e;font-size:20px}
+.rateMilestone{
+  display:grid;grid-template-columns:92px 1fr;gap:10px;align-items:start;
+  padding:10px 0;border-bottom:1px solid #dce5ed
+}
+.rateMilestone:last-child{border-bottom:0}
+.rateMilestone b{color:#e00068;font-size:17px}
+.rateMilestone span{color:#334b63;font-size:14px;line-height:1.65;font-weight:800}
+.rateInfoSection.ceiling{background:#fff7df;border-color:#edd083}
+.rateInfoSection.ceiling h3{color:#8a5a00}
+.rateInfoSection.ceiling p{margin:0;color:#654a10;font-weight:900;line-height:1.7}
+.rateInfoNote{margin-top:14px;text-align:center;color:#64778c;font-size:13px;font-weight:800}
+@media(max-width:1550px) and (min-width:1200px){
+  .gachaActionWrap{gap:10px !important}
+  .rateInfoBtn{
+    width:165px !important;min-width:165px !important;max-width:165px !important;
+    flex-basis:165px !important;font-size:16px !important
+  }
+}
+@media(max-width:850px){
+  .rateInfoRates{grid-template-columns:1fr}
+}
+
 </style>
 </head>
 <body>
@@ -1055,6 +1131,7 @@
 </div>
 <div class="gachaActionWrap">
 <button id="gachaBtn" class="gachaBtn">◉　部品ガチャを回す　›</button>
+<button class="rateInfoBtn" id="rateInfoBtn">排出率について</button>
 <button class="specialSelectBtn" id="specialSelectBtn">部品指定</button>
 </div>
 </section>
@@ -1068,7 +1145,7 @@
 <div class="cards" id="cards"></div>
 </section>
 
-<footer class="footer"><div><b id="secretSettingsFooterTrigger">INAO 稲尾電鉄グループ</b></div><div>鉄道でつながる、笑顔の未来。</div><div>ORIGINAL TRAIN PROJECT ver.1.87.0</div></footer>
+<footer class="footer"><div><b id="secretSettingsFooterTrigger">INAO 稲尾電鉄グループ</b></div><div>鉄道でつながる、笑顔の未来。</div><div>ORIGINAL TRAIN PROJECT ver.1.88.0</div></footer>
 </main>
 </div>
 
@@ -1446,6 +1523,40 @@
   </div>
 </div>
 
+
+<div class="rateInfoOverlay" id="rateInfoOverlay">
+  <div class="rateInfoModal">
+    <div class="rateInfoHead">
+      <div>
+        <div class="rateInfoKicker">GACHA INFORMATION</div>
+        <h2>排出率について</h2>
+      </div>
+      <button class="rateInfoClose" id="rateInfoClose" type="button">×</button>
+    </div>
+    <div class="rateInfoBody">
+      <div class="rateInfoRates">
+        <div class="rateCard bronzeRate"><strong>銅</strong><span>80%</span></div>
+        <div class="rateCard silverRate"><strong>銀</strong><span>15%</span></div>
+        <div class="rateCard goldRate"><strong>金</strong><span>5%</span></div>
+      </div>
+
+      <div class="rateInfoSection">
+        <h3>銀レアの確定枠</h3>
+        <div class="rateMilestone"><b>20回目</b><span>20回目までに銀が未獲得の場合、未獲得の銀を1種類確定。</span></div>
+        <div class="rateMilestone"><b>30回目</b><span>30回目までに銀が2種類揃っていない場合、未獲得の銀を1種類確定。</span></div>
+        <div class="rateMilestone"><b>40回目</b><span>40回目までに銀3種類が揃っていない場合、未獲得の銀を1種類確定。</span></div>
+      </div>
+
+      <div class="rateInfoSection ceiling">
+        <h3>50回 天井</h3>
+        <p>50回目までに全10種類の部品が必ず揃うよう、必要に応じて未獲得部品の保証排出が入ります。</p>
+      </div>
+
+      <div class="rateInfoNote">※同じ部品が重複して排出される場合があります。</div>
+    </div>
+  </div>
+</div>
+
 <div class="autoGachaOverlay" id="autoGachaOverlay">
   <div class="autoGachaModal">
     <div class="autoGachaHead">
@@ -1557,6 +1668,7 @@ let noNewStreak=Number(localStorage.getItem("inaoNoNewStreak")||0);
 let pantoDueRoll=Number(localStorage.getItem("inaoPantoDueRoll")||0);
 const cards=document.getElementById("cards"),haveCount=document.getElementById("haveCount"),progressBar=document.getElementById("progressBar"),modal=document.getElementById("modal"),rarityBig=document.getElementById("rarityBig"),resultImg=document.getElementById("resultImg"),resultTitle=document.getElementById("resultTitle"),resultText=document.getElementById("resultText"),completeText=document.getElementById("completeText"),drawOverlay=document.getElementById("drawOverlay"),rarityOrb=document.getElementById("rarityOrb"),drawStatus=document.getElementById("drawStatus"),drawSub=document.getElementById("drawSub");
 const totalDrawCount=document.getElementById("totalDrawCount");
+const rateInfoOverlay=document.getElementById("rateInfoOverlay");
 const newBadge=document.getElementById("newBadge");
 const goldBurstOverlay=document.getElementById("goldBurstOverlay");
 const silverBurstOverlay=document.getElementById("silverBurstOverlay");
@@ -2210,6 +2322,13 @@ function roll(onComplete){
     },650);
   },1900);
 }
+function openRateInfo(){
+  rateInfoOverlay.classList.add("show");
+}
+function closeRateInfo(){
+  rateInfoOverlay.classList.remove("show");
+}
+
 function openSecretSettings(){
   secretSettingsPassword.value="";
   secretSettingsError.textContent="";
@@ -2312,6 +2431,10 @@ function resetAll(){
     localStorage.removeItem("inaoOwned");localStorage.removeItem("inaoRolls");localStorage.removeItem("inaoNoNewStreak");localStorage.removeItem("inaoPantoDueRoll");localStorage.removeItem("inaoDuplicateStreak");autoGachaActive=false;autoGachaRemaining=0;document.getElementById("gachaBtn").disabled=false;render();
   }
 }
+document.getElementById("rateInfoBtn").addEventListener("click",openRateInfo);
+document.getElementById("rateInfoClose").addEventListener("click",closeRateInfo);
+rateInfoOverlay.addEventListener("click",e=>{if(e.target===rateInfoOverlay)closeRateInfo()});
+
 document.getElementById("effectDemoTrigger").addEventListener("click",openEffectDemo);
 document.getElementById("effectDemoClose").addEventListener("click",closeEffectDemo);
 document.getElementById("effectDemoUnlock").addEventListener("click",unlockEffectDemo);
