@@ -749,6 +749,26 @@
   .secretRuleGrid{grid-template-columns:1fr}
 }
 
+
+.secretQuestionList{
+  display:grid;
+  gap:8px;
+}
+.secretQuestionItem{
+  padding:11px 12px;
+  border-radius:10px;
+  background:#f4f7fa;
+  border:1px solid #dce5ed;
+  color:#2e455d;
+  font-size:13px;
+  line-height:1.6;
+  font-weight:800;
+}
+.secretQuestionItem b{
+  color:#0a376e;
+  margin-right:6px;
+}
+
 </style>
 </head>
 <body>
@@ -815,7 +835,7 @@
 <div class="cards" id="cards"></div>
 </section>
 
-<footer class="footer"><div><b id="secretSettingsFooterTrigger">INAO 稲尾電鉄グループ</b></div><div>鉄道でつながる、笑顔の未来。</div><div>ORIGINAL TRAIN PROJECT ver.1.75.0</div></footer>
+<footer class="footer"><div><b id="secretSettingsFooterTrigger">INAO 稲尾電鉄グループ</b></div><div>鉄道でつながる、笑顔の未来。</div><div>ORIGINAL TRAIN PROJECT ver.1.76.0</div></footer>
 </main>
 </div>
 
@@ -1178,6 +1198,16 @@
           <li>セーブ / ロード、1つ戻す / 1つ進むでもガチャ進行状態を保持。</li>
         </ul>
       </div>
+
+      <div class="secretRuleSection">
+        <h3>質問箱一覧</h3>
+        <div class="secretQuestionList" id="secretRailwayQuestionList"></div>
+      </div>
+
+      <div class="secretRuleSection">
+        <h3>Yの質問一覧</h3>
+        <div class="secretQuestionList" id="secretYQuestionList"></div>
+      </div>
     </div>
   </div>
 </div>
@@ -1247,7 +1277,9 @@ secretPasswordView=document.getElementById("secretPasswordView"),
 secretRulesView=document.getElementById("secretRulesView"),
 secretSettingsPassword=document.getElementById("secretSettingsPassword"),
 secretSettingsError=document.getElementById("secretSettingsError"),
-secretCurrentState=document.getElementById("secretCurrentState");
+secretCurrentState=document.getElementById("secretCurrentState"),
+secretRailwayQuestionList=document.getElementById("secretRailwayQuestionList"),
+secretYQuestionList=document.getElementById("secretYQuestionList");
 
 const saveOverlay=document.getElementById("saveOverlay"),
 loadOverlay=document.getElementById("loadOverlay"),
@@ -1813,6 +1845,14 @@ function unlockSecretSettings(){
     "現在の抽選回数：<b>"+rolls+" / 50回</b><br>"+
     "現在の獲得数：<b>"+owned.size+" / 10種</b>（金以外 "+nonGoldOwned+" / 9種）<br>"+
     "金レア状態：<b>"+pantoState+"</b>";
+
+  secretRailwayQuestionList.innerHTML=railwayQuestions.map((item,index)=>
+    '<div class="secretQuestionItem"><b>Q'+String(index+1).padStart(2,"0")+'</b>'+item.q+'<br><span style="color:#64788d">豆知識：'+item.a+'</span></div>'
+  ).join("");
+
+  secretYQuestionList.innerHTML=yExpertQuestions.map((item,index)=>
+    '<div class="secretQuestionItem"><b>Y'+String(index+1).padStart(2,"0")+'</b>'+item+'</div>'
+  ).join("");
 }
 
 function refreshAutoGachaOptions(){
