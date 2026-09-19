@@ -615,6 +615,54 @@
   display:flex;
 }
 
+
+/* ===== v1.70 secret auto gacha ===== */
+.stamp#secretAutoGachaTrigger{cursor:pointer;user-select:none}
+.stamp#secretAutoGachaTrigger:active{transform:rotate(-2deg) scale(.96)}
+.autoGachaOverlay{
+  position:fixed;inset:0;z-index:180;display:none;place-items:center;
+  background:rgba(2,16,34,.86);backdrop-filter:blur(8px);padding:18px
+}
+.autoGachaOverlay.show{display:grid}
+.autoGachaModal{
+  width:min(560px,94vw);background:#fff;border-radius:24px;overflow:hidden;
+  border:3px solid #0a376e;box-shadow:0 30px 100px rgba(0,0,0,.52)
+}
+.autoGachaHead{
+  display:flex;align-items:center;justify-content:space-between;padding:17px 20px;
+  color:#fff;background:linear-gradient(90deg,#062e5d,#0a4a87)
+}
+.autoGachaHead h2{margin:2px 0 0;font-size:28px}
+.autoGachaKicker{font-size:11px;font-weight:1000;letter-spacing:.18em;opacity:.72}
+.autoGachaClose{
+  width:40px;height:40px;border:0;border-radius:50%;background:rgba(255,255,255,.16);
+  color:#fff;font-size:24px;font-weight:1000;cursor:pointer
+}
+.autoGachaBody{padding:26px;display:grid;gap:16px}
+.autoGachaLead{margin:0;color:#38516d;font-size:16px;line-height:1.7;font-weight:800;text-align:center}
+.autoGachaQuick{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.autoGachaQuick button{
+  border:2px solid #a8c7df;background:#f2f8fd;color:#0a376e;border-radius:13px;
+  padding:13px 8px;font-size:18px;font-weight:1000;cursor:pointer
+}
+.autoGachaQuick button:hover{background:#e3f3ff}
+.autoGachaSelectLabel{font-size:14px;font-weight:1000;color:#4c6480}
+.autoGachaSelect{
+  width:100%;border:3px solid #bdd5e7;border-radius:14px;padding:13px 15px;
+  background:#fff;color:#0a376e;font-size:20px;font-weight:1000;outline:none
+}
+.autoGachaInfo{
+  min-height:23px;padding:10px 12px;border-radius:12px;background:#f4f7fa;
+  color:#536b84;font-size:13px;line-height:1.5;font-weight:800;text-align:center
+}
+.autoGachaStart{
+  border:0;border-radius:999px;padding:15px 24px;
+  background:linear-gradient(180deg,var(--pink2),var(--pink));color:#fff;
+  font-size:22px;font-weight:1000;cursor:pointer;box-shadow:0 7px 0 #9d0046
+}
+.autoGachaStart:active{transform:translateY(4px);box-shadow:0 3px 0 #9d0046}
+.autoGachaStart:disabled{opacity:.5;cursor:not-allowed}
+
 </style>
 </head>
 <body>
@@ -638,7 +686,7 @@
         <img class="realLogoImage" src="assets/logo.png?v=a9418d16" alt="INAO 稲尾電鉄グループ">
       </div>
       <div class="titleWrap"><h1>オリジナル電車作成プロジェクト</h1><div class="underline"></div><p>集めて作ろう 私たちの稲尾電鉄に</p></div>
-<div class="stamp">稲尾<br>電気<br>鉄道</div>
+<div class="stamp" id="secretAutoGachaTrigger" title="">稲尾<br>電気<br>鉄道</div>
 </header>
 
 <section class="hero">
@@ -681,7 +729,7 @@
 <div class="cards" id="cards"></div>
 </section>
 
-<footer class="footer"><div><b>INAO 稲尾電鉄グループ</b></div><div>鉄道でつながる、笑顔の未来。</div><div>ORIGINAL TRAIN PROJECT ver.1.69.0</div></footer>
+<footer class="footer"><div><b>INAO 稲尾電鉄グループ</b></div><div>鉄道でつながる、笑顔の未来。</div><div>ORIGINAL TRAIN PROJECT ver.1.70.0</div></footer>
 </main>
 </div>
 
@@ -989,6 +1037,31 @@
   </div>
 </div>
 
+
+<div class="autoGachaOverlay" id="autoGachaOverlay">
+  <div class="autoGachaModal">
+    <div class="autoGachaHead">
+      <div>
+        <div class="autoGachaKicker">SECRET CONTROL</div>
+        <h2>連続ガチャ設定</h2>
+      </div>
+      <button class="autoGachaClose" id="autoGachaClose" type="button">×</button>
+    </div>
+    <div class="autoGachaBody">
+      <p class="autoGachaLead">自動で連続ガチャを回す回数を選択してください。</p>
+      <div class="autoGachaQuick">
+        <button type="button" data-auto-count="5">5回</button>
+        <button type="button" data-auto-count="10">10回</button>
+        <button type="button" data-auto-count="20">20回</button>
+      </div>
+      <label class="autoGachaSelectLabel" for="autoGachaCount">回数を指定</label>
+      <select id="autoGachaCount" class="autoGachaSelect"></select>
+      <div class="autoGachaInfo" id="autoGachaInfo"></div>
+      <button type="button" class="autoGachaStart" id="autoGachaStart">連続ガチャ開始</button>
+    </div>
+  </div>
+</div>
+
 <div class="drawOverlay" id="drawOverlay">
   <div class="drawPopup">
     <div class="drawTitle">PARTS GACHA / 抽選中</div>
@@ -1019,6 +1092,11 @@ let noNewStreak=Number(localStorage.getItem("inaoNoNewStreak")||0);
 let pantoDueRoll=Number(localStorage.getItem("inaoPantoDueRoll")||0);
 const cards=document.getElementById("cards"),haveCount=document.getElementById("haveCount"),progressBar=document.getElementById("progressBar"),modal=document.getElementById("modal"),rarityBig=document.getElementById("rarityBig"),resultImg=document.getElementById("resultImg"),resultTitle=document.getElementById("resultTitle"),resultText=document.getElementById("resultText"),completeText=document.getElementById("completeText"),drawOverlay=document.getElementById("drawOverlay"),rarityOrb=document.getElementById("rarityOrb"),drawStatus=document.getElementById("drawStatus"),drawSub=document.getElementById("drawSub");
 const totalDrawCount=document.getElementById("totalDrawCount");
+const autoGachaOverlay=document.getElementById("autoGachaOverlay"),
+autoGachaCount=document.getElementById("autoGachaCount"),
+autoGachaInfo=document.getElementById("autoGachaInfo"),
+autoGachaStart=document.getElementById("autoGachaStart");
+let autoGachaActive=false,autoGachaRemaining=0;
 
 const saveOverlay=document.getElementById("saveOverlay"),
 loadOverlay=document.getElementById("loadOverlay"),
@@ -1475,8 +1553,13 @@ function weightedPick(){
   return pickByRarity(nonGoldParts);
 }
 function rarityColor(r){return r==="金"?"#d9a411":r==="銀"?"#8b949f":"#bd6b2b"}
-function roll(){
+function roll(onComplete){
   const btn=document.getElementById("gachaBtn");
+  if(rolls>=50){
+    btn.disabled=true;
+    if(typeof onComplete==="function") onComplete(false);
+    return;
+  }
   btn.disabled=true;
 
   drawOverlay.classList.add("show");
@@ -1539,17 +1622,85 @@ function roll(){
 
       drawOverlay.classList.remove("show");
       modal.classList.add("show");
-      btn.disabled=false;
+      btn.disabled=rolls>=50;
+      if(typeof onComplete==="function") onComplete(true);
     },650);
   },1900);
 }
+function refreshAutoGachaOptions(){
+  const remaining=Math.max(0,50-rolls);
+  autoGachaCount.innerHTML="";
+  for(let i=1;i<=Math.max(1,remaining);i++){
+    const option=document.createElement("option");
+    option.value=String(i);
+    option.textContent=i+"回";
+    autoGachaCount.appendChild(option);
+  }
+  if(remaining>0) autoGachaCount.value=String(Math.min(10,remaining));
+  autoGachaInfo.textContent=remaining>0
+    ?"現在 "+rolls+" / 50回。あと最大"+remaining+"回まで実行できます。"
+    :"上限の50回に到達しています。";
+  autoGachaStart.disabled=remaining<=0 || owned.size>=10 || autoGachaActive;
+}
+function openAutoGacha(){
+  if(autoGachaActive) return;
+  refreshAutoGachaOptions();
+  autoGachaOverlay.classList.add("show");
+}
+function closeAutoGacha(){
+  if(autoGachaActive) return;
+  autoGachaOverlay.classList.remove("show");
+}
+function startAutoGacha(count){
+  if(autoGachaActive || owned.size>=10 || rolls>=50) return;
+  autoGachaRemaining=Math.min(Math.max(1,Number(count)||1),50-rolls);
+  autoGachaActive=true;
+  autoGachaOverlay.classList.remove("show");
+  document.getElementById("gachaBtn").disabled=true;
+  runAutoGachaStep();
+}
+function runAutoGachaStep(){
+  if(!autoGachaActive) return;
+  if(autoGachaRemaining<=0 || rolls>=50 || owned.size>=10){
+    autoGachaActive=false;
+    document.getElementById("gachaBtn").disabled=rolls>=50;
+    return;
+  }
+  roll((didRoll)=>{
+    if(!didRoll){
+      autoGachaActive=false;
+      return;
+    }
+    autoGachaRemaining--;
+    if(autoGachaRemaining<=0 || rolls>=50 || owned.size>=10){
+      autoGachaActive=false;
+      document.getElementById("gachaBtn").disabled=rolls>=50;
+      return;
+    }
+    setTimeout(()=>{
+      modal.classList.remove("show");
+      runAutoGachaStep();
+    },650);
+  });
+}
+
 function resetAll(){
   if(confirm("ガチャの獲得状況をすべてリセットしますか？")){
     owned.clear();rolls=0;noNewStreak=0;pantoDueRoll=0;
-    localStorage.removeItem("inaoOwned");localStorage.removeItem("inaoRolls");localStorage.removeItem("inaoNoNewStreak");localStorage.removeItem("inaoPantoDueRoll");localStorage.removeItem("inaoDuplicateStreak");render();
+    localStorage.removeItem("inaoOwned");localStorage.removeItem("inaoRolls");localStorage.removeItem("inaoNoNewStreak");localStorage.removeItem("inaoPantoDueRoll");localStorage.removeItem("inaoDuplicateStreak");autoGachaActive=false;autoGachaRemaining=0;document.getElementById("gachaBtn").disabled=false;render();
   }
 }
-document.getElementById("gachaBtn").addEventListener("click",roll);
+document.getElementById("secretAutoGachaTrigger").addEventListener("click",openAutoGacha);
+document.getElementById("autoGachaClose").addEventListener("click",closeAutoGacha);
+autoGachaOverlay.addEventListener("click",e=>{if(e.target===autoGachaOverlay)closeAutoGacha()});
+document.querySelectorAll("[data-auto-count]").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    const remaining=Math.max(0,50-rolls);
+    autoGachaCount.value=String(Math.min(Number(btn.dataset.autoCount)||1,remaining||1));
+  });
+});
+autoGachaStart.addEventListener("click",()=>startAutoGacha(autoGachaCount.value));
+document.getElementById("gachaBtn").addEventListener("click",()=>roll());
 document.getElementById("closeBtn").addEventListener("click",()=>modal.classList.remove("show"));
 modal.addEventListener("click",e=>{if(e.target===modal)modal.classList.remove("show")});
 document.getElementById("resetBtn").addEventListener("click",resetAll);
@@ -1821,6 +1972,7 @@ document.getElementById("redoBtn").addEventListener("click",inaoRedo);
 setTimeout(inaoUpdateHistoryButtons,0);
 
 render();
+document.getElementById("gachaBtn").disabled=rolls>=50;
 </script>
 </body>
 </html>
