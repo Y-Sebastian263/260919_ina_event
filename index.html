@@ -729,7 +729,7 @@
 <div class="cards" id="cards"></div>
 </section>
 
-<footer class="footer"><div><b>INAO 稲尾電鉄グループ</b></div><div>鉄道でつながる、笑顔の未来。</div><div>ORIGINAL TRAIN PROJECT ver.1.70.0</div></footer>
+<footer class="footer"><div><b>INAO 稲尾電鉄グループ</b></div><div>鉄道でつながる、笑顔の未来。</div><div>ORIGINAL TRAIN PROJECT ver.1.71.0</div></footer>
 </main>
 </div>
 
@@ -1426,8 +1426,15 @@ function closeQuestionResult(){
   questionResultOverlay.classList.remove("show");
 }
 function getSpecialSelectableParts(){
-  // 部品指定は通常ガチャの回数・種類数・レアリティ制限を受けない。
-  return parts.filter(p=>!owned.has(p.id));
+  const unowned=parts.filter(p=>!owned.has(p.id));
+  const gold=unowned.find(p=>p.id==="panto");
+  const nonGold=unowned.filter(p=>p.id!=="panto");
+
+  // 部品指定は通常ガチャの回数・種類数制限を受けない。
+  // ただし金（パンタグラフ）だけは、他の9種類がすべて揃った最後の1個のときのみ指定可能。
+  if(nonGold.length>0) return nonGold;
+  if(gold) return [gold];
+  return [];
 }
 function openSpecialEmergency(){
   if(owned.size>=10){
