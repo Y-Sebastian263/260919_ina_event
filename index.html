@@ -1068,7 +1068,7 @@
 <div class="cards" id="cards"></div>
 </section>
 
-<footer class="footer"><div><b id="secretSettingsFooterTrigger">INAO 稲尾電鉄グループ</b></div><div>鉄道でつながる、笑顔の未来。</div><div>ORIGINAL TRAIN PROJECT ver.1.84.0</div></footer>
+<footer class="footer"><div><b id="secretSettingsFooterTrigger">INAO 稲尾電鉄グループ</b></div><div>鉄道でつながる、笑顔の未来。</div><div>ORIGINAL TRAIN PROJECT ver.1.85.0</div></footer>
 </main>
 </div>
 
@@ -2199,9 +2199,9 @@ function roll(onComplete){
         btn.disabled=rolls>=50;
         if(typeof onComplete==="function") onComplete(true);
       };
-      if(p.rarity==="金"){
+      if(!duplicate && p.rarity==="金"){
         playGoldBurst(showResult);
-      }else if(p.rarity==="銀"){
+      }else if(!duplicate && p.rarity==="銀"){
         playSilverBurst(showResult);
       }else{
         showResult();
