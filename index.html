@@ -1139,8 +1139,16 @@
 
 
 /* ===== v1.94 completed train gallery ===== */
-.progressNum.completeManufacturing{cursor:pointer}
-.progressNum.completeManufacturing:hover{filter:brightness(1.08)}
+#progressNum{cursor:pointer}
+#progressNum:hover{filter:brightness(1.08)}
+.completeGalleryTabs{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  flex-wrap:nowrap;
+  padding-bottom:7px;
+}
+.completeGalleryTab{flex:0 0 auto}
 .completeGalleryOverlay{
   position:fixed;inset:0;z-index:230;display:none;place-items:center;
   background:rgba(1,10,22,.9);backdrop-filter:blur(9px);padding:18px
@@ -1254,7 +1262,7 @@
 <div class="cards" id="cards"></div>
 </section>
 
-<footer class="footer"><div><b id="secretSettingsFooterTrigger">INAO 稲尾電鉄グループ</b></div><div>鉄道でつながる、笑顔の未来。</div><div>ORIGINAL TRAIN PROJECT ver.1.94.0</div></footer>
+<footer class="footer"><div><b id="secretSettingsFooterTrigger">INAO 稲尾電鉄グループ</b></div><div>鉄道でつながる、笑顔の未来。</div><div>ORIGINAL TRAIN PROJECT ver.1.95.0</div></footer>
 </main>
 </div>
 
@@ -1638,18 +1646,23 @@
   <div class="completeGalleryModal">
     <div class="completeGalleryHead">
       <div>
-        <div class="completeGalleryKicker">COMPLETED TRAIN</div>
-        <h2>完成車両 3Dビュー</h2>
+        <div class="completeGalleryKicker">3D MODELING GALLERY</div>
+        <h2>1701形 モデリングビュー</h2>
       </div>
       <button class="completeGalleryClose" id="completeGalleryClose" type="button">×</button>
     </div>
     <div class="completeGalleryBody">
       <div class="completeGalleryTabs">
-        <button type="button" class="completeGalleryTab active" data-gallery-src="assets/complete-color.png" data-gallery-label="完成車両 01">完成車両 01</button>
-        <button type="button" class="completeGalleryTab" data-gallery-src="assets/train-main.png" data-gallery-label="完成車両 02">完成車両 02</button>
+        <button type="button" class="completeGalleryTab active" data-gallery-src="assets/models/01_front_three_quarter.webp" data-gallery-label="全体 3/4ビュー">全体 3/4ビュー</button>
+        <button type="button" class="completeGalleryTab" data-gallery-src="assets/models/02_cab_closeup.webp" data-gallery-label="前面クローズアップ">前面クローズアップ</button>
+        <button type="button" class="completeGalleryTab" data-gallery-src="assets/models/03_front_orthographic.webp" data-gallery-label="正面">正面</button>
+        <button type="button" class="completeGalleryTab" data-gallery-src="assets/models/04_side_orthographic.webp" data-gallery-label="側面">側面</button>
+        <button type="button" class="completeGalleryTab" data-gallery-src="assets/models/05_recessed_windows.webp" data-gallery-label="車体ディテール">車体ディテール</button>
+        <button type="button" class="completeGalleryTab" data-gallery-src="assets/models/print_overview.webp" data-gallery-label="モデリング全体">モデリング全体</button>
+        <button type="button" class="completeGalleryTab" data-gallery-src="assets/models/print_underside.webp" data-gallery-label="床下ビュー">床下ビュー</button>
       </div>
       <div class="completeZoomStage" id="completeZoomStage">
-        <img id="completeZoomImage" src="assets/complete-color.png" alt="完成車両 3Dビュー">
+        <img id="completeZoomImage" src="assets/models/01_front_three_quarter.webp" alt="1701形 モデリングビュー">
       </div>
       <div class="completeZoomControls">
         <button type="button" id="completeZoomOut">−</button>
@@ -2488,7 +2501,6 @@ function resetCompleteZoom(){
   applyCompleteZoom();
 }
 function openCompleteGallery(){
-  if(owned.size!==10) return;
   resetCompleteZoom();
   completeGalleryOverlay.classList.add("show");
 }
@@ -2604,9 +2616,8 @@ function resetAll(){
     localStorage.removeItem("inaoOwned");localStorage.removeItem("inaoRolls");localStorage.removeItem("inaoNoNewStreak");localStorage.removeItem("inaoPantoDueRoll");localStorage.removeItem("inaoDuplicateStreak");autoGachaActive=false;autoGachaRemaining=0;document.getElementById("gachaBtn").disabled=false;render();
   }
 }
-document.getElementById("progressNum").addEventListener("click",()=>{
-  if(owned.size===10) openCompleteGallery();
-});
+document.getElementById("progressNum").title="モデリング画像を見る";
+document.getElementById("progressNum").addEventListener("click",openCompleteGallery);
 document.getElementById("completeGalleryClose").addEventListener("click",closeCompleteGallery);
 completeGalleryOverlay.addEventListener("click",e=>{if(e.target===completeGalleryOverlay)closeCompleteGallery()});
 document.querySelectorAll("[data-gallery-src]").forEach(btn=>{
@@ -2614,7 +2625,7 @@ document.querySelectorAll("[data-gallery-src]").forEach(btn=>{
     document.querySelectorAll("[data-gallery-src]").forEach(x=>x.classList.remove("active"));
     btn.classList.add("active");
     completeZoomImage.src=btn.dataset.gallerySrc;
-    completeZoomImage.alt=btn.dataset.galleryLabel||"完成車両 3Dビュー";
+    completeZoomImage.alt=btn.dataset.galleryLabel||"1701形 モデリングビュー";
     resetCompleteZoom();
   });
 });
