@@ -878,6 +878,59 @@
 @keyframes goldTextIn{from{opacity:0;transform:translateY(30px) scale(.8)}to{opacity:1;transform:none}}
 @keyframes goldSparkPop{from{transform:scale(.45) rotate(0);opacity:.5}to{transform:scale(1.8) rotate(90deg);opacity:1}}
 
+
+/* ===== v1.82 effect demo mode ===== */
+#effectDemoTrigger{cursor:pointer;user-select:none}
+#effectDemoTrigger:active{filter:brightness(.9)}
+.effectDemoOverlay{
+  position:fixed;inset:0;z-index:205;display:none;place-items:center;
+  background:rgba(1,13,29,.88);backdrop-filter:blur(8px);padding:18px
+}
+.effectDemoOverlay.show{display:grid}
+.effectDemoModal{
+  width:min(580px,94vw);background:#fff;border-radius:24px;overflow:hidden;
+  border:3px solid #0a376e;box-shadow:0 30px 100px rgba(0,0,0,.55)
+}
+.effectDemoHead{
+  display:flex;align-items:center;justify-content:space-between;padding:16px 20px;
+  background:linear-gradient(90deg,#062e5d,#0a4a87);color:#fff
+}
+.effectDemoHead h2{margin:2px 0 0;font-size:28px}
+.effectDemoKicker{font-size:11px;font-weight:1000;letter-spacing:.18em;opacity:.72}
+.effectDemoClose{
+  width:40px;height:40px;border:0;border-radius:50%;background:rgba(255,255,255,.16);
+  color:#fff;font-size:24px;font-weight:1000;cursor:pointer
+}
+.effectDemoPasswordView{padding:30px;text-align:center}
+.effectDemoLock{font-size:54px}
+.effectDemoPasswordView p{font-size:17px;font-weight:900;color:#405974}
+.effectDemoPassword{
+  width:min(320px,100%);border:3px solid #bdd3e4;border-radius:14px;padding:14px 16px;
+  text-align:center;font-size:24px;font-weight:1000;letter-spacing:.14em;outline:none
+}
+.effectDemoPassword:focus{border-color:#0a69ad}
+.effectDemoError{min-height:24px;margin:8px 0;color:#c9003d;font-weight:1000}
+.effectDemoUnlock{
+  border:0;border-radius:999px;padding:13px 28px;background:var(--navy);color:#fff;
+  font-size:18px;font-weight:1000;cursor:pointer
+}
+.effectDemoMenu{display:none;padding:26px}
+.effectDemoMenu.show{display:block}
+.effectDemoNotice{
+  padding:13px 14px;border-radius:13px;background:#fff6df;border:1px solid #f0cf79;
+  color:#6b4b00;text-align:center;font-size:14px;line-height:1.6;font-weight:900;margin-bottom:18px
+}
+.effectDemoButtons{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.effectDemoButtons button{
+  border:0;border-radius:16px;padding:18px 10px;color:#fff;font-size:20px;
+  font-weight:1000;cursor:pointer;box-shadow:0 6px 0 rgba(0,0,0,.22)
+}
+.effectDemoButtons button:active{transform:translateY(4px);box-shadow:0 2px 0 rgba(0,0,0,.22)}
+.bronzeDemo{background:linear-gradient(180deg,#cf8545,#874114)}
+.silverDemo{background:linear-gradient(180deg,#dfe4ea,#7d8996)}
+.goldDemo{background:linear-gradient(180deg,#ffe26b,#b77b00)}
+@media(max-width:560px){.effectDemoButtons{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -921,7 +974,7 @@
 <div class="trainStage"><img class="trainImage" src="assets/train-main.png?v=a9418d16" alt="稲尾行きの1700系電車"></div>
 
 <div class="panel rarityPanel">
-<div class="panelTitle">レアリティと部品一覧</div>
+<div class="panelTitle" id="effectDemoTrigger">レアリティと部品一覧</div>
 <div class="rarityRows">
 <div class="rarityRow"><div class="medal gold">金</div><div class="rate">1.45%</div><div class="items">パンタグラフ（集電装置）<div class="noSpecialNote">ラストワン指定可</div></div></div>
 <div class="rarityRow"><div class="medal silver">銀</div><div class="rate">5.35%</div><div class="items">VVVFインバーター<br>無線アンテナ<br>台車</div></div>
@@ -944,7 +997,7 @@
 <div class="cards" id="cards"></div>
 </section>
 
-<footer class="footer"><div><b id="secretSettingsFooterTrigger">INAO 稲尾電鉄グループ</b></div><div>鉄道でつながる、笑顔の未来。</div><div>ORIGINAL TRAIN PROJECT ver.1.81.0</div></footer>
+<footer class="footer"><div><b id="secretSettingsFooterTrigger">INAO 稲尾電鉄グループ</b></div><div>鉄道でつながる、笑顔の未来。</div><div>ORIGINAL TRAIN PROJECT ver.1.82.0</div></footer>
 </main>
 </div>
 
@@ -1343,6 +1396,36 @@
   </div>
 </div>
 
+
+<div class="effectDemoOverlay" id="effectDemoOverlay">
+  <div class="effectDemoModal">
+    <div class="effectDemoHead">
+      <div>
+        <div class="effectDemoKicker">DEMO MODE</div>
+        <h2>排出演出デモ</h2>
+      </div>
+      <button class="effectDemoClose" id="effectDemoClose" type="button">×</button>
+    </div>
+
+    <div class="effectDemoPasswordView" id="effectDemoPasswordView">
+      <div class="effectDemoLock">🎬</div>
+      <p>演出確認用パスワードを入力してください。</p>
+      <input id="effectDemoPassword" class="effectDemoPassword" type="password" inputmode="numeric" autocomplete="off" placeholder="PASSWORD">
+      <div class="effectDemoError" id="effectDemoError"></div>
+      <button class="effectDemoUnlock" id="effectDemoUnlock" type="button">デモを開く</button>
+    </div>
+
+    <div class="effectDemoMenu" id="effectDemoMenu">
+      <div class="effectDemoNotice">これは演出確認専用のデモです。<br>抽選回数・獲得部品・セーブデータは変更されません。</div>
+      <div class="effectDemoButtons">
+        <button type="button" data-demo-rarity="銅" class="bronzeDemo">銅 演出</button>
+        <button type="button" data-demo-rarity="銀" class="silverDemo">銀 演出</button>
+        <button type="button" data-demo-rarity="金" class="goldDemo">金 演出</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="drawOverlay" id="drawOverlay">
   <div class="drawPopup">
     <div class="drawTitle">PARTS GACHA / 抽選中</div>
@@ -1389,6 +1472,11 @@ const cards=document.getElementById("cards"),haveCount=document.getElementById("
 const totalDrawCount=document.getElementById("totalDrawCount");
 const newBadge=document.getElementById("newBadge");
 const goldBurstOverlay=document.getElementById("goldBurstOverlay");
+const effectDemoOverlay=document.getElementById("effectDemoOverlay"),
+effectDemoPasswordView=document.getElementById("effectDemoPasswordView"),
+effectDemoMenu=document.getElementById("effectDemoMenu"),
+effectDemoPassword=document.getElementById("effectDemoPassword"),
+effectDemoError=document.getElementById("effectDemoError");
 const autoGachaOverlay=document.getElementById("autoGachaOverlay"),
 autoGachaCount=document.getElementById("autoGachaCount"),
 autoGachaInfo=document.getElementById("autoGachaInfo"),
@@ -1854,6 +1942,76 @@ function playGoldBurst(next){
     next();
   },2050);
 }
+function openEffectDemo(){
+  effectDemoPassword.value="";
+  effectDemoError.textContent="";
+  effectDemoMenu.classList.remove("show");
+  effectDemoPasswordView.style.display="block";
+  effectDemoOverlay.classList.add("show");
+  setTimeout(()=>effectDemoPassword.focus(),50);
+}
+function closeEffectDemo(){
+  effectDemoOverlay.classList.remove("show");
+}
+function unlockEffectDemo(){
+  if(effectDemoPassword.value!=="170"){
+    effectDemoError.textContent="パスワードが違います。";
+    effectDemoPassword.select();
+    return;
+  }
+  effectDemoError.textContent="";
+  effectDemoPasswordView.style.display="none";
+  effectDemoMenu.classList.add("show");
+}
+function runEffectDemo(rarity){
+  const candidates=parts.filter(p=>p.rarity===rarity);
+  if(!candidates.length) return;
+  const p=candidates[Math.floor(Math.random()*candidates.length)];
+  effectDemoOverlay.classList.remove("show");
+
+  drawOverlay.classList.add("show");
+  const cycle=[
+    {label:"銅",cls:"bronze",status:"銅レアリティを判定中…"},
+    {label:"銀",cls:"silver",status:"銀レアリティを判定中…"},
+    {label:"金",cls:"gold",status:"金レアリティを判定中…"}
+  ];
+  let step=0;
+  const demoTimer=setInterval(()=>{
+    const s=cycle[step%cycle.length];
+    rarityOrb.className="rarityOrb "+s.cls;
+    rarityOrb.textContent=s.label;
+    drawStatus.textContent=s.status;
+    step++;
+  },220);
+
+  setTimeout(()=>{
+    clearInterval(demoTimer);
+    const finalCls=rarity==="金"?"gold":rarity==="銀"?"silver":"bronze";
+    rarityOrb.className="rarityOrb "+finalCls;
+    rarityOrb.textContent=rarity;
+    drawStatus.textContent=rarity+"レアリティ確定！";
+    drawSub.textContent="DEMO / 演出確認中";
+
+    setTimeout(()=>{
+      rarityBig.textContent=rarity;
+      rarityBig.style.color=rarityColor(rarity);
+      resultImg.src=p.imgColor;
+      resultImg.alt=p.name;
+      newBadge.classList.remove("show");
+      void newBadge.offsetWidth;
+      newBadge.classList.add("show");
+      resultTitle.textContent=p.name+" / DEMO";
+      resultText.textContent="演出確認用デモです。獲得状況・抽選回数は変更されません。";
+      completeText.innerHTML="";
+      drawOverlay.classList.remove("show");
+
+      const showDemoResult=()=>modal.classList.add("show");
+      if(rarity==="金") playGoldBurst(showDemoResult);
+      else showDemoResult();
+    },650);
+  },1900);
+}
+
 function roll(onComplete){
   const btn=document.getElementById("gachaBtn");
   if(rolls>=50){
@@ -2037,6 +2195,15 @@ function resetAll(){
     localStorage.removeItem("inaoOwned");localStorage.removeItem("inaoRolls");localStorage.removeItem("inaoNoNewStreak");localStorage.removeItem("inaoPantoDueRoll");localStorage.removeItem("inaoDuplicateStreak");autoGachaActive=false;autoGachaRemaining=0;document.getElementById("gachaBtn").disabled=false;render();
   }
 }
+document.getElementById("effectDemoTrigger").addEventListener("click",openEffectDemo);
+document.getElementById("effectDemoClose").addEventListener("click",closeEffectDemo);
+document.getElementById("effectDemoUnlock").addEventListener("click",unlockEffectDemo);
+effectDemoPassword.addEventListener("keydown",e=>{if(e.key==="Enter")unlockEffectDemo()});
+effectDemoOverlay.addEventListener("click",e=>{if(e.target===effectDemoOverlay)closeEffectDemo()});
+document.querySelectorAll("[data-demo-rarity]").forEach(btn=>{
+  btn.addEventListener("click",()=>runEffectDemo(btn.dataset.demoRarity));
+});
+
 document.getElementById("secretSettingsFooterTrigger").addEventListener("click",openSecretSettings);
 document.getElementById("secretSettingsSideTrigger").addEventListener("click",openSecretSettings);
 document.getElementById("secretSettingsClose").addEventListener("click",closeSecretSettings);
