@@ -755,7 +755,7 @@
 <div class="cards" id="cards"></div>
 </section>
 
-<footer class="footer"><div><b>INAO 稲尾電鉄グループ</b></div><div>鉄道でつながる、笑顔の未来。</div><div>ORIGINAL TRAIN PROJECT ver.1.72.0</div></footer>
+<footer class="footer"><div><b>INAO 稲尾電鉄グループ</b></div><div>鉄道でつながる、笑顔の未来。</div><div>ORIGINAL TRAIN PROJECT ver.1.73.0</div></footer>
 </main>
 </div>
 
@@ -1697,6 +1697,11 @@ function runAutoGachaStep(){
   if(autoGachaRemaining<=0 || rolls>=50 || owned.size>=10){
     autoGachaActive=false;
     document.getElementById("gachaBtn").disabled=rolls>=50;
+
+// 3分ごとにページを自動再読み込み
+setInterval(()=>{
+  window.location.reload();
+},180000);
     return;
   }
   roll((didRoll)=>{
