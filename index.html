@@ -1431,7 +1431,7 @@
 <div class="cards" id="cards"></div>
 </section>
 
-<footer class="footer"><div><b id="secretSettingsFooterTrigger">INAO 稲尾電鉄グループ</b></div><div>鉄道でつながる、笑顔の未来。</div><div>ORIGINAL TRAIN PROJECT ver.2.03.0</div></footer>
+<footer class="footer"><div><b id="secretSettingsFooterTrigger">INAO 稲尾電鉄グループ</b></div><div>鉄道でつながる、笑顔の未来。</div><div>ORIGINAL TRAIN PROJECT ver.2.04.0</div></footer>
 </main>
 </div>
 
@@ -1855,6 +1855,7 @@
           <li>19回目は、未獲得の銀が残っている場合、その中から1種類を確定。</li>
           <li>20回目までに銀を1種類も獲得していない場合、20回目に未獲得の銀を1種類確定。</li>
           <li>21回目は、未獲得の銀が残っている場合、その中から1種類を確定。</li>
+          <li>22回目は、未獲得の銅が残っている場合、その中から1種類を確定。</li>
           <li>30回目までに銀を2種類獲得していない場合、30回目に未獲得の銀を1種類確定。</li>
           <li>40回目までに銀3種類が揃っていない場合、40回目に未獲得の銀を1種類確定。</li>
           <li>50回以内のコンプリートに必要な残り回数になった場合のみ、未獲得部品を優先排出する保証補正が入る。</li>
@@ -2535,6 +2536,7 @@ function weightedPick(){
   const nextRoll=rolls+1;
   const remainingDraws=51-nextRoll;
   const unownedSilver=parts.filter(p=>p.rarity==="銀"&&!owned.has(p.id));
+  const unownedBronze=parts.filter(p=>p.rarity==="銅"&&!owned.has(p.id));
   const ownedSilver=parts.filter(p=>p.rarity==="銀"&&owned.has(p.id));
   const ownedSilverCount=ownedSilver.length;
 
@@ -2549,6 +2551,12 @@ function weightedPick(){
   // 未獲得の銀が残っている場合、その中から1種類を確定排出する。
   if((nextRoll===19 || nextRoll===21) && unownedSilver.length){
     return unownedSilver[Math.floor(Math.random()*unownedSilver.length)];
+  }
+
+  // 22回目の隠し未取得銅確定枠。
+  // 未獲得の銅が残っている場合、その中から1種類を確定排出する。
+  if(nextRoll===22 && unownedBronze.length){
+    return unownedBronze[Math.floor(Math.random()*unownedBronze.length)];
   }
 
   // 銀の段階保証。
