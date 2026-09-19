@@ -1078,6 +1078,38 @@
   .rateInfoRates{grid-template-columns:1fr}
 }
 
+
+/* ===== v1.89 rate button aligned with main gacha ===== */
+.gachaActionWrap .rateInfoBtn{
+  position:static !important;
+  left:auto !important;
+  right:auto !important;
+  top:auto !important;
+  bottom:auto !important;
+  transform:none !important;
+  margin:0 !important;
+  width:360px !important;
+  min-width:360px !important;
+  max-width:360px !important;
+  flex:0 0 360px !important;
+  padding:12px 26px !important;
+  border-radius:999px !important;
+  font-size:23px !important;
+  line-height:1.2 !important;
+  font-weight:1000 !important;
+  white-space:nowrap !important;
+  box-sizing:border-box !important;
+}
+@media (min-width:1200px) and (max-width:1550px){
+  .gachaActionWrap .rateInfoBtn{
+    width:320px !important;
+    min-width:320px !important;
+    max-width:320px !important;
+    flex-basis:320px !important;
+    font-size:21px !important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1130,8 +1162,8 @@
 </div>
 </div>
 <div class="gachaActionWrap">
-<button id="gachaBtn" class="gachaBtn">◉　部品ガチャを回す　›</button>
 <button class="rateInfoBtn" id="rateInfoBtn">排出率について</button>
+<button id="gachaBtn" class="gachaBtn">◉　部品ガチャを回す　›</button>
 <button class="specialSelectBtn" id="specialSelectBtn">部品指定</button>
 </div>
 </section>
@@ -1145,7 +1177,7 @@
 <div class="cards" id="cards"></div>
 </section>
 
-<footer class="footer"><div><b id="secretSettingsFooterTrigger">INAO 稲尾電鉄グループ</b></div><div>鉄道でつながる、笑顔の未来。</div><div>ORIGINAL TRAIN PROJECT ver.1.88.0</div></footer>
+<footer class="footer"><div><b id="secretSettingsFooterTrigger">INAO 稲尾電鉄グループ</b></div><div>鉄道でつながる、笑顔の未来。</div><div>ORIGINAL TRAIN PROJECT ver.1.89.0</div></footer>
 </main>
 </div>
 
