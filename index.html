@@ -931,6 +931,77 @@
 .goldDemo{background:linear-gradient(180deg,#ffe26b,#b77b00)}
 @media(max-width:560px){.effectDemoButtons{grid-template-columns:1fr}}
 
+
+/* ===== v1.83 silver rarity special animation ===== */
+.silverBurstOverlay{
+  position:fixed;inset:0;z-index:34;display:none;overflow:hidden;place-items:center;
+  background:
+    radial-gradient(circle at center,rgba(255,255,255,.98) 0 9%,rgba(210,218,228,.98) 24%,rgba(93,106,122,.98) 58%,rgba(9,13,20,.99) 100%);
+}
+.silverBurstOverlay.show{display:grid;animation:silverScreen 2s ease both}
+.silverBurstSweep{
+  position:absolute;width:160vmax;height:160vmax;border-radius:50%;
+  background:repeating-conic-gradient(from 0deg,rgba(255,255,255,.95) 0deg 3deg,rgba(185,199,214,.04) 3deg 11deg);
+  mix-blend-mode:screen;
+  animation:silverSweepSpin 4.5s linear infinite,silverSweepIn .9s ease both;
+}
+.silverBurstCore{
+  position:relative;z-index:3;text-align:center;color:#fff;
+  filter:drop-shadow(0 8px 22px rgba(0,0,0,.65));
+}
+.silverBurstSmall{
+  font-weight:1000;letter-spacing:.28em;font-size:15px;
+  animation:silverTextIn .5s .12s both;
+}
+.silverBurstKanji{
+  font-size:min(30vw,240px);line-height:.88;font-weight:1000;
+  color:#f7fbff;-webkit-text-stroke:4px #fff;
+  text-shadow:
+    0 0 10px #fff,
+    0 0 26px #e8eef6,
+    0 0 54px #9fb4c9,
+    0 10px 0 #586674,
+    0 18px 28px rgba(0,0,0,.5);
+  animation:silverKanji .9s cubic-bezier(.14,.9,.18,1.15) both;
+}
+.silverBurstTitle{
+  margin-top:10px;font-size:min(6.5vw,66px);font-weight:1000;letter-spacing:.1em;
+  text-shadow:0 3px 0 #46515e,0 0 22px rgba(255,255,255,.9);
+  animation:silverTextIn .55s .4s both;
+}
+.silverBurstSub{
+  margin-top:6px;font-size:min(2.4vw,21px);font-weight:1000;letter-spacing:.18em;
+  animation:silverTextIn .55s .58s both;
+}
+.silverShard{
+  position:absolute;z-index:2;width:20px;height:54px;
+  background:linear-gradient(180deg,#fff,#bac7d4 55%,#718091);
+  clip-path:polygon(50% 0,100% 28%,72% 100%,28% 100%,0 28%);
+  box-shadow:0 0 16px rgba(255,255,255,.85);
+  animation:silverShardFloat 1.15s ease-in-out infinite alternate;
+}
+.silverShard.sh1{left:12%;top:20%;animation-delay:.05s}.silverShard.sh2{left:24%;top:72%;animation-delay:.2s}
+.silverShard.sh3{left:38%;top:12%;animation-delay:.35s}.silverShard.sh4{left:50%;top:78%;animation-delay:.5s}
+.silverShard.sh5{left:64%;top:18%;animation-delay:.65s}.silverShard.sh6{left:78%;top:70%;animation-delay:.8s}
+.silverShard.sh7{left:88%;top:24%;animation-delay:.95s}.silverShard.sh8{left:8%;top:50%;animation-delay:1.1s}
+@keyframes silverScreen{
+  0%{opacity:0;filter:brightness(3)}
+  12%{opacity:1;filter:brightness(1.8)}
+  30%{filter:brightness(1)}
+  88%{opacity:1}
+  100%{opacity:0}
+}
+@keyframes silverSweepSpin{to{transform:rotate(-360deg)}}
+@keyframes silverSweepIn{from{scale:.2;opacity:0}to{scale:1;opacity:1}}
+@keyframes silverKanji{
+  0%{opacity:0;transform:scale(.15) rotate(10deg)}
+  58%{opacity:1;transform:scale(1.22) rotate(-3deg)}
+  80%{transform:scale(.94) rotate(1deg)}
+  100%{transform:scale(1) rotate(0)}
+}
+@keyframes silverTextIn{from{opacity:0;transform:translateY(28px) scale(.86)}to{opacity:1;transform:none}}
+@keyframes silverShardFloat{from{transform:translateY(-10px) rotate(-12deg);opacity:.55}to{transform:translateY(10px) rotate(12deg);opacity:1}}
+
 </style>
 </head>
 <body>
@@ -997,7 +1068,7 @@
 <div class="cards" id="cards"></div>
 </section>
 
-<footer class="footer"><div><b id="secretSettingsFooterTrigger">INAO 稲尾電鉄グループ</b></div><div>鉄道でつながる、笑顔の未来。</div><div>ORIGINAL TRAIN PROJECT ver.1.82.0</div></footer>
+<footer class="footer"><div><b id="secretSettingsFooterTrigger">INAO 稲尾電鉄グループ</b></div><div>鉄道でつながる、笑顔の未来。</div><div>ORIGINAL TRAIN PROJECT ver.1.83.0</div></footer>
 </main>
 </div>
 
@@ -1436,6 +1507,19 @@
   </div>
 </div>
 
+<div class="silverBurstOverlay" id="silverBurstOverlay">
+  <div class="silverBurstSweep"></div>
+  <div class="silverBurstCore">
+    <div class="silverBurstSmall">RARE PART</div>
+    <div class="silverBurstKanji">銀</div>
+    <div class="silverBurstTitle">SILVER RARITY</div>
+    <div class="silverBurstSub">SPECIAL PART ACQUIRED</div>
+  </div>
+  <div class="silverShard sh1"></div><div class="silverShard sh2"></div><div class="silverShard sh3"></div>
+  <div class="silverShard sh4"></div><div class="silverShard sh5"></div><div class="silverShard sh6"></div>
+  <div class="silverShard sh7"></div><div class="silverShard sh8"></div>
+</div>
+
 <div class="goldBurstOverlay" id="goldBurstOverlay">
   <div class="goldBurstRays"></div>
   <div class="goldBurstCore">
@@ -1472,6 +1556,7 @@ const cards=document.getElementById("cards"),haveCount=document.getElementById("
 const totalDrawCount=document.getElementById("totalDrawCount");
 const newBadge=document.getElementById("newBadge");
 const goldBurstOverlay=document.getElementById("goldBurstOverlay");
+const silverBurstOverlay=document.getElementById("silverBurstOverlay");
 const effectDemoOverlay=document.getElementById("effectDemoOverlay"),
 effectDemoPasswordView=document.getElementById("effectDemoPasswordView"),
 effectDemoMenu=document.getElementById("effectDemoMenu"),
@@ -1940,7 +2025,16 @@ function playGoldBurst(next){
   setTimeout(()=>{
     goldBurstOverlay.classList.remove("show");
     next();
-  },2050);
+  },2000);
+}
+function playSilverBurst(next){
+  silverBurstOverlay.classList.remove("show");
+  void silverBurstOverlay.offsetWidth;
+  silverBurstOverlay.classList.add("show");
+  setTimeout(()=>{
+    silverBurstOverlay.classList.remove("show");
+    next();
+  },2000);
 }
 function openEffectDemo(){
   effectDemoPassword.value="";
@@ -2007,6 +2101,7 @@ function runEffectDemo(rarity){
 
       const showDemoResult=()=>modal.classList.add("show");
       if(rarity==="金") playGoldBurst(showDemoResult);
+      else if(rarity==="銀") playSilverBurst(showDemoResult);
       else showDemoResult();
     },650);
   },1900);
@@ -2087,6 +2182,8 @@ function roll(onComplete){
       };
       if(p.rarity==="金"){
         playGoldBurst(showResult);
+      }else if(p.rarity==="銀"){
+        playSilverBurst(showResult);
       }else{
         showResult();
       }
