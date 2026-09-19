@@ -806,6 +806,78 @@
   to{filter:brightness(1.16);transform:scale(1.06) rotate(5deg)}
 }
 
+
+/* ===== v1.81 gold rarity special animation ===== */
+.goldBurstOverlay{
+  position:fixed;inset:0;z-index:35;display:none;overflow:hidden;
+  place-items:center;background:
+  radial-gradient(circle at center,rgba(255,247,182,.98) 0 10%,rgba(255,193,7,.96) 22%,rgba(158,94,0,.96) 55%,rgba(14,8,0,.99) 100%);
+}
+.goldBurstOverlay.show{display:grid;animation:goldScreenFlash 2.15s ease both}
+.goldBurstRays{
+  position:absolute;width:170vmax;height:170vmax;border-radius:50%;
+  background:repeating-conic-gradient(from 0deg,rgba(255,255,255,.9) 0deg 4deg,rgba(255,214,70,.05) 4deg 12deg);
+  animation:goldRaysSpin 5s linear infinite,goldRaysIn 1s ease both;
+  mix-blend-mode:screen;
+}
+.goldBurstCore{
+  position:relative;z-index:3;text-align:center;color:white;
+  filter:drop-shadow(0 8px 22px rgba(70,30,0,.8));
+}
+.goldBurstSmall{
+  font-weight:1000;letter-spacing:.3em;font-size:15px;
+  animation:goldTextIn .55s .15s both;
+}
+.goldBurstKanji{
+  font-size:min(32vw,260px);line-height:.85;font-weight:1000;
+  color:#fff8c8;-webkit-text-stroke:5px #fff;
+  text-shadow:
+    0 0 12px #fff,
+    0 0 30px #fff1a8,
+    0 0 65px #ffc400,
+    0 12px 0 #8a4b00,
+    0 18px 28px rgba(0,0,0,.55);
+  animation:goldKanjiBoom .95s cubic-bezier(.14,.9,.18,1.2) both;
+}
+.goldBurstTitle{
+  margin-top:12px;font-size:min(7vw,72px);font-weight:1000;letter-spacing:.12em;
+  text-shadow:0 3px 0 #7a4300,0 0 25px rgba(255,255,255,.95);
+  animation:goldTextIn .6s .45s both;
+}
+.goldBurstSub{
+  margin-top:6px;font-size:min(2.5vw,22px);font-weight:1000;letter-spacing:.2em;
+  animation:goldTextIn .6s .65s both;
+}
+.goldSpark{
+  position:absolute;z-index:2;width:18px;height:18px;background:#fff9b0;
+  clip-path:polygon(50% 0,61% 39%,100% 50%,61% 61%,50% 100%,39% 61%,0 50%,39% 39%);
+  box-shadow:0 0 18px #fff,0 0 34px #ffd300;
+  animation:goldSparkPop 1.2s ease-in-out infinite alternate;
+}
+.goldSpark.s1{left:10%;top:20%;animation-delay:.05s}.goldSpark.s2{left:22%;top:72%;animation-delay:.2s}
+.goldSpark.s3{left:36%;top:14%;animation-delay:.35s}.goldSpark.s4{left:48%;top:80%;animation-delay:.5s}
+.goldSpark.s5{left:61%;top:18%;animation-delay:.65s}.goldSpark.s6{left:75%;top:68%;animation-delay:.8s}
+.goldSpark.s7{left:86%;top:24%;animation-delay:.95s}.goldSpark.s8{left:14%;top:48%;animation-delay:1.1s}
+.goldSpark.s9{left:90%;top:50%;animation-delay:.15s}.goldSpark.s10{left:30%;top:42%;animation-delay:.45s}
+.goldSpark.s11{left:70%;top:40%;animation-delay:.75s}.goldSpark.s12{left:54%;top:10%;animation-delay:1s}
+@keyframes goldScreenFlash{
+  0%{opacity:0;filter:brightness(4)}
+  10%{opacity:1;filter:brightness(2.4)}
+  28%{filter:brightness(1)}
+  86%{opacity:1}
+  100%{opacity:0}
+}
+@keyframes goldRaysSpin{to{transform:rotate(360deg)}}
+@keyframes goldRaysIn{from{scale:.15;opacity:0}to{scale:1;opacity:1}}
+@keyframes goldKanjiBoom{
+  0%{opacity:0;transform:scale(.1) rotate(-18deg)}
+  55%{opacity:1;transform:scale(1.3) rotate(4deg)}
+  78%{transform:scale(.92) rotate(-2deg)}
+  100%{transform:scale(1) rotate(0)}
+}
+@keyframes goldTextIn{from{opacity:0;transform:translateY(30px) scale(.8)}to{opacity:1;transform:none}}
+@keyframes goldSparkPop{from{transform:scale(.45) rotate(0);opacity:.5}to{transform:scale(1.8) rotate(90deg);opacity:1}}
+
 </style>
 </head>
 <body>
@@ -872,7 +944,7 @@
 <div class="cards" id="cards"></div>
 </section>
 
-<footer class="footer"><div><b id="secretSettingsFooterTrigger">INAO 稲尾電鉄グループ</b></div><div>鉄道でつながる、笑顔の未来。</div><div>ORIGINAL TRAIN PROJECT ver.1.80.0</div></footer>
+<footer class="footer"><div><b id="secretSettingsFooterTrigger">INAO 稲尾電鉄グループ</b></div><div>鉄道でつながる、笑顔の未来。</div><div>ORIGINAL TRAIN PROJECT ver.1.81.0</div></footer>
 </main>
 </div>
 
@@ -1281,6 +1353,20 @@
   </div>
 </div>
 
+<div class="goldBurstOverlay" id="goldBurstOverlay">
+  <div class="goldBurstRays"></div>
+  <div class="goldBurstCore">
+    <div class="goldBurstSmall">LEGENDARY PART</div>
+    <div class="goldBurstKanji">金</div>
+    <div class="goldBurstTitle">GOLD RARITY</div>
+    <div class="goldBurstSub">SPECIAL PART ACQUIRED</div>
+  </div>
+  <div class="goldSpark s1"></div><div class="goldSpark s2"></div><div class="goldSpark s3"></div>
+  <div class="goldSpark s4"></div><div class="goldSpark s5"></div><div class="goldSpark s6"></div>
+  <div class="goldSpark s7"></div><div class="goldSpark s8"></div><div class="goldSpark s9"></div>
+  <div class="goldSpark s10"></div><div class="goldSpark s11"></div><div class="goldSpark s12"></div>
+</div>
+
 <div class="modal" id="modal">
 <div class="result">
 <div id="rarityBig" class="rarityBig">銀</div>
@@ -1302,6 +1388,7 @@ let pantoDueRoll=Number(localStorage.getItem("inaoPantoDueRoll")||0);
 const cards=document.getElementById("cards"),haveCount=document.getElementById("haveCount"),progressBar=document.getElementById("progressBar"),modal=document.getElementById("modal"),rarityBig=document.getElementById("rarityBig"),resultImg=document.getElementById("resultImg"),resultTitle=document.getElementById("resultTitle"),resultText=document.getElementById("resultText"),completeText=document.getElementById("completeText"),drawOverlay=document.getElementById("drawOverlay"),rarityOrb=document.getElementById("rarityOrb"),drawStatus=document.getElementById("drawStatus"),drawSub=document.getElementById("drawSub");
 const totalDrawCount=document.getElementById("totalDrawCount");
 const newBadge=document.getElementById("newBadge");
+const goldBurstOverlay=document.getElementById("goldBurstOverlay");
 const autoGachaOverlay=document.getElementById("autoGachaOverlay"),
 autoGachaCount=document.getElementById("autoGachaCount"),
 autoGachaInfo=document.getElementById("autoGachaInfo"),
@@ -1758,6 +1845,15 @@ function weightedPick(){
   return candidates[Math.floor(Math.random()*candidates.length)];
 }
 function rarityColor(r){return r==="金"?"#d9a411":r==="銀"?"#8b949f":"#bd6b2b"}
+function playGoldBurst(next){
+  goldBurstOverlay.classList.remove("show");
+  void goldBurstOverlay.offsetWidth;
+  goldBurstOverlay.classList.add("show");
+  setTimeout(()=>{
+    goldBurstOverlay.classList.remove("show");
+    next();
+  },2050);
+}
 function roll(onComplete){
   const btn=document.getElementById("gachaBtn");
   if(rolls>=50){
@@ -1826,9 +1922,16 @@ function roll(onComplete){
       if(owned.size===10) setTimeout(showCompleteCelebration,1200);
 
       drawOverlay.classList.remove("show");
-      modal.classList.add("show");
-      btn.disabled=rolls>=50;
-      if(typeof onComplete==="function") onComplete(true);
+      const showResult=()=>{
+        modal.classList.add("show");
+        btn.disabled=rolls>=50;
+        if(typeof onComplete==="function") onComplete(true);
+      };
+      if(p.rarity==="金"){
+        playGoldBurst(showResult);
+      }else{
+        showResult();
+      }
     },650);
   },1900);
 }
