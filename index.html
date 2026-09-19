@@ -1068,7 +1068,7 @@
 <div class="cards" id="cards"></div>
 </section>
 
-<footer class="footer"><div><b id="secretSettingsFooterTrigger">INAO 稲尾電鉄グループ</b></div><div>鉄道でつながる、笑顔の未来。</div><div>ORIGINAL TRAIN PROJECT ver.1.85.0</div></footer>
+<footer class="footer"><div><b id="secretSettingsFooterTrigger">INAO 稲尾電鉄グループ</b></div><div>鉄道でつながる、笑顔の未来。</div><div>ORIGINAL TRAIN PROJECT ver.1.86.0</div></footer>
 </main>
 </div>
 
@@ -1635,7 +1635,8 @@ let currentDetailPart=null;
 
 function render(){
   cards.innerHTML="";
-  parts.forEach((p)=>{
+  const collectionOrder=["panto","vvvf","antenna","bogie","cooler","coupler","skirt","light","door","display"];
+  collectionOrder.map(id=>parts.find(p=>p.id===id)).filter(Boolean).forEach((p)=>{
     const got=owned.has(p.id);
     const c=document.createElement("div");
     c.className="card"+(got?" acquired":"");
