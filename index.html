@@ -1373,7 +1373,7 @@
 <div class="cards" id="cards"></div>
 </section>
 
-<footer class="footer"><div><b id="secretSettingsFooterTrigger">INAO 稲尾電鉄グループ</b></div><div>鉄道でつながる、笑顔の未来。</div><div>ORIGINAL TRAIN PROJECT ver.2.01.0</div></footer>
+<footer class="footer"><div><b id="secretSettingsFooterTrigger">INAO 稲尾電鉄グループ</b></div><div>鉄道でつながる、笑顔の未来。</div><div>ORIGINAL TRAIN PROJECT ver.2.02.0</div></footer>
 </main>
 </div>
 
@@ -1763,7 +1763,9 @@
           <li>通常ガチャは最大50回。50回目までに全10種類が必ず揃う。</li>
           <li>通常時は重複排出あり。獲得済み部品も抽選対象。</li>
           <li>15回目時点で銀を1種類以上獲得済みの場合、15回目は所持済み銀から1種類を確定で重複排出。</li>
+          <li>19回目は、未獲得の銀が残っている場合、その中から1種類を確定。</li>
           <li>20回目までに銀を1種類も獲得していない場合、20回目に未獲得の銀を1種類確定。</li>
+          <li>21回目は、未獲得の銀が残っている場合、その中から1種類を確定。</li>
           <li>30回目までに銀を2種類獲得していない場合、30回目に未獲得の銀を1種類確定。</li>
           <li>40回目までに銀3種類が揃っていない場合、40回目に未獲得の銀を1種類確定。</li>
           <li>50回以内のコンプリートに必要な残り回数になった場合のみ、未獲得部品を優先排出する保証補正が入る。</li>
@@ -2452,6 +2454,12 @@ function weightedPick(){
   // 所持済み銀の中から1つを確定で重複排出する。
   if(nextRoll===15 && ownedSilver.length){
     return ownedSilver[Math.floor(Math.random()*ownedSilver.length)];
+  }
+
+  // 19回目・21回目の隠し未取得銀確定枠。
+  // 未獲得の銀が残っている場合、その中から1種類を確定排出する。
+  if((nextRoll===19 || nextRoll===21) && unownedSilver.length){
+    return unownedSilver[Math.floor(Math.random()*unownedSilver.length)];
   }
 
   // 銀の段階保証。
