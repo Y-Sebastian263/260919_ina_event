@@ -1110,6 +1110,33 @@
   }
 }
 
+
+/* ===== v1.90 completed manufacturing display ===== */
+.progressNum.completeManufacturing{
+  display:inline-flex !important;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  width:100%;
+  padding:12px 10px;
+  border-radius:16px;
+  background:linear-gradient(135deg,#fff7c9,#ffd95b,#fff1a0);
+  border:3px solid #d9a411;
+  box-shadow:0 8px 22px rgba(217,164,17,.28),inset 0 0 16px rgba(255,255,255,.75);
+  color:#8a5a00 !important;
+  font-size:25px !important;
+  font-weight:1000 !important;
+  line-height:1.25;
+  text-align:center;
+  animation:completeManufacturingGlow 1.2s ease-in-out infinite alternate;
+}
+.progressNum.completeManufacturing::before{content:"✨"}
+.progressNum.completeManufacturing::after{content:"✨"}
+@keyframes completeManufacturingGlow{
+  from{transform:scale(1);filter:brightness(1)}
+  to{transform:scale(1.035);filter:brightness(1.1)}
+}
+
 </style>
 </head>
 <body>
@@ -1140,7 +1167,7 @@
 <div class="heroOverlay">
 <div class="panel progressPanel">
 <div class="panelTitle">現在の製造状況</div>
-<div class="progressNum"><b id="haveCount">0</b> / 10</div>
+<div class="progressNum" id="progressNum"><b id="haveCount">0</b><span id="progressTotal"> / 10</span></div>
 <div class="bar"><div id="progressBar"></div></div>
 <div class="totalDrawBox">
   <span class="totalDrawLabel">総抽選回数</span>
@@ -1177,7 +1204,7 @@
 <div class="cards" id="cards"></div>
 </section>
 
-<footer class="footer"><div><b id="secretSettingsFooterTrigger">INAO 稲尾電鉄グループ</b></div><div>鉄道でつながる、笑顔の未来。</div><div>ORIGINAL TRAIN PROJECT ver.1.89.0</div></footer>
+<footer class="footer"><div><b id="secretSettingsFooterTrigger">INAO 稲尾電鉄グループ</b></div><div>鉄道でつながる、笑顔の未来。</div><div>ORIGINAL TRAIN PROJECT ver.1.90.0</div></footer>
 </main>
 </div>
 
@@ -1799,7 +1826,17 @@ function render(){
     }
     cards.appendChild(c);
   });
-  haveCount.textContent=owned.size;
+  const progressNum=document.getElementById("progressNum");
+  const progressTotal=document.getElementById("progressTotal");
+  if(owned.size===10){
+    haveCount.textContent="完成おめでとう！";
+    progressTotal.textContent="";
+    progressNum.classList.add("completeManufacturing");
+  }else{
+    haveCount.textContent=owned.size;
+    progressTotal.textContent=" / 10";
+    progressNum.classList.remove("completeManufacturing");
+  }
   progressBar.style.width=(owned.size*10)+"%";
   totalDrawCount.textContent=rolls;
 }
