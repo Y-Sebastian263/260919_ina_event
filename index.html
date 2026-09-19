@@ -835,7 +835,7 @@
 <div class="cards" id="cards"></div>
 </section>
 
-<footer class="footer"><div><b id="secretSettingsFooterTrigger">INAO 稲尾電鉄グループ</b></div><div>鉄道でつながる、笑顔の未来。</div><div>ORIGINAL TRAIN PROJECT ver.1.76.0</div></footer>
+<footer class="footer"><div><b id="secretSettingsFooterTrigger">INAO 稲尾電鉄グループ</b></div><div>鉄道でつながる、笑顔の未来。</div><div>ORIGINAL TRAIN PROJECT ver.1.77.0</div></footer>
 </main>
 </div>
 
@@ -1194,7 +1194,7 @@
         <ul class="secretRuleList">
           <li>右上の「稲尾 電気 鉄道」印をクリックすると、連続ガチャ設定を開く。</li>
           <li>連続ガチャでも通常ガチャと同じ確率・種類数上限・金確定・50回上限を適用。</li>
-          <li>ページは3分ごとに自動再読み込み。</li>
+          <li>通常の「部品ガチャを回す」を押すと、先にページを再読み込みし、読み込み完了後にガチャを1回実行。</li>
           <li>セーブ / ロード、1つ戻す / 1つ進むでもガチャ進行状態を保持。</li>
         </ul>
       </div>
@@ -1893,10 +1893,6 @@ function runAutoGachaStep(){
     autoGachaActive=false;
     document.getElementById("gachaBtn").disabled=rolls>=50;
 
-// 3分ごとにページを自動再読み込み
-setInterval(()=>{
-  window.location.reload();
-},180000);
     return;
   }
   roll((didRoll)=>{
@@ -1940,7 +1936,12 @@ document.querySelectorAll("[data-auto-count]").forEach(btn=>{
   });
 });
 autoGachaStart.addEventListener("click",()=>startAutoGacha(autoGachaCount.value));
-document.getElementById("gachaBtn").addEventListener("click",()=>roll());
+function requestGachaAfterReload(){
+  if(rolls>=50 || owned.size>=10) return;
+  sessionStorage.setItem("inaoRollAfterReload","1");
+  window.location.reload();
+}
+document.getElementById("gachaBtn").addEventListener("click",requestGachaAfterReload);
 document.getElementById("closeBtn").addEventListener("click",()=>modal.classList.remove("show"));
 modal.addEventListener("click",e=>{if(e.target===modal)modal.classList.remove("show")});
 document.getElementById("resetBtn").addEventListener("click",resetAll);
@@ -2213,6 +2214,13 @@ setTimeout(inaoUpdateHistoryButtons,0);
 
 render();
 document.getElementById("gachaBtn").disabled=rolls>=50;
+
+if(sessionStorage.getItem("inaoRollAfterReload")==="1"){
+  sessionStorage.removeItem("inaoRollAfterReload");
+  setTimeout(()=>{
+    if(rolls<50 && owned.size<10) roll();
+  },120);
+}
 </script>
 </body>
 </html>
